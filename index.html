@@ -15,7 +15,7 @@ html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}
 :root{
   --paper:#f5f6f2; --sheet:#ffffff; --ink:#18201b; --muted:#5b665e; --rule:#d9ddd5;
   --forest:#2f5d3a; --forest-ink:#ffffff; --forest-soft:#e3ece2;
-  --c-arch:#2b5c8a; --c-str:#9a4b1c; --c-land:#3b7a3e; --c-site:#6a4f8f; --c-3d:#7a6a2a;
+  --c-arch:#2b5c8a; --c-str:#9a4b1c; --c-land:#3b7a3e; --c-site:#6a4f8f; --c-3d:#7a6a2a; --c-mep:#0d7287;
   --ok:#1f7a3a; --ok-bg:#dff1e3; --warn:#8a5a00; --warn-bg:#fbefd2; --bad:#9b2c2c; --bad-bg:#f8e0de; --ref:#4a5560; --ref-bg:#e7eaec;
   --f-ui:"IBM Plex Sans Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
   --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -23,13 +23,13 @@ html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#121614; --sheet:#1a201c; --ink:#e7ece6; --muted:#9aa69d; --rule:#2c342f;
   --forest:#7fbf8a; --forest-ink:#0f1a12; --forest-soft:#1f2d22;
-  --c-arch:#7fb0de; --c-str:#e39a6a; --c-land:#8fcf8f; --c-site:#b9a0dc; --c-3d:#d6c27a;
+  --c-arch:#7fb0de; --c-str:#e39a6a; --c-land:#8fcf8f; --c-site:#b9a0dc; --c-3d:#d6c27a; --c-mep:#73cbd8;
   --ok:#8fd6a0; --ok-bg:#163522; --warn:#f0c66a; --warn-bg:#3a2e12; --bad:#f2a19a; --bad-bg:#3d1c1a; --ref:#b8c2cc; --ref-bg:#262d33;
   color-scheme:dark }}
 :root[data-theme="dark"]{
   --paper:#121614; --sheet:#1a201c; --ink:#e7ece6; --muted:#9aa69d; --rule:#2c342f;
   --forest:#7fbf8a; --forest-ink:#0f1a12; --forest-soft:#1f2d22;
-  --c-arch:#7fb0de; --c-str:#e39a6a; --c-land:#8fcf8f; --c-site:#b9a0dc; --c-3d:#d6c27a;
+  --c-arch:#7fb0de; --c-str:#e39a6a; --c-land:#8fcf8f; --c-site:#b9a0dc; --c-3d:#d6c27a; --c-mep:#73cbd8;
   --ok:#8fd6a0; --ok-bg:#163522; --warn:#f0c66a; --warn-bg:#3a2e12; --bad:#f2a19a; --bad-bg:#3d1c1a; --ref:#b8c2cc; --ref-bg:#262d33;
   color-scheme:dark }
 *{box-sizing:border-box}
@@ -197,7 +197,7 @@ footer{padding:14px 16px;color:var(--muted)}
         <div class="eyebrow">Ankura Homes · Keesaragutta · Site drawing register</div>
         <h1>THE <span>WOODS</span></h1>
       </div>
-      <div class="stamp">Register updated <b>17-10-2026</b><br><span id="countline"></span></div>
+      <div class="stamp">Register updated <b>21-10-2026</b><br><span id="countline"></span></div>
     </div>
     <div class="searchrow">
       <label class="search" for="q">
@@ -208,7 +208,7 @@ footer{padding:14px 16px;color:var(--muted)}
       <div class="views" role="group" aria-label="View">
         <button id="v-seq" type="button" aria-pressed="true">Plot 30<span class="hide-s"> sequence</span></button>
         <button id="v-all" type="button" aria-pressed="false">All<span class="hide-s"> drawings</span></button>
-        <button id="v-cad" type="button" aria-pressed="false">CAD<span class="hide-s"> files</span></button>
+        <button id="v-cad" type="button" aria-pressed="false">CAD/MEP<span class="hide-s"> files</span></button>
       </div>
     </div>
     <div class="chips" id="chips" role="group" aria-label="Filter by team"></div>
@@ -218,7 +218,7 @@ footer{padding:14px 16px;color:var(--muted)}
 <main class="wrap">
   <div class="intro" id="intro">
     <div class="panel">
-      <details class="fold" open><summary><h2>Check before you build · 5 notes</h2></summary>
+      <details class="fold" open><summary><h2>Check before you build · 7 notes</h2></summary>
       <div class="alerts" id="alerts"></div></details>
     </div>
     <div class="panel"><details class="fold" open><summary><h2>Status key &amp; how to use</h2></summary><div style="display:grid;gap:14px">
@@ -246,7 +246,7 @@ footer{padding:14px 16px;color:var(--muted)}
   </div>
   <div id="list" style="display:grid;gap:28px"></div>
   <footer>
-    Architect: also.design · Structural &amp; MEP: Jashritha Associates · Landscape: LumiScapes Landscape Architects.
+    Architect: also.design · Structural &amp; MEP: Jashritha Associates · MEP drawings and BOQs added 21-10-2026 · Landscape: LumiScapes Landscape Architects.
     Always confirm you are on the latest revision with the site engineer before executing. Report any clash between architectural, structural and landscape sheets to the consultants before work starts.
   </footer>
 </main>
@@ -311,7 +311,8 @@ const DISC={
   str:{name:"Structure",c:"--c-str"},
   land:{name:"Landscape",c:"--c-land"},
   site:{name:"Site & services",c:"--c-site"},
-  "3d":{name:"3D views",c:"--c-3d"}
+  "3d":{name:"3D views",c:"--c-3d"},
+  mep:{name:"Services (MEP)",c:"--c-mep"}
 };
 const ST={gfc:"GFC",issued:"Issued",approval:"For approval",option:"Option",super:"Superseded",ref:"Reference",cad:"CAD only"};
 const ARC="also.design (Architect)", JA="Jashritha Associates (Structural)", LLA="LumiScapes (Landscape)";
@@ -363,9 +364,9 @@ const S=[
  ["RD-02","STR",1,"Streetscape renders","Streetscape, junction options 01/02, bird's eye · 6 pages","","—","15-10-2026",LLA,"3d","site","ref",0,6]
 ].map(a=>({code:a[0],f:a[1],page:a[2],title:a[3],sub:a[4],no:a[5],rev:a[6],date:a[7],by:a[8],disc:a[9],villa:a[10],st:a[11],rot:a[12]||0,pages:a[13]||1}));
 const byCode=Object.fromEntries(S.map(s=>[s.code,s]));
-const CAD_BASE='cad/';
+const FILE_ROOT='';
 const CADMAP={"AR-01":"CAD-05","AR-02":"CAD-06","AR-03":"CAD-06","AR-04":"CAD-07","AR-05":"CAD-07","AR-06":"CAD-07","AR-07":"CAD-08","AR-08":"CAD-08","AR-09":"CAD-09","AR-10":"CAD-10","AR-11":"CAD-10","AR-12":"CAD-11","AR-13":"CAD-12"};
-const cadUrl=c=>CAD_BASE+encodeURIComponent(c.file);
+const cadUrl=c=>FILE_ROOT+c.dir+"/"+encodeURIComponent(c.file);
 
 const CAD=[
  ["CAD-01","2026-09-26_Ankura-The_Woods_Site_Plan_with_Levels.dwg","Site plan with levels","Whole layout · no PDF issued","26-09-2026","site",944],
@@ -379,8 +380,17 @@ const CAD=[
  ["CAD-09","2026-10-07_Ankura-The_Woods_1625_East_Villa.dwg","1625 East villa floor plan","CAD of AR-09","07-10-2026","arch",1532],
  ["CAD-10","2026-10-07_Ankura-The_Woods_1625E_Building_Elevations.dwg","1625E building elevations","CAD of AR-10, AR-11","07-10-2026","arch",1416],
  ["CAD-11","2026-10-08_Ankura-The_Woods_1625E_Building_Sections.dwg","1625E building sections","CAD of AR-12","08-10-2026","arch",2456],
- ["CAD-12","2026-10-07_Ankura-The_Woods_Opening_schedule.dwg","Opening schedule","CAD of AR-13","07-10-2026","arch",284]
-].map(a=>({code:a[0],file:a[1],title:a[2],sub:a[3],date:a[4],disc:a[5],kb:a[6],st:"cad",cad:true,by:a[5]==="site"?ARC:ARC}));
+ ["CAD-12","2026-10-07_Ankura-The_Woods_Opening_schedule.dwg","Opening schedule","CAD of AR-13","07-10-2026","arch",284],
+ ["CAD-13","05.CONTOUR_AND_GRID_IMPOSED_ON_LATEST_LAYOUT_rev.dwg","Contour & grid on latest layout (rev)","Survey contours and grid over the site layout · no PDF issued","07-08-2026","site",16697,"mep"],
+ ["MEP-01","01.wood_external_electrical_layout_revised.dwg","External electrical layout (revised)","HT line, transformer yard, feeder pillars, street lighting · no PDF issued","18-09-2026","mep",29497,"mep"],
+ ["MEP-02","02.SCHEMATIC_DIAGRAM-01-06-2026.dwg","Electrical schematic diagram","Single-line diagram from 11 kV supply to feeder pillars · no PDF issued","01-06-2026","mep",26816,"mep"],
+ ["MEP-03","03.EXTERNAL_WATER_SUPPLY.dwg","External water supply (domestic)","Domestic water mains to villas · no PDF issued","26-08-2026","mep",25113,"mep"],
+ ["MEP-04","04.EXTERNAL_WATER_SUPPLY_for_land_scape.dwg","External water supply for landscape","Landscape water supply network · no PDF issued","26-08-2026","mep",25131,"mep"],
+ ["MEP-05","3._Woods_Villas_ELEC_LOAD_SHEET-_01-06-2026.xlsx","Electrical load sheet","Connected load per feeder pillar and villa group","01-06-2026","mep",11,"mep"],
+ ["MEP-06","4.Woods_Villas_CABLE_SCHEDULE-_01-06-2026.xlsx","Cable schedule","Cable sizes, runs and lengths from 11 kV pole to feeder pillars","01-06-2026","mep",21,"mep"],
+ ["MEP-07","7._REV_R3-_ELECTRICL_WOODS_EB__DG_BOQ-25-08-2026-_1_1.xls","Electrical BOQ · Rev R3","EB / HT works, RCC hume pipes, DG set, street lighting, approved makes","25-08-2026","mep",130,"mep"],
+ ["MEP-08","PLUMBING_BOQ_OF_Ankura_woods_on_26-8-2026.xls","Plumbing BOQ · external water supply","Domestic and landscape external water supply","26-08-2026","mep",257,"mep"]
+].map(a=>({code:a[0],file:a[1],title:a[2],sub:a[3],date:a[4],disc:a[5],kb:a[6],dir:a[7]||"cad",ext:a[1].split(".").pop().toUpperCase().replace("XLSX","XLS")=="XLS"?"Excel":"DWG",st:"cad",cad:true,by:a[5]==="site"?ARC:ARC}));
 
 const cadByCode=Object.fromEntries(CAD.map(c=>[c.code,c]));
 const SEQ=[
@@ -399,14 +409,17 @@ const ALL=[
  {h:"Landscape · Plot 30 model villa",p:"LumiScapes · marked For Information & Approval. Dimensions in feet, levels in metres.",f:s=>s.disc==="land"},
  {h:"Villa typology floor plans",p:"All villa types. Reference only, except where a GFC sheet exists.",f:s=>s.code.startsWith("TP-")},
  {h:"3D views",p:"Landscape and streetscape renders for design intent. Not for measurement.",f:s=>s.disc==="3d"},
- {h:"CAD files (DWG)",p:"For the office, surveyor and consultants. Open in AutoCAD or a DWG viewer. Items marked 'no PDF issued' have no printable sheet yet.",cad:true}
+ {h:"Services (MEP) · electrical & water supply",p:"External electrical layout, schematic, water supply drawings (DWG), load sheet, cable schedule and BOQs (Excel).",cad:true,f:c=>c.disc==="mep"},
+ {h:"CAD files (DWG)",p:"For the office, surveyor and consultants. Open in AutoCAD or a DWG viewer. Items marked 'no PDF issued' have no printable sheet yet.",cad:true,f:c=>c.disc!=="mep"}
 ];
 const ALERTS=[
  ["bad","Do not use","The 1625 East floor plan dated 18-09-2026 (TP-01) is superseded. Use the GFC floor plan AR-09 dated 08-10-2026."],
  ["warn","Cross-check","Architect's footing marking (AR-04 to AR-06, 08-10) and structural schedule SD-02 (19-09) come from different teams. Confirm footing sizes match before excavation and PCC."],
  ["warn","Not GFC","All landscape sheets are stamped For Information & Approval; the GFC stamp box is blank. Material plan options 01 and 02 still need the client's choice."],
  ["info","Revision","1625 East structural set is Rev 01. SD-02 and SD-04 were not revised and still carry 19-09-2026."],
- ["info","Missing","No MEP drawings (plumbing, electrical, drainage) are in this set. Site plan with levels, existing trees, and soak pit & sump locations exist only as DWG, so ask the architect for PDF plots."]
+ ["info","MEP","External electrical, schematic and water supply drawings are DWG only, with no PDF plots, so they need a laptop with a DWG viewer. No in-villa plumbing, electrical or drainage drawings have been received yet."],
+ ["warn","Cross-check","The plumbing BOQ workbook also has sheets for other buildings (college, admin, prayer hall, guest house). Only the two External water supply sheets are for The Woods."],
+ ["info","DWG only","Site plan with levels, existing trees, contour & grid, and soak pit & sump locations exist only as DWG, so ask the architect for PDF plots."]
 ];
 
 /* ---------- state ---------- */
@@ -450,21 +463,23 @@ function rowHTML(s){
 }
 function cadHTML(c){
   return `<div class="cadrow" style="--dc:var(${DISC[c.disc].c})"><span class="meta">
-    <span class="code"><b>${c.code}</b><span>${esc(c.date)}</span><span class="pill st-cad">DWG · ${(c.kb/1024).toFixed(1)} MB</span></span>
+    <span class="code"><b>${c.code}</b><span>${esc(c.date)}</span><span class="pill st-cad">${c.ext} · ${c.kb>=1024?(c.kb/1024).toFixed(1)+" MB":c.kb+" KB"}</span></span>
     <span class="t">${esc(c.title)}</span><span class="s">${esc(c.sub)}</span></span>
-    <a href="${cadUrl(c)}" target="_blank" rel="noopener" download>Download DWG</a></div>`;
+    <a href="${cadUrl(c)}" target="_blank" rel="noopener" download>Download ${c.ext}</a></div>`;
 }
 function render(){
   $("v-seq").setAttribute("aria-pressed",view==="seq"); $("v-all").setAttribute("aria-pressed",view==="all"); $("v-cad").setAttribute("aria-pressed",view==="cad");
   $("intro").hidden = !!q || view==="cad";
   const groups = view==="cad"
-    ? [{no:null,h:"CAD files (DWG) · 12 files",p:"Download for the office, surveyor and consultants. Open in AutoCAD or any DWG viewer. Site plans and soak pit / sump locations have no PDF issued yet.",cad:true,items:CAD.filter(match)}]
+    ? [{no:null,h:"Services (MEP) · drawings",p:"External electrical and water supply drawings. DWG only, no PDF issued. Open in AutoCAD or any DWG viewer.",cad:true,items:CAD.filter(c=>c.disc==="mep"&&c.ext==="DWG").filter(match)},
+       {no:null,h:"Services (MEP) · schedules & BOQs",p:"Excel files. Open in Excel or Google Sheets.",cad:true,items:CAD.filter(c=>c.disc==="mep"&&c.ext==="Excel").filter(match)},
+       {no:null,h:"Site & architecture · CAD",p:"Site plans, soak pit & sump locations and the Plot 30 GFC set. Items marked 'no PDF issued' have no printable sheet yet.",cad:true,items:CAD.filter(c=>c.disc!=="mep").filter(match)}]
     : view==="seq"
     ? SEQ.map((g,i)=>({no:String(i+1).padStart(2,"0"),h:g.h,p:g.p,items:g.c.map(c=>byCode[c]).filter(match)}))
-    : ALL.map((g,i)=>({no:null,h:g.h,p:g.p,cad:g.cad,items:g.cad?CAD.filter(match):S.filter(g.f).filter(match)}));
+    : ALL.map((g,i)=>({no:null,h:g.h,p:g.p,cad:g.cad,items:g.cad?CAD.filter(g.f||(()=>true)).filter(match):S.filter(g.f).filter(match)}));
   currentList=[]; let html="", shown=0;
   if(view==="seq"){
-    html+=`<p class="lead">Plot 30 · 1625 sq.ft East facing model villa on a 1210 sq.yd plot. Sheets in the order work happens on site. Switch to <b>All drawings</b> for other villa types and renders, or <b>CAD files</b> for the DWG downloads.</p>`;
+    html+=`<p class="lead">Plot 30 · 1625 sq.ft East facing model villa on a 1210 sq.yd plot. Sheets in the order work happens on site. Switch to <b>All drawings</b> for other villa types and renders, or <b>CAD/MEP</b> for DWG and Excel downloads.</p>`;
   }
   groups.forEach(g=>{
     if(!g.items.length) return;
@@ -475,7 +490,7 @@ function render(){
   });
   if(!shown) html=`<div class="empty">No sheets match “${esc(q)}”${disc!=="all"?" in "+DISC[disc].name:""}.<br>Try a sheet code (AR-04), a word (plinth, levels) or a villa type (1215).</div>`;
   $("list").innerHTML=html;
-  $("countline").textContent=`${S.length} sheets · ${CAD.length} CAD files`;
+  $("countline").textContent=`${S.length} sheets · ${CAD.length} CAD & MEP files`;
 }
 $("list").addEventListener("click",e=>{const r=e.target.closest(".row"); if(r) openSheet(r.dataset.code,true);});
 $("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase(); $("qclear").hidden=!q; if(q&&view==="seq"){view="all";} render();});
