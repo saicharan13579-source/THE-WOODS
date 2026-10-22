@@ -55,7 +55,7 @@ header.tb{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background
 .search input{flex:1;min-width:0;border:0;background:transparent;font-size:16px;height:100%;outline:none}
 .search button{border:0;background:none;color:var(--muted);font-size:14px;cursor:pointer;padding:6px}
 .views{display:flex;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;flex:none}
-.views button{border:0;background:var(--paper);padding:0 12px;height:43px;font-weight:600;cursor:pointer;font-size:15px;white-space:nowrap}
+.views button{border:0;background:var(--paper);padding:0 10px;height:43px;font-weight:600;cursor:pointer;font-size:15px;white-space:nowrap}
 .views button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
@@ -206,9 +206,10 @@ footer{padding:14px 16px;color:var(--muted)}
         <button id="qclear" type="button" hidden aria-label="Clear search">Clear</button>
       </label>
       <div class="views" role="group" aria-label="View">
-        <button id="v-seq" type="button" aria-pressed="true">Plot 30<span class="hide-s"> sequence</span></button>
-        <button id="v-all" type="button" aria-pressed="false">All<span class="hide-s"> drawings</span></button>
-        <button id="v-cad" type="button" aria-pressed="false">CAD/MEP<span class="hide-s"> files</span></button>
+        <button id="v-seq" type="button" aria-pressed="true">Plot 30</button>
+        <button id="v-site" type="button" aria-pressed="false">Site<span class="hide-s"> level</span></button>
+        <button id="v-all" type="button" aria-pressed="false">Villas</button>
+        <button id="v-cad" type="button" aria-pressed="false">CAD</button>
       </div>
     </div>
     <div class="chips" id="chips" role="group" aria-label="Filter by team"></div>
@@ -393,6 +394,14 @@ const CAD=[
 ].map(a=>({code:a[0],file:a[1],title:a[2],sub:a[3],date:a[4],disc:a[5],kb:a[6],dir:a[7]||"cad",ext:a[1].split(".").pop().toUpperCase().replace("XLSX","XLS")=="XLS"?"Excel":"DWG",st:"cad",cad:true,by:a[5]==="site"?ARC:ARC}));
 
 const cadByCode=Object.fromEntries(CAD.map(c=>[c.code,c]));
+const SITE_G=[
+ {h:"Site plans & survey",p:"Whole-layout drawings for roads, plots and levels. DWG only, no PDF issued: open on a laptop with a DWG viewer.",c:["CAD-01","CAD-02","CAD-13"]},
+ {h:"External electrical",p:"11 kV supply, transformer yard, feeder pillars, cabling and street lighting.",c:["MEP-01","MEP-02","MEP-05","MEP-06","MEP-07"]},
+ {h:"External water supply & drainage",p:"Domestic and landscape water mains, soak pits and sumps.",c:["MEP-03","MEP-04","MEP-08","CAD-03","CAD-04"]},
+ {h:"Streetscape & landscape master",p:"Streetscape renders for design intent, and the landscape consultant's deliverables tracker.",c:["RD-02","LA-06"]}
+];
+const SITE=new Set(SITE_G.flatMap(g=>g.c));
+const itemBy=c=>byCode[c]||cadByCode[c];
 const SEQ=[
  {h:"Setting out",p:"Fix grid lines and column centres on Plot 30 before any digging.",c:["AR-01","S16-01"]},
  {h:"Excavation",p:"Pit sizes include a 500 mm working offset from the footing edge.",c:["AR-02","AR-03"]},
@@ -408,9 +417,7 @@ const ALL=[
  {h:"Structure · 1215 East villa (R0)",p:"Jashritha Associates · SD-01 to SD-06. No 1215 architectural GFC set has been received yet.",f:s=>s.f==="S12"},
  {h:"Landscape · Plot 30 model villa",p:"LumiScapes · marked For Information & Approval. Dimensions in feet, levels in metres.",f:s=>s.disc==="land"},
  {h:"Villa typology floor plans",p:"All villa types. Reference only, except where a GFC sheet exists.",f:s=>s.code.startsWith("TP-")},
- {h:"3D views",p:"Landscape and streetscape renders for design intent. Not for measurement.",f:s=>s.disc==="3d"},
- {h:"Services (MEP) · electrical & water supply",p:"External electrical layout, schematic, water supply drawings (DWG), load sheet, cable schedule and BOQs (Excel).",cad:true,f:c=>c.disc==="mep"},
- {h:"CAD files (DWG)",p:"For the office, surveyor and consultants. Open in AutoCAD or a DWG viewer. Items marked 'no PDF issued' have no printable sheet yet.",cad:true,f:c=>c.disc!=="mep"}
+ {h:"3D views",p:"Landscape renders of the east and west facing model villas. Design intent, not for measurement.",f:s=>s.disc==="3d"}
 ];
 const ALERTS=[
  ["bad","Do not use","The 1625 East floor plan dated 18-09-2026 (TP-01) is superseded. Use the GFC floor plan AR-09 dated 08-10-2026."],
@@ -424,7 +431,7 @@ const ALERTS=[
 
 /* ---------- state ---------- */
 let view="seq", disc="all", q="";
-try{ const v=localStorage.getItem("woods.view"); if(v==="all"||v==="seq"||v==="cad") view=v; }catch(e){}
+try{ const v=localStorage.getItem("woods.view"); if(v==="all"||v==="seq"||v==="cad"||v==="site") view=v; }catch(e){}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const thumb=s=>"thumb/"+F[s.f][0].replace(/\.pdf$/,"")+"_p"+s.page+".jpg";
@@ -468,36 +475,42 @@ function cadHTML(c){
     <a href="${cadUrl(c)}" target="_blank" rel="noopener" download>Download ${c.ext}</a></div>`;
 }
 function render(){
-  $("v-seq").setAttribute("aria-pressed",view==="seq"); $("v-all").setAttribute("aria-pressed",view==="all"); $("v-cad").setAttribute("aria-pressed",view==="cad");
+  $("v-seq").setAttribute("aria-pressed",view==="seq"); $("v-site").setAttribute("aria-pressed",view==="site"); $("v-all").setAttribute("aria-pressed",view==="all"); $("v-cad").setAttribute("aria-pressed",view==="cad");
   $("intro").hidden = !!q || view==="cad";
-  const groups = view==="cad"
-    ? [{no:null,h:"Services (MEP) · drawings",p:"External electrical and water supply drawings. DWG only, no PDF issued. Open in AutoCAD or any DWG viewer.",cad:true,items:CAD.filter(c=>c.disc==="mep"&&c.ext==="DWG").filter(match)},
-       {no:null,h:"Services (MEP) · schedules & BOQs",p:"Excel files. Open in Excel or Google Sheets.",cad:true,items:CAD.filter(c=>c.disc==="mep"&&c.ext==="Excel").filter(match)},
-       {no:null,h:"Site & architecture · CAD",p:"Site plans, soak pit & sump locations and the Plot 30 GFC set. Items marked 'no PDF issued' have no printable sheet yet.",cad:true,items:CAD.filter(c=>c.disc!=="mep").filter(match)}]
-    : view==="seq"
-    ? SEQ.map((g,i)=>({no:String(i+1).padStart(2,"0"),h:g.h,p:g.p,items:g.c.map(c=>byCode[c]).filter(match)}))
-    : ALL.map((g,i)=>({no:null,h:g.h,p:g.p,cad:g.cad,items:g.cad?CAD.filter(g.f||(()=>true)).filter(match):S.filter(g.f).filter(match)}));
+  const siteGroups=()=>SITE_G.map(g=>({h:g.h,p:g.p,items:g.c.map(itemBy).filter(match)}));
+  const villaGroups=()=>ALL.map(g=>({h:g.h,p:g.p,items:S.filter(g.f).filter(x=>!SITE.has(x.code)).filter(match)}));
+  const cadGroups=()=>[{h:"Plot 30 · 1625 East GFC set · CAD",p:"DWG files of the architect's GFC sheets for the office, surveyor and consultants. Site-level CAD files are under Site.",items:CAD.filter(c=>!SITE.has(c.code)).filter(match)}];
+  const groups = q ? [...siteGroups().map(g=>({...g,h:"Site · "+g.h})),...villaGroups(),...cadGroups()]
+    : view==="site" ? siteGroups()
+    : view==="cad" ? cadGroups()
+    : view==="seq" ? SEQ.map((g,i)=>({no:String(i+1).padStart(2,"0"),h:g.h,p:g.p,items:g.c.map(c=>byCode[c]).filter(match)}))
+    : villaGroups();
   currentList=[]; let html="", shown=0;
   if(view==="seq"){
-    html+=`<p class="lead">Plot 30 · 1625 sq.ft East facing model villa on a 1210 sq.yd plot. Sheets in the order work happens on site. Switch to <b>All drawings</b> for other villa types and renders, or <b>CAD/MEP</b> for DWG and Excel downloads.</p>`;
+    html+=`<p class="lead">Plot 30 · 1625 sq.ft East facing model villa on a 1210 sq.yd plot. Sheets in the order work happens on site. Switch to <b>Site</b> for whole-layout drawings and external services, <b>Villas</b> for other villa types, or <b>CAD</b> for DWG downloads.</p>`;
+  }
+  if(view==="site"&&!q){
+    html+=`<p class="lead">Site-level drawings for the whole layout: roads, levels, survey, external electrical and water supply. They apply across all plots, not to one villa.</p>`;
   }
   groups.forEach(g=>{
     if(!g.items.length) return;
     shown+=g.items.length;
-    if(!g.cad) currentList.push(...g.items);
+    currentList.push(...g.items.filter(i=>!i.cad));
+    const allCad=g.items.every(i=>i.cad);
     html+=`<section class="grp"><div class="grp-h">${g.no?`<span class="no">${g.no}</span>`:""}<h3>${esc(g.h)}</h3><p>${esc(g.p)}</p></div>
-      <div class="${g.cad?"cad":"rows"}">${g.items.map(g.cad?cadHTML:rowHTML).join("")}</div></section>`;
+      <div class="${allCad?"cad":"rows"}">${g.items.map(i=>i.cad?cadHTML(i):rowHTML(i)).join("")}</div></section>`;
   });
   if(!shown) html=`<div class="empty">No sheets match “${esc(q)}”${disc!=="all"?" in "+DISC[disc].name:""}.<br>Try a sheet code (AR-04), a word (plinth, levels) or a villa type (1215).</div>`;
   $("list").innerHTML=html;
   $("countline").textContent=`${S.length} sheets · ${CAD.length} CAD & MEP files`;
 }
 $("list").addEventListener("click",e=>{const r=e.target.closest(".row"); if(r) openSheet(r.dataset.code,true);});
-$("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase(); $("qclear").hidden=!q; if(q&&view==="seq"){view="all";} render();});
+$("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase(); $("qclear").hidden=!q; render();});
 $("qclear").addEventListener("click",()=>{$("q").value="";q="";$("qclear").hidden=true;render();$("q").focus();});
 function setView(v){view=v; try{localStorage.setItem("woods.view",v)}catch(e){} render();}
 $("v-seq").addEventListener("click",()=>setView("seq"));
 $("v-all").addEventListener("click",()=>setView("all"));
+$("v-site").addEventListener("click",()=>setView("site"));
 $("v-cad").addEventListener("click",()=>setView("cad"));
 $("alerts").innerHTML=ALERTS.map(([k,t,m])=>`<div class="alert ${k}"><b class="k">${t}</b><span>${esc(m).replace(/\b(AR-\d+|TP-\d+|SD-\d+)\b/g,"<b>$1</b>")}</span></div>`).join("");
 
