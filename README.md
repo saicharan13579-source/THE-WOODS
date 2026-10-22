@@ -1,10 +1,11 @@
-# The Woods · Site drawing register
+# The Woods · Drawing portal
 
-Ankura Homes, Keesaragutta. Phone-friendly register of the architectural (GFC), structural, landscape and 3D drawings for site reference, with a zoomable sheet viewer.
+Ankura Homes, Keesaragutta.
 
-- `index.html` – the register
-- `pdf/` – issued drawing PDFs
-- `thumb/` – sheet previews
-- `cad/` – DWG files
+- `index.html` – Villa portal. Opens on the master layout; tap a plot to see its architectural, structural, MEP and landscape drawings. Also has the full drawing register.
+- `site.html` – Site portal. Site plans, levels, survey, external electrical and water supply.
+- `pdf/`, `thumb/` – issued drawing PDFs and sheet previews
+- `cad/`, `mep/` – DWG and Excel files
+- `img/master-plan.png` – master layout, taken from the architect's key plan on the GFC sheets
 
-Updated 17-10-2026.
+Updated 22-10-2026.
