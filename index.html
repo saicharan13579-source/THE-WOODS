@@ -84,7 +84,7 @@ header.tb{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background
 .views{display:flex;border:1px solid var(--glass-line);border-radius:14px;overflow:hidden;flex:none;background:var(--paper)}
 .views button,.views a{border:0;background:transparent;padding:0 14px;height:44px;font-weight:600;cursor:pointer;font-size:15px;white-space:nowrap;display:flex;align-items:center;justify-content:center;text-decoration:none}
 .views [aria-pressed="true"],.views [aria-current="page"]{background:var(--forest);color:var(--forest-ink)}
-@media (max-width:560px){.views{flex:1 1 100%}.views button,.views a{flex:1;padding:0 8px}}
+@media (max-width:560px){.views{flex:1 1 100%;flex-wrap:wrap}.views button,.views a{flex:1 1 40%;padding:0 8px;min-width:0}}
 
 main{padding-block:18px 60px;display:grid;gap:22px}
 .panel,.grp-h,footer,.empty,.lead,.card{background:var(--glass);border:1px solid var(--glass-edge);border-radius:18px;box-shadow:var(--shadow),inset 0 1px 0 var(--glass-edge);-webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%)}
@@ -148,6 +148,7 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .side{display:grid;gap:14px;min-width:0}
 .stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .stat.stat4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:440px){.stat.stat4{grid-template-columns:repeat(2,1fr)}}
 .stat .sc-booked{border-bottom:3px solid #e3a12f}.stat .sc-registered{border-bottom:3px solid #d9651c}.stat .sc-blocked{border-bottom:3px solid #7d8580}.stat .sc-available{border-bottom:3px solid #c9b98f}
 .stat div{background:var(--paper);border:1px solid var(--glass-line);border-radius:12px;padding:10px;display:grid;gap:2px}
 .stat b{font-size:22px;font-variant-numeric:tabular-nums}
@@ -236,8 +237,17 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .rfi-n{color:var(--warn)}
 .dlg{position:fixed;inset:0;z-index:60;background:rgba(10,16,13,.5);display:flex;align-items:center;justify-content:center;padding:16px}
 .dlg-in{width:min(560px,100%);max-height:90vh;overflow:auto;display:grid;gap:8px}.dlg h2{margin:0;font-size:20px}
-.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}.fl select,.fl input{font:inherit;font-size:15px;height:42px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);color:var(--ink);padding:0 8px}.fl input[type=file]{height:auto;padding:8px}
+.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}.fl select,.fl input{width:100%;min-width:0;box-sizing:border-box}.ufg{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}.ufg .fl{min-width:0}.fl select,.fl input{font:inherit;font-size:15px;height:42px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);color:var(--ink);padding:0 8px}.fl input[type=file]{height:auto;padding:8px}
 .wa{font-size:14px;font-weight:600;color:var(--c-site)}
+body.wide .wrap{max-width:1720px}
+.pgrid{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}.pmain{display:grid;gap:22px;min-width:0}
+@media (min-width:1280px){.pgrid{grid-template-columns:minmax(0,1fr) 430px;align-items:start}.saside{position:sticky;top:150px;max-height:calc(100vh - 170px);overflow:auto;overscroll-behavior:contain;border-radius:18px}}
+.saside{display:grid;gap:12px;min-width:0;padding:4px;border:2px solid var(--c-site);border-radius:20px;background:rgba(255,255,255,.35)}
+.saside-h{padding:8px 10px 0}.saside-h h2{margin:0;font-size:20px;color:var(--c-site)}.saside-h p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.saside .card{padding:12px}.saside .card-h h2{font-size:17px}.saside .tbar .portal-link{font-size:14px;padding:8px 10px}
+.stl{display:grid;gap:6px}.sti{padding:7px 10px;border:1px solid var(--glass-line);border-left:4px solid var(--glass-line);border-radius:10px;background:var(--paper)}
+.sti.st-done{border-left-color:var(--ok)}.sti.st-wip{border-left-color:var(--warn)}.sti-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.sti .phs{margin-top:4px}.sti .phs img{width:44px;height:44px}
 .upd h3{margin:0 0 8px;font-size:18px}.ufg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
 .upd textarea{width:100%;font:inherit;font-size:15px;border:1px solid var(--glass-line);border-radius:10px;padding:8px;background:var(--paper);color:var(--ink)}
 .upd .tbar{margin-top:8px}
@@ -825,11 +835,12 @@ function renderPlot(no){
   let vtype=confirmed?info.type:(pickType[p.no]||lastType);
   const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
   const i=order.indexOf(p), prev=order[i-1], next=order[i+1];
-  const keys=["arch","str","mep","land","prog"];
+  const keys=["arch","str","mep","land"];
   if(!keys.includes(ptab)) ptab="arch";
   const [x0,y0,x1,y1]=p.box, cxp=((x0+x1)/2)/MAP_W, cyp=((y0+y1)/2)/MAP_H;
   $("main").innerHTML=`
   <div class="crumbs"><a href="#home">← Master layout</a><span>/</span><span>Plot ${p.no}</span></div>
+  <div class="pgrid"><div class="pmain">
   <div class="card plothead">
     <div>
       <div class="ph-title"><h2>Plot ${p.no}</h2><span class="badge ${plotCls(p)}">${p.no===MODEL?"Model villa · GFC":faceTxt(p)}</span><span class="badge st st-${pStatus(p)}">${esc(statusTxt(p))}</span></div>
@@ -848,6 +859,7 @@ function renderPlot(no){
   <div class="card vtype"><span class="lbl">Villa type</span>${isOffPlot(p)?`<b style="font-size:17px">${esc(statusTxt(p))}</b><span class="conf">Not a villa plot yet</span>`:confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":vtLabel(info.type,p)+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}<a class="vlink" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} villa type</a></div>
   <div class="dtabs" role="tablist" aria-label="Drawings by discipline">${keys.map(k=>`<button type="button" class="dtab" role="tab" data-k="${k}" aria-selected="${k===ptab}" style="--dc:var(${DISC[k].c})">${DISC[k].name}<span class="n"></span></button>`).join("")}</div>
   <div id="ptab"></div>
+  </div><aside class="saside" id="siteAside" aria-label="Site updates and RFIs for Plot ${p.no}"></aside></div>
   ${footerHTML()}`;
   const lm=$("locmap");
   requestAnimationFrame(()=>{ const mz=lm.firstElementChild; lm.scrollLeft=0; mz.style.left=(-(cxp*mz.clientWidth-lm.clientWidth/2))+"px"; mz.style.top=(-(cyp*mz.clientHeight-lm.clientHeight/2))+"px"; });
@@ -856,7 +868,6 @@ function renderPlot(no){
     set=plotSet(p,vtype);
     document.querySelectorAll(".dtab").forEach(b=>b.querySelector(".n").textContent=b.dataset.k==="prog"?((dbOn||GHPROG)?progPct(p.no)+"%":"+"):set[b.dataset.k].items.length);
     document.querySelectorAll(".dtab").forEach(b=>b.setAttribute("aria-selected",b.dataset.k===ptab));
-    if(ptab==="prog"){ $("ptab").innerHTML=progTabHTML(p); bindProgTab(p); currentList=[]; return; }
     const d=set[ptab]; const [k,t]=d.note;
     $("ptab").innerHTML=`<div style="display:grid;gap:10px">${t?`<div class="note ${k}">${t}</div>`:""}${d.items.length?itemsHTML(d.items):""}</div>`;
     currentList=d.items.filter(x=>!x.cad);
@@ -864,7 +875,9 @@ function renderPlot(no){
   };
   document.querySelectorAll("[data-ty]").forEach(b=>b.onclick=()=>{vtype=b.dataset.ty; pickType[p.no]=vtype; lastType=vtype; try{localStorage.setItem("woods.vtype",vtype)}catch(e){} document.querySelectorAll("[data-ty]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ty===vtype)); showTab();});
   document.querySelectorAll(".dtab").forEach(b=>b.onclick=()=>{ptab=b.dataset.k; try{localStorage.setItem("woods.ptab",ptab)}catch(e){} showTab();});
-  redrawTab=(force)=>{ if(!route.startsWith("plot-")||route.slice(5)!==p.no) return; showTab(); };
+  redrawTab=(force)=>{ if(!route.startsWith("plot-")||route.slice(5)!==p.no) return; renderAside(p); };
+  renderAside(p);
+  if(focusSite){ focusSite=false; requestAnimationFrame(()=>{ const a=$("siteAside"); if(a) a.scrollIntoView({block:"start"}); }); }
   showTab();
   window.scrollTo(0,0);
 }
@@ -929,6 +942,7 @@ function handleRoute(){
 function render(){
   const site=route==="site";
   document.body.classList.toggle("site-portal",site);
+  document.body.classList.toggle("wide",route.startsWith("plot-"));
   $("ptag").textContent=site?"Site portal":"Villa portal";
   $("otherportal").textContent=site?"← Villa portal":"Site portal →";
   $("otherportal").href=site?VILLA_LINK:SITE_LINK;
@@ -1193,13 +1207,16 @@ function watchUpdates(no){
   if(updSub){ try{updSub()}catch(e){} } updSubPlot=no;
   updSub=DB.collection("updates").where("plot","==",no).onSnapshot(qs=>{ UPD[no]=qs.docs.map(d=>Object.assign({id:d.id},d.data())); const ids=UPD[no].map(u=>u.by); resolveNames(ids); refreshSiteViews(); },()=>{});
 }
+let focusSite=false;
+function renderAside(p){ const a=$("siteAside"); if(!a) return; a.innerHTML=`<div class="saside-h"><h2>Site updates · Plot ${p.no}</h2><p>Progress, photos and RFIs from site.</p></div>`+progTabHTML(p); bindProgTab(p); }
 function progTabHTML(p){
   const wa=`<div class="tbar"><a class="portal-link" href="${waProg(p)}" target="_blank" rel="noopener">Send progress on WhatsApp</a><a class="portal-link" href="${waRfi(p,null)}" target="_blank" rel="noopener">Raise RFI on WhatsApp</a></div>`;
   if(IS_ART&&!dbOn) return `<div class="note">Progress and RFIs are not available on this view. Use WhatsApp, or ask Vamsi to invite you as an Editor.</div>${wa}`;
   if(IS_ART) watchUpdates(p.no);
   const can=IS_ART&&canSite, ups=updList(p.no), s=Object.keys(progStages(p.no)).length?progStages(p.no):summarise(ups);
   const rows=STAGES.map(([k,n])=>{ const v=s[k]||{}; const last=ups.filter(u=>u.stage===k&&(u.photos||[]).length).sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at)))[0];
-    return `<tr><td><b>${n}</b></td><td><span class="pst pst-${v.st||"none"}">${SSTAT[v.st||""]}</span></td><td>${v.start?fmtD(v.start):""}</td><td>${v.done?fmtD(v.done):""}</td><td>${v.n?v.n+" update"+(v.n>1?"s":""):""}</td><td><div class="phs">${last?last.photos.slice(0,3).map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="" loading="lazy"></a>`).join(""):""}</div></td></tr>`; }).join("");
+    const dates=[v.start?"Started "+fmtD(v.start):"",v.done?"Done "+fmtD(v.done):"",v.n?v.n+" update"+(v.n>1?"s":""):""].filter(Boolean).join(" · ");
+    return `<div class="sti st-${v.st||"none"}"><div class="sti-h"><b>${n}</b><span class="pst pst-${v.st||"none"}">${SSTAT[v.st||""]}</span></div>${dates?`<div class="muted">${dates}</div>`:""}${last?`<div class="phs">${last.photos.slice(0,4).map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="" loading="lazy"></a>`).join("")}</div>`:""}</div>`; }).join("");
   const byDate={}; ups.forEach(u=>{ (byDate[u.date]=byDate[u.date]||[]).push(u); });
   const tl=Object.keys(byDate).sort().reverse().map(d=>`<div class="tl-day"><h4>${fmtD(d)}</h4>${byDate[d].sort((a,b)=>String(b.at).localeCompare(String(a.at))).map(u=>`<div class="tl-it"><div><b>${esc((STAGES.find(x=>x[0]===u.stage)||[0,u.stage])[1])}</b> <span class="pst pst-${u.st||"none"}">${SSTAT[u.st||""]}</span>${u.by?` <span class="muted">· ${esc(who(u.by))}</span>`:""}</div>${u.note?`<p>${esc(u.note)}</p>`:""}${(u.photos||[]).length?`<div class="phs">${u.photos.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="Site photo" loading="lazy"></a>`).join("")}</div>`:""}</div>`).join("")}</div>`).join("");
   const form=can?`<div class="card upd"><h3>Add site update</h3>
@@ -1222,7 +1239,7 @@ function progTabHTML(p){
   const syncNote=!IS_ART?`<p class="hint">${GHPROG&&GHPROG.syncedAt?`Updates as of ${fmtD(GHPROG.syncedAt)}. `:""}Site engineers record updates in the <a href="${ART_LINK}" target="_blank" rel="noopener">Claude version</a>; they appear here when synced. No login? Use WhatsApp below.</p>`:(can?"":`<p class="hint">View only. Ask Vamsi to invite you as an Editor to add updates, or send them on WhatsApp.</p>`);
   return `<div class="card prog" id="pSum"><div class="card-h"><div><h2>Site progress · ${progPct(p.no)}%</h2><p>${esc(progNow(p.no))}${ups.length?` · ${ups.length} update${ups.length>1?"s":""}, latest ${fmtD(ups.map(u=>u.date).sort().pop())}`:""}</p></div></div>
       <div class="pbar"><i style="width:${progPct(p.no)}%"></i></div>${syncNote}
-      <div class="ttab"><table><thead><tr><th>Stage</th><th>Status</th><th>Started</th><th>Completed</th><th>Updates</th><th>Latest photos</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+      <div class="stl">${rows}</div></div>
     ${form}
     <div class="card" id="pTl"><div class="card-h"><div><h2>Updates by date</h2><p>Every site visit is kept: newest first, with its photos.</p></div></div>${tl||`<p class="muted">No updates for Plot ${p.no} yet.</p>`}</div>
     <div class="card" id="pRfi"><div class="card-h"><div><h2>RFIs &amp; clarifications · ${rl.filter(r=>r.status==="open").length} open</h2><p>Ask about any drawing for this plot. The architect's team answers here.</p></div>${can?`<button type="button" class="portal-link" data-newrfi="${p.no}">Raise RFI</button>`:""}</div>
@@ -1230,7 +1247,7 @@ function progTabHTML(p){
     ${wa}`;
 }
 function bindProgTab(p){
-  const box=$("ptab"); if(!box) return;
+  const box=$("siteAside"); if(!box) return;
   const go2=$("uGo");
   if(go2) go2.onclick=async()=>{ const ps=$("psave"), date=$("uDate").value, stage=$("uStage").value, st=$("uSt").value, note=$("uNote").value.trim(), ph=$("uPh");
     if(!date){ ps.textContent="Pick the date."; ps.className="tsave error"; return; }
@@ -1269,7 +1286,7 @@ async function submitRfi(){
   const btn=$("rfiGo"); btn.disabled=true; msg.textContent="Sending…";
   try{ const s=byCode[code]; const photos=assetsNs&&$("rfiPh").files.length?await uploadPhotos([...$("rfiPh").files]):[];
     await DB.collection("rfi").add({plot:no,sheet:code||"",rev:s&&s.rev!=="—"?s.rev:"",sheetTitle:s?s.title:"General / site query",q,photos,status:"open",at:new Date().toISOString(),by:myId||"",replies:[]});
-    $("rfiDlg").hidden=true; if(!$("viewer").hidden) closeViewer(false); ptab="prog"; go("plot-"+no);
+    $("rfiDlg").hidden=true; if(!$("viewer").hidden) closeViewer(false); focusSite=true; go("plot-"+no);
   }catch(e){ msg.textContent=e&&e.code==="invalid_argument"?"This account cannot raise RFIs here. Use WhatsApp instead.":"Not sent. Check your connection and try again."; }
   btn.disabled=false;
 }
@@ -1288,14 +1305,14 @@ function renderProgress(){
    : `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>${(dbOn||GHPROG)?`${!IS_ART&&GHPROG.syncedAt?"As of "+fmtD(GHPROG.syncedAt)+" · ":""}${PLOTS.filter(p=>progPct(p.no)>0).length} plots started · ${open.length} open RFIs. Tap a plot to update its progress or answer its RFIs.`:"Progress and RFIs are not available on this view."}</p></div></div>
       ${open.length?`<div class="rfi-all">${open.map(r=>`<a class="rfi-row" href="#plot-${esc(r.plot)}" data-prog="1"><b>Plot ${esc(r.plot)}</b><span class="pill rp-${r.status}">${RST[r.status]}</span><span>${esc(r.sheet||"General")}</span><span class="muted">${esc((r.q||"").slice(0,90))}</span><span class="muted">${fmtD(r.at)}</span></a>`).join("")}</div>`:""}
       <div class="ttab"><table><thead><tr><th>Plot</th><th>Villa</th><th>Now</th><th>Progress</th><th class="num">Open RFIs</th><th>Updated</th></tr></thead><tbody>${rows}</tbody></table></div></div>${footerHTML()}`;
-  $("main").querySelectorAll("[data-prog]").forEach(a=>a.addEventListener("click",()=>{ ptab="prog"; }));
+  $("main").querySelectorAll("[data-prog]").forEach(a=>a.addEventListener("click",()=>{ focusSite=true; }));
   currentList=[];
 }
 function refreshSiteViews(){
   if(!$("rfiDlg").hidden||!$("viewer").hidden) return;
-  const a=document.activeElement; if(a&&a.closest&&a.closest("#ptab")&&(a.tagName==="TEXTAREA"&&a.value.trim()||a.tagName==="INPUT"&&a.type==="text")) return;
+  const a=document.activeElement; if(a&&a.closest&&a.closest("#siteAside")&&(a.tagName==="TEXTAREA"&&a.value.trim()||a.tagName==="INPUT"&&a.type==="text")) return;
   if(route==="progress") renderProgress();
-  else if(route.startsWith("plot-")&&ptab==="prog"&&$("pSum")&&plotBy[route.slice(5)]){ const p=plotBy[route.slice(5)], tmp=document.createElement("div"); tmp.innerHTML=progTabHTML(p);
+  else if(route.startsWith("plot-")&&$("pSum")&&plotBy[route.slice(5)]){ const p=plotBy[route.slice(5)], tmp=document.createElement("div"); tmp.innerHTML=progTabHTML(p);
     const typingRfi=a&&a.closest&&a.closest("#pRfi")&&a.tagName==="TEXTAREA"&&a.value.trim();
     ["pSum","pTl","pRfi"].forEach(id=>{ if(id==="pRfi"&&typingRfi) return; const o=$(id), n=tmp.querySelector("#"+id); if(o&&n) o.replaceWith(n); });
     if(!$("uGo")&&tmp.querySelector(".upd")) { redrawTab&&redrawTab(false); return; }
