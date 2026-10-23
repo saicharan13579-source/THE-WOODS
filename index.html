@@ -8,7 +8,7 @@
 <title>The Woods Drawings</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
 html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}
 /* Layout: two portals. Villa portal opens on the master plan (tap a plot → its drawings by discipline); Site portal lists whole-layout drawings. Glass panels over a fluid backdrop; dark sheet viewer. */
@@ -318,84 +318,112 @@ section.grp{display:grid;gap:10px}
 .vgrp{display:flex;gap:6px;align-items:center}
 .zl{font-family:var(--f-mono);font-size:13px;min-width:46px;text-align:center;color:#c9d1cb}
 
-/* ===== Theme: fluid glass, cool palette, square edges =====
-   Frosted glass panels over a slow cool-colour backdrop (sky, periwinkle, aqua). iOS system font
-   (-apple-system / SF Pro; Inter where SF is not installed). iOS blue accent. No rounded corners. */
+/* ===== Theme: Luxury Villas (matches saicharan13579-source.github.io/luxury-villas-) =====
+   Pale sky #EEF3F8, ink #0F1E2E, accent #2459C8; frosted glass; Instrument Serif headings with Inter text;
+   pill buttons and generously rounded panels. Master layout image recoloured to the same cool palette. */
 :root{
-  --acc:#0A84FF; --acc-2:#1FB6D1; --acc-ink:#ffffff; --ink:#0F2236; --muted:#4A5F76; --line:rgba(255,255,255,.65); --hair:rgba(15,34,54,.12);
-  --forest:#0A84FF; --forest-ink:#ffffff; --forest-soft:rgba(10,132,255,.12); --model:#0A84FF;
-  --base:#E6F0FA; --b1:#7CC8F8; --b2:#9AA9FF; --b3:#72E1D6; --b4:#B8D4FF;
-  --glass:rgba(255,255,255,.52); --glass-strong:rgba(255,255,255,.66); --glass-edge:rgba(255,255,255,.75); --glass-line:var(--hair); --paper:rgba(255,255,255,.72);
-  --shadow:0 10px 30px -12px rgba(16,48,92,.25),0 1px 0 rgba(255,255,255,.7) inset;
-  --f-ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter","Segoe UI",system-ui,sans-serif;
-  --f-mono:"SF Mono",ui-monospace,Menlo,"IBM Plex Mono",monospace;
-  --brass:#0A84FF; --ever:#0F2236; --ever-2:#1C4A7A;
+  --acc:#2459C8; --acc-2:#3D7BE0; --ink:#0F1E2E; --ink2:#2B3D52; --muted:#4A5B6E; --label:#2C4560; --hair:rgba(15,30,46,.1);
+  --forest:#2459C8; --forest-ink:#fff; --forest-soft:rgba(36,89,200,.12); --model:#2459C8;
+  --base:#EEF3F8; --b1:#BFD6F1; --b2:#D6E2F4; --b3:#C9E1EE; --b4:#DCE8F7;
+  --glass:rgba(255,255,255,.55); --glass-strong:rgba(255,255,255,.75); --glass-edge:rgba(255,255,255,.85); --glass-line:var(--hair); --paper:rgba(255,255,255,.7);
+  --shadow:0 20px 60px rgba(30,60,110,.12),inset 0 1px 0 rgba(255,255,255,.95);
+  --serif:"Instrument Serif",Georgia,serif; --f-ui:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace; --brass:#2459C8; --ever:#0F1E2E; --ever-2:#2B3D52;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --acc:#409CFF; --acc-2:#3CD3EB; --ink:#EAF2FB; --muted:#9FB3C8; --line:rgba(255,255,255,.14); --hair:rgba(255,255,255,.12);
-  --forest:#409CFF; --forest-ink:#06121F; --forest-soft:rgba(64,156,255,.16); --model:#409CFF;
-  --base:#07111D; --b1:#0E3C6B; --b2:#2A2F7A; --b3:#0B5A5C; --b4:#16305C;
-  --glass:rgba(22,34,52,.55); --glass-strong:rgba(18,28,44,.72); --glass-edge:rgba(255,255,255,.14); --paper:rgba(28,42,62,.7);
-  --shadow:0 12px 32px -14px rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.06) inset; }}
+  --acc:#6E9BFF; --acc-2:#8DB3FF; --ink:#EAF1FA; --ink2:#C9D6E6; --muted:#9FB0C4; --label:#B6C8DE; --hair:rgba(255,255,255,.12);
+  --forest:#6E9BFF; --forest-ink:#08121F; --forest-soft:rgba(110,155,255,.16); --model:#6E9BFF;
+  --base:#0A1220; --b1:#13284A; --b2:#1B2F58; --b3:#0F3044; --b4:#18284A;
+  --glass:rgba(20,32,52,.55); --glass-strong:rgba(16,26,44,.78); --glass-edge:rgba(255,255,255,.14); --paper:rgba(26,40,62,.7);
+  --shadow:0 20px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06); }}
 :root[data-theme="dark"]{
-  --acc:#409CFF; --acc-2:#3CD3EB; --ink:#EAF2FB; --muted:#9FB3C8; --line:rgba(255,255,255,.14); --hair:rgba(255,255,255,.12);
-  --forest:#409CFF; --forest-ink:#06121F; --forest-soft:rgba(64,156,255,.16); --model:#409CFF;
-  --base:#07111D; --b1:#0E3C6B; --b2:#2A2F7A; --b3:#0B5A5C; --b4:#16305C;
-  --glass:rgba(22,34,52,.55); --glass-strong:rgba(18,28,44,.72); --glass-edge:rgba(255,255,255,.14); --paper:rgba(28,42,62,.7); }
-*,*::before,*::after{border-radius:0!important}
-body{font-family:var(--f-ui);color:var(--ink);background:var(--base);letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
-.fluid{display:block}.fluid i{opacity:.85;filter:blur(80px)}
+  --acc:#6E9BFF; --acc-2:#8DB3FF; --ink:#EAF1FA; --ink2:#C9D6E6; --muted:#9FB0C4; --label:#B6C8DE; --hair:rgba(255,255,255,.12);
+  --forest:#6E9BFF; --forest-ink:#08121F; --forest-soft:rgba(110,155,255,.16); --model:#6E9BFF;
+  --base:#0A1220; --b1:#13284A; --b2:#1B2F58; --b3:#0F3044; --b4:#18284A;
+  --glass:rgba(20,32,52,.55); --glass-strong:rgba(16,26,44,.78); --glass-edge:rgba(255,255,255,.14); --paper:rgba(26,40,62,.7); }
+body{font-family:var(--f-ui);color:var(--ink);background:var(--base);line-height:1.55}
+.fluid{display:block}.fluid i{opacity:.9;filter:blur(90px)}
 /* glass surfaces */
-header.tb,.panel,.grp-h,footer,.empty,.lead,.card,.row,.cadrow,.dtab,.pbtn,.stat div,.facts div,.feature,.saside-h,.sti,.tl-it,.rfi,.rfi-row,.views,.search,.zbtn,.dlg-in,.ttab{
-  background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);border:1px solid var(--glass-edge);box-shadow:var(--shadow)}
-.stat div,.facts div,.sti,.tl-it,.pbtn,.ttab{background:var(--paper);box-shadow:none}
-header.tb{background:var(--glass-strong);border-width:0 0 1px 0;color:var(--ink)}
-body::before{background:var(--glass-strong)}
-.eyebrow{font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:13px;color:var(--muted)}
-.proj h1{font-weight:800;font-size:30px;letter-spacing:-.02em}
-.proj h1 a,.proj h1 .w{color:var(--ink)}
-.portal-tag{background:var(--acc);color:#fff;font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;padding:3px 9px}
-body.site-portal .portal-tag{background:var(--acc-2)}
-header.tb .portal-link{background:var(--glass);color:var(--acc);border:1px solid var(--glass-edge)}
-.views [aria-pressed="true"],.views [aria-current="page"]{background:var(--acc);color:#fff;box-shadow:none}
-.views button,.views a{font-weight:600;color:var(--ink)}
-header.tb .search{background:var(--paper)}
+.panel,.grp-h,.empty,.lead,.card,.row,.cadrow,.dtab,.feature,.saside-h,.rfi,.rfi-row,.zbtn,.dlg-in{
+  background:var(--glass);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--glass-edge);box-shadow:var(--shadow)}
+.stat div,.facts div,.sti,.tl-it,.pbtn,.ttab{background:var(--paper);border:1px solid var(--glass-edge);box-shadow:none}
+/* floating glass header, as on the Luxury Villas page */
+header.tb{background:transparent;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:14px 0 0}
+body::before{background:transparent}
+.tb .wrap.tb-shell{background:var(--glass-strong);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--glass-edge);box-shadow:var(--shadow);border-radius:32px;padding:12px 14px 12px 24px;gap:10px}
+.proj h1{font-family:var(--serif);font-weight:400;font-size:34px;letter-spacing:0;align-items:baseline}
+.proj h1 a{color:var(--ink)}
+.brand-sub{font-family:var(--f-ui);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--label);font-weight:500}
+.portal-tag{background:var(--acc-soft,rgba(36,89,200,.12));background:rgba(36,89,200,.12);color:var(--acc);font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;padding:4px 12px}
+body.site-portal .portal-tag{background:rgba(61,123,224,.16);color:#2459C8}
+header.tb .portal-link{background:var(--acc);color:#fff;border:0;box-shadow:0 8px 24px rgba(36,89,200,.3);padding:10px 20px}
+header.tb .search{background:rgba(255,255,255,.8);border:1px solid var(--glass-edge)}
+header.tb .views{background:rgba(255,255,255,.55);border:1px solid var(--glass-edge)}
+.views button,.views a{font-weight:500;color:var(--ink)}
+.views [aria-pressed="true"],.views [aria-current="page"]{background:var(--acc);color:#fff;box-shadow:0 6px 18px rgba(36,89,200,.28)}
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-/* type: iOS-like */
-.card-h h2,.grp-h h3,.saside-h h2,.dlg h2{font-weight:700;letter-spacing:-.02em}
-.ph-title h2{font-weight:800;font-size:40px;letter-spacing:-.03em}
-h2.k,.stat span,.facts span,.vtype .lbl,.mmode span,.ttab th,.alert b.k,.meta .code{font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:12.5px;font-weight:600}
+/* hero (home) */
+.hero{position:relative;min-height:600px;border-radius:40px;overflow:hidden;display:flex;align-items:flex-end;box-shadow:0 30px 80px rgba(30,60,110,.18);background:#A9C1D8}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(238,243,248,.35),rgba(238,243,248,0) 60%);pointer-events:none}
+.hero-card{position:relative;z-index:1;margin:24px;padding:36px;max-width:640px;display:flex;flex-direction:column;gap:18px;border-radius:32px;background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--glass-edge);box-shadow:var(--shadow)}
+.hero-card h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.2vw,76px);line-height:1.04;margin:0;color:var(--ink)}
+.hero-card h2 em{color:var(--acc)}
+.hero-lead{margin:0;color:var(--ink2);font-size:17px;max-width:540px}
+.chip{align-self:flex-start;font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:rgba(255,255,255,.7);padding:6px 14px;border-radius:999px;color:var(--label)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;text-decoration:none;font-weight:500}
+.btn-primary{background:var(--acc);color:#fff;box-shadow:0 8px 24px rgba(36,89,200,.3)}
+.btn-glass{background:rgba(255,255,255,.75);color:var(--ink);border:1px solid rgba(255,255,255,.9)}
+.hero-stats{display:flex;flex-wrap:wrap;gap:18px;color:var(--ink2);font-size:14px}.hero-stats b{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--ink);margin-right:4px}
+.hero-card{min-width:0;box-sizing:border-box;max-width:min(640px,calc(100% - 48px))}.chip{white-space:normal;max-width:100%;box-sizing:border-box}
+@media (max-width:700px){.hero{min-height:0;border-radius:28px}.hero-card{margin:12px;padding:20px;border-radius:24px;max-width:calc(100% - 24px)}.hero-card h2{font-size:38px}.chip{letter-spacing:.1em;font-size:11px}.btn{min-height:44px;padding:0 18px}}
+/* type */
+.card-h h2,.grp-h h3,.saside-h h2,.dlg h2{font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:0}
+.ph-title h2{font-family:var(--serif);font-weight:400;font-size:52px;letter-spacing:0}
+.stat b,.feature .n{font-family:var(--serif);font-weight:400;font-size:36px;letter-spacing:0}
+h2.k,.stat span,.facts span,.vtype .lbl,.mmode span,.ttab th,.alert b.k,.meta .code{font-family:var(--f-ui);text-transform:none;letter-spacing:.01em;font-size:12.5px;font-weight:500;color:var(--label)}
 .meta .code b{font-family:var(--f-mono)}
+.meta .t{font-weight:600}
 .badge,.conf,.pill,.fc{font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-weight:600}
 .grp-h .no{background:var(--acc);font-family:var(--f-ui)}
-.stat b{font-weight:800;font-size:28px;letter-spacing:-.03em}
-.lead{border-left:3px solid var(--acc)}
+.lead{border-left:0}
 footer{background:transparent;box-shadow:none;border:0;border-top:1px solid var(--hair);-webkit-backdrop-filter:none;backdrop-filter:none}
 /* map */
-.mapbox{background:rgba(15,34,54,.82);border:1px solid var(--glass-edge);padding:6px}
-.mmode button{background:var(--glass)}.mmode button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
-.feature .n{font-weight:800;letter-spacing:-.03em;color:var(--acc)}
-a.feature[href^="#plot-"]{background:linear-gradient(135deg,rgba(10,132,255,.88),rgba(31,182,209,.82));color:#fff;border-color:rgba(255,255,255,.5)}
+.mapbox{background:linear-gradient(160deg,rgba(36,89,200,.35),rgba(169,193,216,.6));border:1px solid var(--glass-edge);padding:8px;box-shadow:var(--shadow)}
+.mmode button{background:rgba(255,255,255,.7)}.mmode button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.feature .n{color:var(--acc)}
+a.feature[href^="#plot-"]{background:linear-gradient(135deg,#2459C8,#3D7BE0);color:#fff;border-color:rgba(255,255,255,.5)}
 a.feature[href^="#plot-"] .n,a.feature[href^="#plot-"] b{color:#fff} a.feature[href^="#plot-"] span span{color:rgba(255,255,255,.85)}
 /* tabs and buttons */
 .dtab{border-bottom:3px solid var(--dc)}
 .dtab[aria-selected="true"]{background:var(--dc);color:#fff;border-color:var(--dc)}
 .vtype .seg button[aria-pressed="true"]{background:var(--acc)}
 .portal-link{font-family:var(--f-ui)}
-.pub .portal-link,.saside .portal-link,#rfiGo,#uGo,.card .tbar .portal-link,.vlink{background:var(--acc);color:#fff;border-color:var(--acc)}
-.cadrow a{background:var(--paper);color:var(--acc);border-color:var(--acc)}
+.pub .portal-link,.saside .portal-link,#rfiGo,#uGo,.card .tbar .portal-link,.vlink{background:var(--acc);color:#fff;border-color:var(--acc);box-shadow:0 8px 20px rgba(36,89,200,.25)}
+.cadrow a{background:rgba(255,255,255,.8);color:var(--acc);border-color:var(--acc)}
 .row{border-left:4px solid var(--dc)}
-.row:hover{transform:none;background:var(--glass-strong)}
+.row:hover{transform:translateY(-1px);background:var(--glass-strong)}
 /* site panel */
 .saside{border:0;background:transparent;padding:0}
-.saside-h{background:linear-gradient(135deg,rgba(10,132,255,.86),rgba(94,92,230,.8));color:#fff;border-color:rgba(255,255,255,.4)}
+.saside-h{background:linear-gradient(135deg,#2459C8,#3D7BE0);color:#fff;border-color:rgba(255,255,255,.4)}
 .saside-h h2{color:#fff}.saside-h p{color:rgba(255,255,255,.85)}
-.pbar{background:var(--hair)}.pbar i{background:linear-gradient(90deg,var(--acc),var(--acc-2))}
+.pbar{background:var(--hair)}.pbar i{background:linear-gradient(90deg,#2459C8,#3D7BE0)}
 .tl-day{border-left-color:var(--acc)}
 .phs a.snap img{outline:2px solid var(--acc)}
-.dlg{background:rgba(10,24,40,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.dlg{background:rgba(15,30,46,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .dlg-in{background:var(--glass-strong)}
-#viewer{background:radial-gradient(120% 80% at 20% 0%,#16325A 0%,#0C1C33 55%,#060E1A 100%)}
+#viewer{background:radial-gradient(120% 80% at 20% 0%,#24406A 0%,#13243F 55%,#0A1424 100%)}
+/* rounded corners, as on the Luxury Villas page */
+.card,.panel,.grp-h,.empty,.dlg-in,.saside-h{border-radius:32px}
+.lead{border-radius:24px}
+.row,.cadrow,.dtab,.feature,.rfi,.tl-it,.ttab,.stat div,.facts div,.sti,.rfi-row,.rfi-sheet,.rfi-dwg{border-radius:20px}
+.pbtn,.zbtn,.fl select,.fl input,.prog select,.prog input,.upd textarea,.rfi-a textarea,.dlg textarea,.phbtn,.note,.alert{border-radius:14px}
+.search,.views,.portal-link,.vlink,.cadrow a,.vtype .seg,.mmode button,.badge,.conf,.pill,.fc,.portal-tag,.dtab .n,.grp-h .no,.pbar,.pbar i,.chip{border-radius:999px}
+.views button,.views a,.vtype .seg button{border-radius:999px}
+.mmode button:first-of-type{border-radius:999px 0 0 999px}.mmode button:last-of-type{border-radius:0 999px 999px 0}
+.mapbox{border-radius:32px}.mapzoom img{border-radius:24px}.locmap{border-radius:20px}
+.thumb,.phs img,.rfi-sheet img,.rfi-th img,.rfi-snap img{border-radius:12px}
 </style>
 </head>
 <body>
@@ -403,11 +431,10 @@ a.feature[href^="#plot-"] .n,a.feature[href^="#plot-"] b{color:#fff} a.feature[h
 <div class="fluid" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
 <header class="tb">
-  <div class="wrap">
+  <div class="wrap tb-shell">
     <div class="tb-top">
       <div class="proj">
-        <div class="eyebrow">Ankura Homes · Keesaragutta · Drawing portal</div>
-        <h1><a id="homelink" href="#home">THE <span class="w">WOODS</span></a> <span class="portal-tag" id="ptag">Villa portal</span></h1>
+        <h1><a id="homelink" href="#home">The Woods</a> <small class="brand-sub">Ankura Homes · drawing portal</small> <span class="portal-tag" id="ptag">Villa portal</span></h1>
       </div>
       <a class="portal-link" id="otherportal" href="#site">Site portal →</a>
     </div>
@@ -896,13 +923,24 @@ function centerMap(){
 function renderHome(){
   const cnt=s=>PLOTS.filter(p=>pStatus(p)===s).length;
   const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
+  const nType=PLOTS.filter(p=>VTYPES.includes((PLOT_INFO[p.no]||{}).type)).length;
   $("main").innerHTML=`
+  <section class="hero" aria-labelledby="heroH">
+    <img class="hero-bg" src="${FILE_ROOT}img/site-layout.jpg" alt="">
+    <div class="hero-card">
+      <span class="chip">${PLOTS.length} villa plots · Ankura Homes · Keesaragutta</span>
+      <h2 id="heroH">Every drawing for <em>The Woods</em>, ready on site.</h2>
+      <p class="hero-lead">Open any plot for its current architectural, structural, MEP and landscape sheets, its site progress and its RFIs. Old revisions stay in the archive, out of the way.</p>
+      <div class="hero-cta"><a class="btn btn-primary" href="#plot-${MODEL}">Open Plot ${MODEL}, the model villa</a><a class="btn btn-glass" href="#find">Find a plot</a><a class="btn btn-glass" href="${SITE_LINK}">Site portal</a></div>
+      <div class="hero-stats"><span><b>${PLOTS.filter(p=>pStatus(p)==="available").length}</b> available</span><span><b>${PLOTS.filter(p=>pStatus(p)==="booked").length+PLOTS.filter(p=>pStatus(p)==="registered").length}</b> sold</span><span><b>${nType}</b> villa types confirmed</span></div>
+    </div>
+  </section>
   <div class="mp">
     ${masterCard("Master layout","Tap any plot to open its architectural, structural, MEP and landscape drawings for both the 1625 and 1215 villa types.")}
     <div class="side">
       <div class="card"><div class="stat stat4">${Object.keys(ST_PLOT).map(s=>`<div class="sc-${s}"><b>${cnt(s)}</b><span>${ST_PLOT[s]}</span></div>`).join("")}</div>${STATUS_ASOF?`<p class="asof">${PLOTS.length} plots · status as of ${esc(STATUS_ASOF)}</p>`:""}</div>
       <a class="feature card" href="#plot-${MODEL}"><span class="n">30</span><span><b>Plot 30 · model villa</b><span>East facing · full 1625 GFC, structural and landscape set</span></span></a>
-      <div class="card"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
+      <div class="card" id="find"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
         <div class="plotgrid">${order.map(p=>`<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}" href="#plot-${p.no}" title="${esc(statusTxt(p))}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>
       <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${PLOTS.filter(p=>VTYPES.includes((PLOT_INFO[p.no]||{}).type)).length}/${PLOTS.length}</span><span><b>Villa types</b><span>Plots with a confirmed villa type. Tap to confirm or change.</span></span></a>
       <a class="feature card" href="#progress" style="background:var(--glass)"><span class="n" style="font-size:22px;color:var(--c-site)">${(dbOn||GHPROG)?PLOTS.filter(p=>progPct(p.no)>0).length:"·"}</span><span><b>Site progress &amp; RFIs</b><span>${(dbOn||GHPROG)?RFIS.filter(r=>r.status==="open").length+" open RFIs. ":""}Each villa's Site tab: stages, dates, photos and RFIs.</span></span></a>
