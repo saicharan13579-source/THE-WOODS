@@ -331,7 +331,11 @@ const F={
   SJ2:["22-10-2026_Streetscape_Junction_Paving_Option-02.pdf",10051],
   SLV:["22-10-2026_Streetscape_Level_Indication_Plan.pdf",5620],
   SLT:["22-10-2026_Streetscape_Lighting_Plan.pdf",5709],
-  SMK:["22-10-2026_Streetscape_Marking_Plan.pdf",5635]
+  SMK:["22-10-2026_Streetscape_Marking_Plan.pdf",5635],
+  C6E:["LLA-TW-LC-10_1625_East_Facing_Landscape_Conceptual_Plan.pdf",2100],
+  C6W:["LLA-TW-LC-10_1625_West_Facing_Landscape_Conceptual_Plan.pdf",1467],
+  C2E:["LLA-TW-LC-04_1215_East_Facing_Landscape_Conceptual_Plan.pdf",2249],
+  C2W:["LLA-TW-LC-04_1215_West_Facing_Landscape_Conceptual_Plan.pdf",1372]
 };
 const DISC={
   arch:{name:"Architecture",c:"--c-arch"},
@@ -389,6 +393,10 @@ const S=[
  ["LA-17","LS3",1,"Landscape sections EE', FF'","Planters, planter seats, lawn, stepping stones","LLA-TW-LS-001.3","—","13-10-2026",LLA,"land","1625E","approval"],
  ["LA-18","LS4",1,"Landscape section GG'","Steps and pathway","LLA-TW-LS-001.4","—","13-10-2026",LLA,"land","1625E","approval"],
  ["LA-19","SWD",1,"Storm water drain off plan","Plot 30 · surface slopes and drain-off direction","LLA-TW-SWDO-01","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-20","C6E",1,"1625 East villa · landscape conceptual plan","Typical east facing plot · 19 zones: lawns, water body, pergola, orchard","LLA-TW-LC-10","R11","20-09-2026",LLA,"land","1625E","approval"],
+ ["LA-21","C6W",1,"1625 West villa · landscape conceptual plan","Typical west facing plot · 17 zones: lawn, water body, pergola, orchard","LLA-TW-LC-10","R11","20-09-2026",LLA,"land","1625W","approval"],
+ ["LA-22","C2E",1,"1215 East villa · landscape conceptual plan","Typical east facing plot · 19 zones: lawns, water body, pergola, orchard","LLA-TW-LC-04","—","22-10-2026",LLA,"land","1215E","approval"],
+ ["LA-23","C2W",1,"1215 West villa · landscape conceptual plan","Typical west facing plot · 17 zones: lawn, water body, pergola, orchard","LLA-TW-LC-04","—","22-10-2026",LLA,"land","1215W","approval"],
  ["SS-01","SCP",1,"Overall streetscape conceptual plan","Whole layout · avenue trees, shrubs, planter boxes, villa entrances","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","approval"],
  ["SS-02","SJ1",1,"Streetscape · junction paving option 01","Patterned paving at road junctions","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","option"],
  ["SS-03","SJ2",1,"Streetscape · junction paving option 02","Plain grey paving squares at road junctions","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","option"],
@@ -474,6 +482,7 @@ const ALL=[
  {h:"Structure · 1625 East villa (Rev 01)",p:"Jashritha Associates · SD-01 to SD-06.",c:S.filter(s=>s.f==="S16").map(s=>s.code)},
  {h:"Structure · 1215 East villa (R0)",p:"Jashritha Associates · SD-01 to SD-06. The 1215 villa is not placed on the current layout.",c:S.filter(s=>s.f==="S12").map(s=>s.code)},
  {h:"Landscape · Plot 30 model villa",p:"LumiScapes · For Information & Approval. Dimensions in feet, levels in metres.",c:["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","LA-01","LA-02"]},
+ {h:"Landscape · typical villa conceptual plans",p:"LumiScapes · final conceptual plans for each villa type and facing. For Information & Approval. Layout intent only; no marking or levels issued for these yet.",c:["LA-20","LA-21","LA-22","LA-23"]},
  {h:"Villa typology floor plans",p:"All villa types. Reference only, except where a GFC sheet exists.",c:S.filter(s=>s.code.startsWith("TP-")).map(s=>s.code)},
  {h:"3D views",p:"Landscape renders of the model villas. Design intent, not for measurement.",c:["RD-01"]},
  {h:"Villa CAD files (DWG)",p:"DWG of the Plot 30 GFC sheets, for the office, surveyor and consultants.",c:CAD.filter(c=>c.dir==="cad"&&c.disc==="arch").map(c=>c.code)}
@@ -491,29 +500,29 @@ function plotSet(p,type){
         note:m?["","1625 East GFC set issued for this plot on 08-10-2026. Each sheet has a DWG download."]:["warn","Typical 1625 East villa sheets, issued for Plot 30. Setting-out from the plot boundary (centre line, excavation and footing marking) is plot-specific and has not been issued for Plot "+p.no+" yet."]},
       str:{items:T(["S16-01","S16-02","S16-03","S16-04","S16-05","S16-06"],m?null:"typical"),note:["","1625 East villa structural set by Jashritha Associates, Rev 01 (SD-02 and SD-04 unchanged from R0)."]},
       mep:{items:T(["CAD-03"]),note:siteNote},
-      land:{items:m?T(["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","RD-E","LA-01","LA-02"]):T(["LA-03","LA-04","LA-05","RD-E"]),
-        note:m?["warn","Model villa landscape set (conceptual, marking, levels, irrigation, lighting, sections, storm water). For Information & Approval only; material option 01 or 02 still to be chosen. LA-01 and LA-02 are superseded."]:["","Landscape drawings have been issued for the Plot 30 model villa only. Material options and east facing renders below are for reference."]}
+      land:{items:m?T(["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","RD-E","LA-01","LA-02"]):T(["LA-20"]).concat(T(["LA-03","LA-04","LA-05","RD-E"])),
+        note:m?["warn","Model villa landscape set (conceptual, marking, levels, irrigation, lighting, sections, storm water). For Information & Approval only; material option 01 or 02 still to be chosen. LA-01 and LA-02 are superseded."]:["","Typical 1625 East landscape conceptual plan (LA-20). Marking, levels, irrigation, lighting and sections have been issued for the Plot 30 model villa only; Plot 30's material options and renders below are for reference."]}
     };
   } else if(type==="1625"){
     set={
       arch:{items:T(["TP-02"]),note:["warn","No GFC set has been issued for the 1625 West villa yet. Only the typology floor plan (18-09-2026) is available."]},
       str:{items:[],note:["warn","No structural drawings have been issued for the 1625 West villa yet. Do not mirror the 1625 East set without the structural engineer's written confirmation."]},
       mep:{items:T(["CAD-04"]),note:siteNote},
-      land:{items:T(["RD-W"]),note:["","No landscape drawings for west facing plots yet. The west facing model villa renders are for reference."]}
+      land:{items:T(["LA-21","RD-W"]),note:["","Typical 1625 West landscape conceptual plan (LA-21). No marking, levels or details for west facing plots yet. The west facing model villa renders are for reference."]}
     };
   } else if(e){
     set={
       arch:{items:T(["TP-03"]),note:["warn","Only the 1215 East typology floor plan (18-09-2026) has been issued. No 1215 GFC set yet."]},
       str:{items:T(["S12-01","S12-02","S12-03","S12-04","S12-05","S12-06"],"typical"),note:["","1215 East villa structural set by Jashritha Associates, R0 (23-09-2026)."]},
       mep:{items:T(["CAD-03"]),note:siteNote},
-      land:{items:T(["LA-03","LA-04","LA-05"]),note:["","No landscape drawings for the 1215 villa yet. The model villa material options are for reference."]}
+      land:{items:T(["LA-22","LA-03","LA-04","LA-05"]),note:["","Typical 1215 East landscape conceptual plan (LA-22, 22-10-2026). No marking, levels or details for the 1215 villa yet. The model villa material options are for reference."]}
     };
   } else {
     set={
       arch:{items:T(["TP-04"]),note:["warn","Only the 1215 West typology floor plan (18-09-2026) has been issued. No 1215 GFC set yet."]},
       str:{items:[],note:["warn","No structural drawings have been issued for the 1215 West villa yet. Do not mirror the 1215 East set without the structural engineer's written confirmation."]},
       mep:{items:T(["CAD-04"]),note:siteNote},
-      land:{items:[],note:["","No landscape drawings for the 1215 West villa yet."]}
+      land:{items:T(["LA-23"]),note:["","Typical 1215 West landscape conceptual plan (LA-23, 22-10-2026). No marking, levels or details for the 1215 West villa yet."]}
     };
   }
   const x=(PLOT_INFO[p.no]||{}).extra||{};

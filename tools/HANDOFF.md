@@ -20,4 +20,5 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
 ## 23-10-2026 update
 - Added Plot 30 landscape set LA-07 to LA-19 (conceptual, marking MP-01, levels LIP-01, irrigation, lighting, sections LS-001 to .4, storm water SWDO-01). LA-01/LA-02 (05-10) marked Superseded.
 - Added streetscape set SS-01 to SS-06 (22-10-2026) to the site portal. All six carry the same dwg no. LLA-TW-LC-01.
+- Added typical landscape conceptual plans LA-20 to LA-23 (1625 E/W LC-10 20-09-2026, 1215 E/W LC-04 22-10-2026), shown on every plot by villa type and facing.
 - Material plan PDFs in the Plot 30 folder were identical to the ones already published; lighting fixture PNGs are already on LA-13, so they were not added separately.
