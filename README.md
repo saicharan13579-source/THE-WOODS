@@ -8,4 +8,4 @@ Ankura Homes, Keesaragutta.
 - `cad/`, `mep/` – DWG and Excel files
 - `img/master-plan.png` – master layout, taken from the architect's key plan on the GFC sheets
 
-Updated 22-10-2026.
+Updated 23-10-2026.

@@ -16,3 +16,8 @@ Vamsi will send a folder with all drawings. Sort by plot, villa type (1625/1215)
 add new sheets, mark old revisions Superseded, link plot-specific drawings via PLOT_INFO.extra,
 put whole-layout drawings in SITE_G, regenerate, push, and republish the artifact.
 Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files stay as downloads.
+
+## 23-10-2026 update
+- Added Plot 30 landscape set LA-07 to LA-19 (conceptual, marking MP-01, levels LIP-01, irrigation, lighting, sections LS-001 to .4, storm water SWDO-01). LA-01/LA-02 (05-10) marked Superseded.
+- Added streetscape set SS-01 to SS-06 (22-10-2026) to the site portal. All six carry the same dwg no. LLA-TW-LC-01.
+- Material plan PDFs in the Plot 30 folder were identical to the ones already published; lighting fixture PNGs are already on LA-13, so they were not added separately.

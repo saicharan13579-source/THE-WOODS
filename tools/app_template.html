@@ -278,7 +278,7 @@ section.grp{display:grid;gap:10px}
 (function(){
 const PORTAL=%%PORTAL%%;          // "villa" or "site" — which portal this file opens on
 const SITE_LINK=%%SITE_LINK%%, VILLA_LINK=%%VILLA_LINK%%, FILE_ROOT=%%FILE_ROOT%%, DL=%%DLJS%%;
-const UPDATED="22-10-2026";
+const UPDATED="23-10-2026";
 const MAP_W=1830, MAP_H=2220;
 // plot no, sq.m, sq.yd, facing (E/W), hit box x0,y0,x1,y1 on the master plan image
 const PLOTS=%%PLOTS%%.map(a=>({no:a[0],sqm:a[1],sqyd:a[2],face:a[3],box:a.slice(4,8)}));
@@ -312,7 +312,26 @@ const F={
   AFP:["2026-09-18_Ankura-The_Woods-Villas_All_Floor_Plans.pdf",8052],
   A21:["2026-10-13_Ankura-The_Woods-2175_Villas_Floor_Plans.pdf",6684],
   RND:["The_Woods_Renders_05.10.26.pdf",12604],
-  STR:["The_Woods_Streetscape_Renders_15.10.26.pdf",1840]
+  STR:["The_Woods_Streetscape_Renders_15.10.26.pdf",1840],
+  LC1:["LLA-TW-LC-11_Plot_30_Landscape_Conceptual_Plan-1.pdf",2459],
+  LC2:["LLA-TW-LC-11_Plot_30_Landscape_Conceptual_Plan-2_Transplantation.pdf",2431],
+  MK2:["LLA-TW-MP-01_Plot_30_Landscape_Marking_Plan.pdf",1480],
+  LV2:["LLA-TW-LIP-01_Plot_30_Landscape_Level_Indication_Plan.pdf",1743],
+  LIR:["LLA-TW-IR-01_Plot_30_Landscape_Irrigation_Plan.pdf",1851],
+  LP1:["LLA-TW-LP-01_Plot_30_Landscape_Lighting_Plan.pdf",1692],
+  LP2:["LLA-TW-LP-02_Plot_30_Landscape_Lighting_Images.pdf",160],
+  LS0:["LLA-TW-LS-001_Plot_30_Landscape_Sectional_Details.pdf",1578],
+  LS1:["LLA-TW-LS-001.1_Plot_30_Landscape_Sectional_Details.pdf",481],
+  LS2:["LLA-TW-LS-001.2_Plot_30_Landscape_Sectional_Details.pdf",429],
+  LS3:["LLA-TW-LS-001.3_Plot_30_Landscape_Sectional_Details.pdf",386],
+  LS4:["LLA-TW-LS-001.4_Plot_30_Landscape_Sectional_Details.pdf",293],
+  SWD:["LLA-TW-SWDO-01_Plot_30_Storm_Water_Drain_Off_Plan.pdf",1791],
+  SCP:["22-10-2026_Streetscape_Conceptual_Plan.pdf",5540],
+  SJ1:["22-10-2026_Streetscape_Junction_Paving_Option-01.pdf",8762],
+  SJ2:["22-10-2026_Streetscape_Junction_Paving_Option-02.pdf",10051],
+  SLV:["22-10-2026_Streetscape_Level_Indication_Plan.pdf",5620],
+  SLT:["22-10-2026_Streetscape_Lighting_Plan.pdf",5709],
+  SMK:["22-10-2026_Streetscape_Marking_Plan.pdf",5635]
 };
 const DISC={
   arch:{name:"Architecture",c:"--c-arch"},
@@ -351,12 +370,31 @@ const S=[
  ["S12-04","S12",4,"1215 East · plinth beam details","Plinth beam sections and foundation details","SD-04","R0","23-09-2026",JA,"str","1215E","issued",270],
  ["S12-05","S12",5,"1215 East · roof beam layout","Roof beam layout","SD-05","R0","23-09-2026",JA,"str","1215E","issued",270],
  ["S12-06","S12",6,"1215 East · roof beam details","Longitudinal sections of roof beams","SD-06","R0","23-09-2026",JA,"str","1215E","issued",270],
- ["LA-01","LMK",1,"Landscape marking plan","Plot 30 model villa · dimensions in feet","","R11","05-10-2026",LLA,"land","1625E","approval"],
- ["LA-02","LLV",1,"Landscape level indication plan","Top of lawn, paving, deck, steps, driveway (+499.90 to +500.65 m)","","R11","05-10-2026",LLA,"land","1625E","approval"],
+ ["LA-01","LMK",1,"Landscape marking plan (old)","Replaced by LA-09 (LLA-TW-MP-01, 14-10-2026)","","R11","05-10-2026",LLA,"land","1625E","super"],
+ ["LA-02","LLV",1,"Landscape level indication plan (old)","Replaced by LA-10 (LLA-TW-LIP-01, 13-10-2026)","","R11","05-10-2026",LLA,"land","1625E","super"],
  ["LA-03","LM1",1,"Material plan · option 01","Basalt stepping stones, Canyon Bianco parking tile","","—","06-10-2026",LLA,"land","1625E","option"],
  ["LA-04","LM2",1,"Material plan · option 02","Slate stepping stones, Rivera Brown parking tile","","—","06-10-2026",LLA,"land","1625E","option"],
  ["LA-05","LMI",1,"Material images","Photos of each stone and tile in options 01 and 02","","—","06-10-2026",LLA,"land","1625E","option"],
  ["LA-06","TRK",1,"Landscape deliverables & timelines","Status of every landscape deliverable, incl. Plot 30","","—","Oct 2026",LLA,"land","site","ref",0,3],
+ ["LA-07","LC1",1,"Landscape conceptual plan","Plot 30 · 19 zones: lawns, water body, pergola, kitchen garden, orchard, BBQ","LLA-TW-LC-11","R11","25-09-2026",LLA,"land","1625E","approval"],
+ ["LA-08","LC2",1,"Conceptual plan · tree transplantation","Existing trees on site that need transplanting, marked","LLA-TW-LC-11","R11","25-09-2026",LLA,"land","1625E","approval"],
+ ["LA-09","MK2",1,"Landscape marking plan","Plot 30 · setting-out of lawns, paving, planters · dimensions in feet","LLA-TW-MP-01","—","14-10-2026",LLA,"land","1625E","approval"],
+ ["LA-10","LV2",1,"Landscape level indication plan","Top of lawn, paving, planter and band (+499.45 to +500.65 m)","LLA-TW-LIP-01","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-11","LIR",1,"Landscape irrigation plan","Valves, 63 mm PVC main, 50 mm PVC laterals, drip lines","LLA-TW-IR-01","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-12","LP1",1,"Landscape lighting plan","18 bollards, 6 wall up lights, 2 spike, 2 focus, 2 ceiling, 72'-6\" strip light","LLA-TW-LP-01","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-13","LP2",1,"Landscape lighting images","Photos of each light fitting on LA-12","LLA-TW-LP-02","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-14","LS0",1,"Landscape sections · key","Section AA' and section key","LLA-TW-LS-001","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-15","LS1",1,"Landscape sections AA', BB'","Pond, feature wall, kitchen garden, entrance lawn, driveway","LLA-TW-LS-001.1","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-16","LS2",1,"Landscape sections CC', DD'","Lawn, stepping stones, pergola and paved area under pergola","LLA-TW-LS-001.2","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-17","LS3",1,"Landscape sections EE', FF'","Planters, planter seats, lawn, stepping stones","LLA-TW-LS-001.3","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-18","LS4",1,"Landscape section GG'","Steps and pathway","LLA-TW-LS-001.4","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["LA-19","SWD",1,"Storm water drain off plan","Plot 30 · surface slopes and drain-off direction","LLA-TW-SWDO-01","—","13-10-2026",LLA,"land","1625E","approval"],
+ ["SS-01","SCP",1,"Overall streetscape conceptual plan","Whole layout · avenue trees, shrubs, planter boxes, villa entrances","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","approval"],
+ ["SS-02","SJ1",1,"Streetscape · junction paving option 01","Patterned paving at road junctions","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","option"],
+ ["SS-03","SJ2",1,"Streetscape · junction paving option 02","Plain grey paving squares at road junctions","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","option"],
+ ["SS-04","SLV",1,"Streetscape level indication plan","Top of soil and top of driveway levels along all roads","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","approval"],
+ ["SS-05","SLT",1,"Streetscape lighting plan","88 pole lights (5 m), 105 bollards, 5 focus lights · fitting model & wattage blank","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","approval"],
+ ["SS-06","SMK",1,"Streetscape marking plan","Setting-out of planting strips and kerbs along the roads","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","approval"],
  ["TP-01","AFP",1,"1625 East villa · floor plan (old)","Replaced by the GFC floor plan AR-09","","—","18-09-2026",ARC,"arch","1625E","super"],
  ["TP-02","AFP",2,"1625 West villa · floor plan","Typology floor plan with roof above","","—","18-09-2026",ARC,"arch","1625W","ref"],
  ["TP-03","AFP",3,"1215 East villa · floor plan","Typology floor plan with roof above","","—","18-09-2026",ARC,"arch","1215E","ref"],
@@ -403,17 +441,21 @@ const SITE_G=[
  {h:"Site plans & survey",p:"Whole-layout drawings for roads, plots and levels. DWG only, no PDF issued: open on a laptop with a DWG viewer.",c:["CAD-01","CAD-02","CAD-13"]},
  {h:"External electrical",p:"11 kV supply, transformer yard, feeder pillars, cabling and street lighting.",c:["MEP-01","MEP-02","MEP-05","MEP-06","MEP-07"]},
  {h:"External water supply & drainage",p:"Domestic and landscape water mains, and the typical soak pit & sump positions for east and west facing plots.",c:["MEP-03","MEP-04","MEP-08","CAD-03","CAD-04"]},
- {h:"Streetscape & landscape master",p:"Streetscape renders for design intent, and the landscape consultant's deliverables tracker.",c:["RD-02","LA-06"]}
+ {h:"Streetscape",p:"LumiScapes, 22-10-2026 · For Information & Approval. Junction paving option 01 or 02 still to be chosen. Dimensions in feet, levels in metres.",c:["SS-01","SS-02","SS-03","SS-04","SS-05","SS-06"]},
+ {h:"Streetscape renders & landscape tracker",p:"Streetscape renders for design intent, and the landscape consultant's deliverables tracker.",c:["RD-02","LA-06"]}
 ];
 const SITE_ALERTS=[
  ["info","DWG only","Site plan with levels, existing trees, contour & grid, external electrical and water supply drawings exist only as DWG. They need a laptop with a DWG viewer. Ask for PDF plots for site use."],
  ["warn","Cross-check","The plumbing BOQ workbook also has sheets for other buildings (college, admin, prayer hall, guest house). Only the two External water supply sheets are for The Woods."],
- ["info","Missing","No storm water drainage, sewer, compound wall or road section drawings have been received yet."]
+ ["warn","Not GFC","Streetscape sheets (SS-01 to SS-06, 22-10-2026) are For Information & Approval. Junction paving option 01 or 02 still needs the client's choice. The lighting legend has no fitting model or wattage yet."],
+ ["warn","Drawing no.","All six streetscape sheets carry the same drawing number LLA-TW-LC-01. Quote the portal code (SS-xx) and the sheet title when raising queries."],
+ ["info","Missing","No site-wide storm water drainage, sewer, compound wall or road section drawings have been received yet. Plot 30 has its own storm water drain off plan (LA-19)."]
 ];
 const VILLA_ALERTS=[
  ["bad","Do not use","The 1625 East floor plan dated 18-09-2026 (TP-01) is superseded. Use the GFC floor plan AR-09 dated 08-10-2026."],
  ["warn","Cross-check","Architect's footing marking (AR-04 to AR-06, 08-10) and structural schedule SD-02 (19-09) come from different teams. Confirm footing sizes match before excavation and PCC."],
  ["warn","Plot specific","The GFC set was issued for Plot 30. Setting-out sheets tied to the plot boundary (AR-01, AR-03, AR-06) apply to Plot 30 only. Other east facing plots need their own setting-out."],
+ ["bad","Do not use","Plot 30 landscape marking plan LA-01 and level plan LA-02 (05-10-2026) are superseded. Use LA-09 (14-10-2026) and LA-10 (13-10-2026)."],
  ["warn","Not GFC","All landscape sheets are stamped For Information & Approval. Material plan options 01 and 02 still need the client's choice."],
  ["info","Villa type","Only Plot 30 is confirmed (1625 East). Every other plot shows both the 1625 and 1215 sets until its type is confirmed. Only 1625 East has a GFC set; 1215 East has structural drawings; west facing villas have floor plans only."]
 ];
@@ -425,13 +467,13 @@ const SEQ=[
  {h:"Plinth beams",p:"Plinth framing with beam sizes, sunken areas and wall foundation details.",c:["AR-07","S16-03","S16-04"]},
  {h:"Walls, openings & levels",p:"Masonry, opening sizes and floor-to-roof levels.",c:["AR-09","AR-13","AR-12","AR-10","AR-11"]},
  {h:"Roof",p:"Roof framing and beam reinforcement.",c:["AR-08","S16-05","S16-06"]},
- {h:"Landscape & external works",p:"For information and approval only. Do not execute until the landscape GFC is issued.",c:["LA-01","LA-02","LA-03","LA-04","LA-05"]}
+ {h:"Landscape & external works",p:"For information and approval only. Do not execute until the landscape GFC is issued. Mark out with LA-09, set levels with LA-10, lay irrigation, drains and light cabling before paving.",c:["LA-09","LA-10","LA-19","LA-11","LA-12","LA-14","LA-15","LA-16","LA-17","LA-18","LA-03","LA-04"]}
 ];
 const ALL=[
  {h:"Plot 30 · 1625 East model villa · architectural GFC set",p:"Issued 08-10-2026 by the architect.",c:S.filter(s=>s.disc==="arch"&&s.st==="gfc").map(s=>s.code)},
  {h:"Structure · 1625 East villa (Rev 01)",p:"Jashritha Associates · SD-01 to SD-06.",c:S.filter(s=>s.f==="S16").map(s=>s.code)},
  {h:"Structure · 1215 East villa (R0)",p:"Jashritha Associates · SD-01 to SD-06. The 1215 villa is not placed on the current layout.",c:S.filter(s=>s.f==="S12").map(s=>s.code)},
- {h:"Landscape · Plot 30 model villa",p:"LumiScapes · For Information & Approval. Dimensions in feet, levels in metres.",c:["LA-01","LA-02","LA-03","LA-04","LA-05"]},
+ {h:"Landscape · Plot 30 model villa",p:"LumiScapes · For Information & Approval. Dimensions in feet, levels in metres.",c:["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","LA-01","LA-02"]},
  {h:"Villa typology floor plans",p:"All villa types. Reference only, except where a GFC sheet exists.",c:S.filter(s=>s.code.startsWith("TP-")).map(s=>s.code)},
  {h:"3D views",p:"Landscape renders of the model villas. Design intent, not for measurement.",c:["RD-01"]},
  {h:"Villa CAD files (DWG)",p:"DWG of the Plot 30 GFC sheets, for the office, surveyor and consultants.",c:CAD.filter(c=>c.dir==="cad"&&c.disc==="arch").map(c=>c.code)}
@@ -449,8 +491,8 @@ function plotSet(p,type){
         note:m?["","1625 East GFC set issued for this plot on 08-10-2026. Each sheet has a DWG download."]:["warn","Typical 1625 East villa sheets, issued for Plot 30. Setting-out from the plot boundary (centre line, excavation and footing marking) is plot-specific and has not been issued for Plot "+p.no+" yet."]},
       str:{items:T(["S16-01","S16-02","S16-03","S16-04","S16-05","S16-06"],m?null:"typical"),note:["","1625 East villa structural set by Jashritha Associates, Rev 01 (SD-02 and SD-04 unchanged from R0)."]},
       mep:{items:T(["CAD-03"]),note:siteNote},
-      land:{items:m?T(["LA-01","LA-02","LA-03","LA-04","LA-05","RD-E"]):T(["LA-03","LA-04","LA-05","RD-E"]),
-        note:m?["warn","Model villa landscape. For Information & Approval only; material option 01 or 02 still to be chosen."]:["","Landscape drawings have been issued for the Plot 30 model villa only. Material options and east facing renders below are for reference."]}
+      land:{items:m?T(["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","RD-E","LA-01","LA-02"]):T(["LA-03","LA-04","LA-05","RD-E"]),
+        note:m?["warn","Model villa landscape set (conceptual, marking, levels, irrigation, lighting, sections, storm water). For Information & Approval only; material option 01 or 02 still to be chosen. LA-01 and LA-02 are superseded."]:["","Landscape drawings have been issued for the Plot 30 model villa only. Material options and east facing renders below are for reference."]}
     };
   } else if(type==="1625"){
     set={
@@ -652,7 +694,7 @@ function renderSite(){
   if(!q){
     html+=`<p class="lead"><b>Site portal.</b> Drawings for the whole layout: roads, levels, survey, external electrical and water supply. They apply across all plots. For one villa's drawings, tap its plot on the layout below.</p>`;
     html+=`<div class="mp">${masterCard("Master layout","Tap a plot to open its villa drawings in the Villa portal.")}<div class="side">${alertsHTML(SITE_ALERTS,"Site notes",true)}
-      <div class="card"><div class="stat"><div><b>${CAD.filter(c=>SITE_G.some(g=>g.c.includes(c.code))&&c.ext==="DWG").length}</b><span>DWG files</span></div><div><b>${CAD.filter(c=>SITE_G.some(g=>g.c.includes(c.code))&&c.ext==="Excel").length}</b><span>Excel files</span></div><div><b>2</b><span>PDF sets</span></div></div></div></div></div>`;
+      <div class="card"><div class="stat"><div><b>${CAD.filter(c=>SITE_G.some(g=>g.c.includes(c.code))&&c.ext==="DWG").length}</b><span>DWG files</span></div><div><b>${CAD.filter(c=>SITE_G.some(g=>g.c.includes(c.code))&&c.ext==="Excel").length}</b><span>Excel files</span></div><div><b>${new Set(SITE_G.flatMap(g=>g.c).map(c=>byCode[c]).filter(Boolean).map(s=>s.f)).size}</b><span>PDF sets</span></div></div></div></div></div>`;
   }
   currentList=[]; let shown=0;
   groups.forEach((g,i)=>{ if(!g.items.length) return; shown+=g.items.length; currentList.push(...g.items.filter(x=>!x.cad)); html+=groupHTML({...g,no:String(i+1).padStart(2,"0")}); });
