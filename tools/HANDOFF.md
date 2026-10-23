@@ -22,3 +22,5 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
 - Added streetscape set SS-01 to SS-06 (22-10-2026) to the site portal. All six carry the same dwg no. LLA-TW-LC-01.
 - Added typical landscape conceptual plans LA-20 to LA-23 (1625 E/W LC-10 20-09-2026, 1215 E/W LC-04 22-10-2026), shown on every plot by villa type and facing.
 - Material plan PDFs in the Plot 30 folder were identical to the ones already published; lighting fixture PNGs are already on LA-13, so they were not added separately.
+- 21-10-2026 GFC reissue: AR-14 (1625E floor plan) and AR-15 (opening schedule) replace AR-09/AR-13; AW-01 = first 1625 West GFC floor plan (TP-02 superseded). CAD-14..17 added; CAD-09/CAD-12 marked old.
+  The other sheets in the 2026-10-22 transfer (elevations, sections, centre line, excavation, footing, framing, East and West) were 0-byte files. Add them when re-sent.
