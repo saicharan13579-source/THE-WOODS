@@ -231,6 +231,13 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .dlg-in{width:min(560px,100%);max-height:90vh;overflow:auto;display:grid;gap:8px}.dlg h2{margin:0;font-size:20px}
 .fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}.fl select,.fl input{font:inherit;font-size:15px;height:42px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);color:var(--ink);padding:0 8px}.fl input[type=file]{height:auto;padding:8px}
 .wa{font-size:14px;font-weight:600;color:var(--c-site)}
+.upd h3{margin:0 0 8px;font-size:18px}.ufg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.upd textarea{width:100%;font:inherit;font-size:15px;border:1px solid var(--glass-line);border-radius:10px;padding:8px;background:var(--paper);color:var(--ink)}
+.upd .tbar{margin-top:8px}
+.tl-day{border-left:3px solid var(--c-site);padding-left:12px;margin:10px 0 14px}.tl-day h4{margin:0 0 6px;font-size:15px;font-family:var(--f-mono)}
+.tl-it{padding:8px 10px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);margin-bottom:6px}.tl-it p{margin:4px 0;white-space:pre-wrap}
+.tl-it .phs img{width:84px;height:84px}
+.pst{font-size:13px}.pst-none{color:var(--muted)}
 .tsave{margin:4px 0 10px;font-size:14px;font-weight:600;color:var(--muted)}
 .tsave.saved{color:var(--ok)}.tsave.saving{color:var(--warn)}.tsave.error,.tsave.denied{color:var(--bad)}
 .ttoast{display:none}.ttoast.saved,.ttoast.saving,.ttoast.error,.ttoast.denied{display:block;font-size:14px;font-weight:600;position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;margin:0;padding:10px 16px;border-radius:12px;background:var(--glass-strong);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);max-width:calc(100vw - 32px);text-align:center}
@@ -788,7 +795,7 @@ function renderHome(){
       <div class="card"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
         <div class="plotgrid">${order.map(p=>`<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}" href="#plot-${p.no}" title="${esc(statusTxt(p))}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>
       <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${PLOTS.filter(p=>VTYPES.includes((PLOT_INFO[p.no]||{}).type)).length}/${PLOTS.length}</span><span><b>Villa types</b><span>Plots with a confirmed villa type. Tap to confirm or change.</span></span></a>
-      <a class="feature card" href="#progress" style="background:var(--glass)"><span class="n" style="font-size:22px;color:var(--c-site)">${dbOn?PLOTS.filter(p=>progPct(p.no)>0).length:"·"}</span><span><b>Site progress &amp; RFIs</b><span>${dbOn?RFIS.filter(r=>r.status==="open").length+" open RFIs. ":""}Each villa's Site tab: stages, dates, photos and RFIs.</span></span></a>
+      <a class="feature card" href="#progress" style="background:var(--glass)"><span class="n" style="font-size:22px;color:var(--c-site)">${(dbOn||GHPROG)?PLOTS.filter(p=>progPct(p.no)>0).length:"·"}</span><span><b>Site progress &amp; RFIs</b><span>${(dbOn||GHPROG)?RFIS.filter(r=>r.status==="open").length+" open RFIs. ":""}Each villa's Site tab: stages, dates, photos and RFIs.</span></span></a>
       ${alertsHTML(VILLA_ALERTS,"Check before you build",false)}
       <a class="feature card" href="${SITE_LINK}" style="background:var(--glass)"><span class="n" style="color:var(--c-mep);font-size:22px">SITE</span><span><b>Site portal</b><span>Site plans, levels, survey, external electrical and water supply</span></span></a>
     </div>
@@ -837,7 +844,7 @@ function renderPlot(no){
   let set=plotSet(p,vtype);
   const showTab=()=>{
     set=plotSet(p,vtype);
-    document.querySelectorAll(".dtab").forEach(b=>b.querySelector(".n").textContent=b.dataset.k==="prog"?(dbOn?progPct(p.no)+"%":"+"):set[b.dataset.k].items.length);
+    document.querySelectorAll(".dtab").forEach(b=>b.querySelector(".n").textContent=b.dataset.k==="prog"?((dbOn||GHPROG)?progPct(p.no)+"%":"+"):set[b.dataset.k].items.length);
     document.querySelectorAll(".dtab").forEach(b=>b.setAttribute("aria-selected",b.dataset.k===ptab));
     if(ptab==="prog"){ $("ptab").innerHTML=progTabHTML(p); bindProgTab(p); currentList=[]; return; }
     const d=set[ptab]; const [k,t]=d.note;
@@ -1135,7 +1142,7 @@ async function connectDb(){
     canSave=types; canSite=site;
     try{ assetsNs=await window.claude.use("assets"); }catch(e){ assetsNs=null; }
     dbRef.onSnapshot(snap=>{ if(snap.metadata&&snap.metadata.hasPendingWrites) return; const d=snap.exists?snap.data():null; if(d&&d.plots&&typeof d.plots==="object"){ dbTypes=d.plots; refreshTypes(); } else if(route==="types") renderTypes(); },()=>{});
-    db.collection("progress").onSnapshot(qs=>{ const o={}; qs.docs.forEach(d=>{ o[d.id]=d.data(); }); Object.keys(progTimers).forEach(k=>{ if(PROG[k]) o[k]=PROG[k]; }); PROG=o; resolveNames(qs.docs.map(d=>(d.data()||{}).by)); refreshSiteViews(); },()=>{});
+    db.collection("progress").onSnapshot(qs=>{ const o={}; qs.docs.forEach(d=>{ o[d.id]=d.data(); }); PROG=o; resolveNames(qs.docs.map(d=>(d.data()||{}).by)); refreshSiteViews(); },()=>{});
     db.collection("rfi").onSnapshot(qs=>{ RFIS=qs.docs.map(d=>Object.assign({id:d.id},d.data())); const ids=[]; RFIS.forEach(r=>{ ids.push(r.by); (r.replies||[]).forEach(x=>ids.push(x.by)); }); resolveNames(ids); refreshSiteViews(); },()=>{});
     render();
   }catch(e){}
@@ -1149,7 +1156,7 @@ const STAGES=[["setout","Setting out"],["excav","Excavation"],["pcc","PCC"],["fo
 const SSTAT={"":"Not started",wip:"In progress",done:"Done"};
 const RST={open:"Open",answered:"Answered",closed:"Closed"};
 let DB=null, dbOn=false, canSite=false, assetsNs=null, userNs=null, myId=null, NAMES={}, PROG={}, RFIS=[], progTimers={}, progSaving={}, redrawTab=null, rfiCtx=null;
-const progStages=no=>((PROG[no]||{}).stages)||{};
+const progStages=no=>IS_ART?(((PROG[no]||{}).stages)||{}):((((GHPROG||{}).plots||{})[no]||{}).stages||{});
 function progPct(no){ const s=progStages(no); return Math.round(STAGES.filter(([k])=>(s[k]||{}).st==="done").length*100/STAGES.length); }
 function progNow(no){ const s=progStages(no); const w=STAGES.find(([k])=>(s[k]||{}).st==="wip"); if(w) return w[1]+" · in progress"; const d=STAGES.filter(([k])=>(s[k]||{}).st==="done").pop(); return d?d[1]+" · done":"Not started"; }
 const openRfis=no=>RFIS.filter(r=>r.plot===no&&r.status==="open");
@@ -1159,50 +1166,75 @@ const sheetLine=s=>s.code+(s.no?" ("+s.no+")":"")+" · "+s.title+" · "+(s.rev&&
 const waRfi=(p,s)=>waLink("THE WOODS · RFI · Plot "+(p?p.no:"__")+"\nDrawing: "+(s?sheetLine(s):"")+"\nQuestion: \n(photo attached if needed)");
 const who=id=>id&&id===myId?"you":(id&&NAMES[id])||"Someone";
 const fmtD=v=>{ if(!v) return ""; const d=new Date(v); return isNaN(d)?String(v):d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); };
-const photoSrc=ph=>ph.url||("/_blob/"+ph.id);
+const photoSrc=ph=>ph.path?FILE_ROOT+ph.path:(ph.url||("/_blob/"+ph.id));
 async function resolveNames(ids){ if(!userNs||typeof userNs.profiles!=="function") return; const need=[...new Set(ids.filter(i=>i&&!NAMES[i]))]; if(!need.length) return; try{ const ps=await userNs.profiles(need); Object.keys(ps).forEach(k=>NAMES[k]=(ps[k]&&ps[k].name)||"Someone"); refreshSiteViews(); }catch(e){} }
 async function shrink(file){ try{ const bmp=await createImageBitmap(file); const s=Math.min(1,1600/Math.max(bmp.width,bmp.height)); const c=document.createElement("canvas"); c.width=Math.round(bmp.width*s); c.height=Math.round(bmp.height*s); c.getContext("2d").drawImage(bmp,0,0,c.width,c.height); return await new Promise(r=>c.toBlob(b=>r(b||file),"image/jpeg",0.82)); }catch(e){ return file; } }
 async function uploadPhotos(files){ const out=[]; for(const f of files){ const r=await assetsNs.upload(await shrink(f)); out.push({id:r.id,url:r.url}); } return out; }
 function plotSheets(p){ const info=PLOT_INFO[p.no]||{}; const types=TYPES.includes(info.type)||info.type==="custom"?[info.type]:TYPES; const seen={}, out=[]; types.forEach(ty=>{ const set=plotSet(p,ty); ["arch","str","mep","land"].forEach(k=>set[k].items.forEach(it=>{ if(!it.cad&&!seen[it.code]){ seen[it.code]=1; out.push(byCode[it.code]); } })); }); return out; }
+/* progress = dated site updates. Claude version: updates/<auto id> {plot,date,stage,st,note,photos,at,by};
+   progress/<plot> {stages:{key:{st,start,done,last}},updatedAt,by} is the per-plot summary kept in step with the updates.
+   GitHub site: data/progress.json (synced by Claude from the Claude version) {syncedAt,plots:{no:{stages,updates,rfis}}}, photos in progress-photos/. */
+let UPD={}, updSub=null, updSubPlot=null, GHPROG=null;
+function rfiList(no){ return IS_ART?RFIS.filter(r=>r.plot===no):(((GHPROG||{}).plots||{})[no]||{}).rfis||[]; }
+function updList(no){ return IS_ART?(UPD[no]||[]):(((GHPROG||{}).plots||{})[no]||{}).updates||[]; }
+function summarise(list){ const s={}; list.slice().sort((a,b)=>String(a.date+a.at).localeCompare(String(b.date+b.at))).forEach(u=>{ const v=s[u.stage]=s[u.stage]||{}; if(!v.start&&(u.st==="wip"||u.st==="done")) v.start=u.date; if(u.st==="done") v.done=u.date; if(u.st) v.st=u.st; v.last=u.date; v.n=(v.n||0)+1; }); return s; }
+function watchUpdates(no){
+  if(!DB||updSubPlot===no) return;
+  if(updSub){ try{updSub()}catch(e){} } updSubPlot=no;
+  updSub=DB.collection("updates").where("plot","==",no).onSnapshot(qs=>{ UPD[no]=qs.docs.map(d=>Object.assign({id:d.id},d.data())); const ids=UPD[no].map(u=>u.by); resolveNames(ids); refreshSiteViews(); },()=>{});
+}
 function progTabHTML(p){
   const wa=`<div class="tbar"><a class="portal-link" href="${waProg(p)}" target="_blank" rel="noopener">Send progress on WhatsApp</a><a class="portal-link" href="${waRfi(p,null)}" target="_blank" rel="noopener">Raise RFI on WhatsApp</a></div>`;
-  if(!IS_ART) return `<div class="note">Site progress and RFIs for each villa are recorded in the Claude version of this portal by site engineers Vamsi has invited. <a href="${ART_LINK}" target="_blank" rel="noopener">Open the Claude version</a>. No login? Send them on WhatsApp; the plot is filled in for you.</div>${wa}`;
-  if(!dbOn) return `<div class="note">Progress and RFIs are not available on this view. Use WhatsApp, or ask Vamsi to invite you as an Editor.</div>${wa}`;
-  const s=progStages(p.no), can=canSite, rec=PROG[p.no];
-  const rows=STAGES.map(([k,n])=>{ const v=s[k]||{}, ph=v.photos||[];
-    return `<tr data-stage="${k}"><td><b>${n}</b></td>
-      <td>${can?`<select data-pst="${k}" class="pst-${v.st||"none"}">${Object.keys(SSTAT).map(x=>`<option value="${x}"${(v.st||"")===x?" selected":""}>${SSTAT[x]}</option>`).join("")}</select>`:`<span class="pst pst-${v.st||"none"}">${SSTAT[v.st||""]}</span>`}</td>
-      <td>${can?`<input type="date" data-pdt="${k}" value="${esc(v.date||"")}">`:esc(v.date?fmtD(v.date):"")}</td>
-      <td>${can?`<input type="text" data-prm="${k}" value="${esc(v.remark||"")}" placeholder="Remark">`:esc(v.remark||"")}</td>
-      <td><div class="phs">${ph.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="${esc(n)} photo" loading="lazy"></a>`).join("")}${can&&assetsNs?`<label class="phbtn">+ Photo<input type="file" accept="image/*" multiple data-pph="${k}" hidden></label>`:""}</div></td></tr>`; }).join("");
-  const list=RFIS.filter(r=>r.plot===p.no).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
-  const num={}; RFIS.filter(r=>r.plot===p.no).sort((a,b)=>String(a.at).localeCompare(String(b.at))).forEach((r,i)=>num[r.id]=i+1);
+  if(IS_ART&&!dbOn) return `<div class="note">Progress and RFIs are not available on this view. Use WhatsApp, or ask Vamsi to invite you as an Editor.</div>${wa}`;
+  if(IS_ART) watchUpdates(p.no);
+  const can=IS_ART&&canSite, ups=updList(p.no), s=Object.keys(progStages(p.no)).length?progStages(p.no):summarise(ups);
+  const rows=STAGES.map(([k,n])=>{ const v=s[k]||{}; const last=ups.filter(u=>u.stage===k&&(u.photos||[]).length).sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at)))[0];
+    return `<tr><td><b>${n}</b></td><td><span class="pst pst-${v.st||"none"}">${SSTAT[v.st||""]}</span></td><td>${v.start?fmtD(v.start):""}</td><td>${v.done?fmtD(v.done):""}</td><td>${v.n?v.n+" update"+(v.n>1?"s":""):""}</td><td><div class="phs">${last?last.photos.slice(0,3).map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="" loading="lazy"></a>`).join(""):""}</div></td></tr>`; }).join("");
+  const byDate={}; ups.forEach(u=>{ (byDate[u.date]=byDate[u.date]||[]).push(u); });
+  const tl=Object.keys(byDate).sort().reverse().map(d=>`<div class="tl-day"><h4>${fmtD(d)}</h4>${byDate[d].sort((a,b)=>String(b.at).localeCompare(String(a.at))).map(u=>`<div class="tl-it"><div><b>${esc((STAGES.find(x=>x[0]===u.stage)||[0,u.stage])[1])}</b> <span class="pst pst-${u.st||"none"}">${SSTAT[u.st||""]}</span>${u.by?` <span class="muted">· ${esc(who(u.by))}</span>`:""}</div>${u.note?`<p>${esc(u.note)}</p>`:""}${(u.photos||[]).length?`<div class="phs">${u.photos.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="Site photo" loading="lazy"></a>`).join("")}</div>`:""}</div>`).join("")}</div>`).join("");
+  const form=can?`<div class="card upd"><h3>Add site update</h3>
+      <div class="ufg"><label class="fl">Date<input type="date" id="uDate" value="${new Date().toISOString().slice(0,10)}"></label>
+      <label class="fl">Stage<select id="uStage">${STAGES.map(([k,n])=>`<option value="${k}"${((s[k]||{}).st==="wip")?" selected":""}>${n}</option>`).join("")}</select></label>
+      <label class="fl">Status<select id="uSt"><option value="wip">In progress</option><option value="done">Done</option></select></label></div>
+      <label class="fl">What was done<textarea id="uNote" rows="2" placeholder="e.g. Excavation for footings F1–F6 complete, PCC tomorrow"></textarea></label>
+      ${assetsNs?`<label class="fl">Photos<input type="file" id="uPh" accept="image/*" multiple></label>`:""}
+      <div class="tbar"><button type="button" class="portal-link" id="uGo">Save update</button><span class="tsave" id="psave"></span></div></div>`:"";
+  const rl=rfiList(p.no), list=rl.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at))), num={};
+  rl.slice().sort((a,b)=>String(a.at).localeCompare(String(b.at))).forEach((r,i)=>num[r.id]=i+1);
   const rfis=list.map(r=>`<div class="rfi rst-${r.status}" data-rfi="${esc(r.id)}">
       <div class="rfi-h"><b>RFI ${p.no}-${String(num[r.id]).padStart(2,"0")}</b><span class="pill rp-${r.status}">${RST[r.status]||r.status}</span>${r.sheet&&byCode[r.sheet]?`<button type="button" class="linkbtn" data-open="${esc(r.sheet)}">${esc(r.sheet)} · ${esc(r.sheetTitle||byCode[r.sheet].title)}${r.rev?" · "+esc(r.rev):""}</button>`:`<span class="muted">${esc(r.sheetTitle||"General / site query")}</span>`}</div>
       <p class="rfi-q">${esc(r.q||"")}</p>
       ${(r.photos||[]).length?`<div class="phs">${r.photos.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="RFI photo" loading="lazy"></a>`).join("")}</div>`:""}
-      <p class="muted">Raised by ${esc(who(r.by))} · ${fmtD(r.at)}</p>
-      ${(r.replies||[]).map(x=>`<div class="rep"><span class="muted">${esc(who(x.by))} · ${fmtD(x.at)}</span><p>${esc(x.text)}</p></div>`).join("")}
+      <p class="muted">Raised${r.by?" by "+esc(who(r.by)):""} · ${fmtD(r.at)}</p>
+      ${(r.replies||[]).map(x=>`<div class="rep"><span class="muted">${x.by?esc(who(x.by))+" · ":""}${fmtD(x.at)}</span><p>${esc(x.text)}</p></div>`).join("")}
       ${can?`<div class="rfi-a"><textarea rows="2" data-rtx="${esc(r.id)}" placeholder="Reply or clarification"></textarea><div class="tbar"><button type="button" class="zbtn" data-rsend="${esc(r.id)}">Send reply</button>${r.status!=="answered"?`<button type="button" class="zbtn" data-rset="answered" data-rid="${esc(r.id)}">Mark answered</button>`:""}${r.status!=="closed"?`<button type="button" class="zbtn" data-rset="closed" data-rid="${esc(r.id)}">Close</button>`:`<button type="button" class="zbtn" data-rset="open" data-rid="${esc(r.id)}">Reopen</button>`}</div></div>`:""}
     </div>`).join("");
-  return `<div class="card prog"><div class="card-h"><div><h2>Site progress · ${progPct(p.no)}%</h2><p>${esc(progNow(p.no))}${rec&&rec.updatedAt?` · last updated ${fmtD(rec.updatedAt)} by ${esc(who(rec.by))}`:""}</p></div></div>
-      <div class="pbar"><i style="width:${progPct(p.no)}%"></i></div>
-      ${can?`<p class="tsave" id="psave"></p>`:`<p class="hint">${canSite?"":"View only. Ask Vamsi to invite you as an Editor to update progress, or send it on WhatsApp."}</p>`}
-      <div class="ttab"><table><thead><tr><th>Stage</th><th>Status</th><th>Date</th><th>Remark</th><th>Photos</th></tr></thead><tbody>${rows}</tbody></table></div></div>
-    <div class="card"><div class="card-h"><div><h2>RFIs &amp; clarifications · ${openRfis(p.no).length} open</h2><p>Ask about any drawing for this plot. The architect's team answers here.</p></div>${can?`<button type="button" class="portal-link" data-newrfi="${p.no}">Raise RFI</button>`:""}</div>
+  const syncNote=!IS_ART?`<p class="hint">${GHPROG&&GHPROG.syncedAt?`Updates as of ${fmtD(GHPROG.syncedAt)}. `:""}Site engineers record updates in the <a href="${ART_LINK}" target="_blank" rel="noopener">Claude version</a>; they appear here when synced. No login? Use WhatsApp below.</p>`:(can?"":`<p class="hint">View only. Ask Vamsi to invite you as an Editor to add updates, or send them on WhatsApp.</p>`);
+  return `<div class="card prog" id="pSum"><div class="card-h"><div><h2>Site progress · ${progPct(p.no)}%</h2><p>${esc(progNow(p.no))}${ups.length?` · ${ups.length} update${ups.length>1?"s":""}, latest ${fmtD(ups.map(u=>u.date).sort().pop())}`:""}</p></div></div>
+      <div class="pbar"><i style="width:${progPct(p.no)}%"></i></div>${syncNote}
+      <div class="ttab"><table><thead><tr><th>Stage</th><th>Status</th><th>Started</th><th>Completed</th><th>Updates</th><th>Latest photos</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+    ${form}
+    <div class="card" id="pTl"><div class="card-h"><div><h2>Updates by date</h2><p>Every site visit is kept: newest first, with its photos.</p></div></div>${tl||`<p class="muted">No updates for Plot ${p.no} yet.</p>`}</div>
+    <div class="card" id="pRfi"><div class="card-h"><div><h2>RFIs &amp; clarifications · ${rl.filter(r=>r.status==="open").length} open</h2><p>Ask about any drawing for this plot. The architect's team answers here.</p></div>${can?`<button type="button" class="portal-link" data-newrfi="${p.no}">Raise RFI</button>`:""}</div>
       ${rfis||`<p class="muted">No RFIs raised for Plot ${p.no} yet.</p>`}</div>
     ${wa}`;
 }
 function bindProgTab(p){
   const box=$("ptab"); if(!box) return;
-  const mark=()=>{ const el=$("psave"); if(el){ el.textContent="Saving…"; el.className="tsave saving"; } };
-  const head=()=>{ const h=box.querySelector(".prog h2"), s=box.querySelector(".prog .card-h p"), b=box.querySelector(".prog .pbar i"), n=document.querySelector('.dtab[data-k="prog"] .n'); if(h) h.textContent="Site progress · "+progPct(p.no)+"%"; if(s) s.textContent=progNow(p.no); if(b) b.style.width=progPct(p.no)+"%"; if(n) n.textContent=progPct(p.no)+"%"; };
-  const edit=(k,patch)=>{ const rec=PROG[p.no]=JSON.parse(JSON.stringify(PROG[p.no]||{stages:{}})); rec.stages=rec.stages||{}; rec.stages[k]=Object.assign({},rec.stages[k]||{},patch); mark(); head(); queueProg(p.no); };
-  box.querySelectorAll("[data-pst]").forEach(el=>el.onchange=()=>{ el.className="pst-"+(el.value||"none"); const patch={st:el.value}; const d=box.querySelector(`[data-pdt="${el.dataset.pst}"]`); if(el.value&&d&&!d.value){ d.value=new Date().toISOString().slice(0,10); patch.date=d.value; } edit(el.dataset.pst,patch); });
-  box.querySelectorAll("[data-pdt]").forEach(el=>el.onchange=()=>edit(el.dataset.pdt,{date:el.value}));
-  box.querySelectorAll("[data-prm]").forEach(el=>el.oninput=()=>edit(el.dataset.prm,{remark:el.value.trim()}));
-  box.querySelectorAll("[data-pph]").forEach(el=>el.onchange=async()=>{ const k=el.dataset.pph, files=[...el.files]; if(!files.length) return; const ps=$("psave"); if(ps){ps.textContent="Uploading "+files.length+" photo"+(files.length>1?"s":"")+"…"; ps.className="tsave saving";}
-    try{ const up=await uploadPhotos(files); const cur=(progStages(p.no)[k]||{}).photos||[]; edit(k,{photos:cur.concat(up)}); if(redrawTab) redrawTab(true); }catch(e){ if(ps){ps.textContent="Photo upload failed: "+((e&&e.message)||"try again"); ps.className="tsave error";} } });
+  const go2=$("uGo");
+  if(go2) go2.onclick=async()=>{ const ps=$("psave"), date=$("uDate").value, stage=$("uStage").value, st=$("uSt").value, note=$("uNote").value.trim(), ph=$("uPh");
+    if(!date){ ps.textContent="Pick the date."; ps.className="tsave error"; return; }
+    if(!note&&!(ph&&ph.files.length)){ ps.textContent="Add a note or a photo."; ps.className="tsave error"; return; }
+    go2.disabled=true; ps.className="tsave saving"; ps.textContent=ph&&ph.files.length?"Uploading photos…":"Saving…";
+    try{ const photos=ph&&ph.files.length?await uploadPhotos([...ph.files]):[];
+      const u={plot:p.no,date,stage,st,note,photos,at:new Date().toISOString(),by:myId||""};
+      await DB.collection("updates").add(u);
+      const all=(UPD[p.no]||[]).concat([u]);
+      await DB.doc("progress/"+p.no).set({stages:summarise(all),updatedAt:u.at,by:u.by});
+      ps.className="tsave saved"; ps.textContent="Saved.";
+      if($("uNote")&&$("uNote").value.trim()===note) $("uNote").value=""; if($("uPh")&&ph&&$("uPh")===ph) ph.value="";
+    }catch(e){ ps.className="tsave error"; ps.textContent=e&&e.code==="invalid_argument"?"This account can view progress but not add updates.":"Not saved. Check your connection and try again."; }
+    go2.disabled=false; };
   box.querySelectorAll("[data-newrfi]").forEach(b=>b.onclick=()=>openRfiDlg(p.no,null));
   box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openSheet(b.dataset.open,true));
   box.querySelectorAll("[data-rsend]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.rsend, ta=box.querySelector(`[data-rtx="${id}"]`), t=ta.value.trim(); if(!t) return; const r=RFIS.find(x=>x.id===id); b.disabled=true;
@@ -1210,14 +1242,7 @@ function bindProgTab(p){
   box.querySelectorAll("[data-rset]").forEach(b=>b.onclick=async()=>{ b.disabled=true; try{ await DB.doc("rfi/"+b.dataset.rid).update({status:b.dataset.rset}); }catch(e){ alertMsg("Could not update the RFI. Try again."); } b.disabled=false; });
 }
 function alertMsg(t){ const el=$("ttoast")||document.body.appendChild(Object.assign(document.createElement("div"),{id:"ttoast"})); el.textContent=t; el.className="ttoast tsave error"; setTimeout(()=>{ el.className="ttoast"; },4000); }
-function queueProg(no){ clearTimeout(progTimers[no]); progTimers[no]=setTimeout(()=>saveProg(no),800); }
-async function saveProg(no){
-  if(progSaving[no]){ queueProg(no); return; }
-  progSaving[no]=true; const rec=PROG[no]||{stages:{}};
-  try{ await DB.doc("progress/"+no).set({stages:rec.stages||{},updatedAt:new Date().toISOString(),by:myId||""}); const el=$("psave"); if(el){ el.textContent="Saved. Everyone using this version sees it now."; el.className="tsave saved"; } }
-  catch(e){ const el=$("psave"); if(el){ el.textContent=e&&e.code==="invalid_argument"?"This account can view progress but not change it.":"Could not save. Check your connection."; el.className="tsave error"; } }
-  progSaving[no]=false;
-}
+
 /* RFI dialog */
 function openRfiDlg(plotNo,code){
   const dlg=$("rfiDlg"); rfiCtx={plot:plotNo||"",code:code||""};
@@ -1248,9 +1273,9 @@ function renderProgress(){
   const rows=plotOrder().map(p=>{ const o=openRfis(p.no).length, rec=PROG[p.no];
     return `<tr><td><a href="#plot-${p.no}" data-prog="1"><b>${p.no}</b></a></td><td><span class="pill ${colCls(p).replace("vt-","vtp-").replace("st-","vtp-")}">${esc(isOffPlot(p)?statusTxt(p):((PLOT_INFO[p.no]||{}).type==="custom"?"Custom":(PLOT_INFO[p.no]||{}).type?vtLabel(PLOT_INFO[p.no].type,p):"Not confirmed"))}</span></td>
       <td>${esc(progNow(p.no))}</td><td><div class="pbar sm"><i style="width:${progPct(p.no)}%"></i></div><span class="muted">${progPct(p.no)}%</span></td><td class="num">${o?`<b class="rfi-n">${o}</b>`:"0"}</td><td>${rec&&rec.updatedAt?fmtD(rec.updatedAt):""}</td></tr>`; }).join("");
-  const open=RFIS.filter(r=>r.status!=="closed").sort((a,b)=>String(b.at).localeCompare(String(a.at)));
-  $("main").innerHTML= !IS_ART ? `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>Progress and RFIs are recorded in the Claude version of this portal by site engineers Vamsi has invited.</p></div></div><div class="tbar"><a class="portal-link" href="${ART_LINK}" target="_blank" rel="noopener">Open the Claude version</a></div><p class="hint">No login? Open a plot, go to its Site tab and send progress or an RFI on WhatsApp.</p></div>${footerHTML()}`
-   : `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>${dbOn?`${PLOTS.filter(p=>progPct(p.no)>0).length} plots started · ${open.length} open RFIs. Tap a plot to update its progress or answer its RFIs.`:"Progress and RFIs are not available on this view."}</p></div></div>
+  const open=RFIS.filter(r=>r.status==="open").sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  $("main").innerHTML= (!IS_ART&&!GHPROG) ? `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>Progress and RFIs are recorded in the Claude version of this portal by site engineers Vamsi has invited.</p></div></div><div class="tbar"><a class="portal-link" href="${ART_LINK}" target="_blank" rel="noopener">Open the Claude version</a></div><p class="hint">No login? Open a plot, go to its Site tab and send progress or an RFI on WhatsApp.</p></div>${footerHTML()}`
+   : `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>${(dbOn||GHPROG)?`${!IS_ART&&GHPROG.syncedAt?"As of "+fmtD(GHPROG.syncedAt)+" · ":""}${PLOTS.filter(p=>progPct(p.no)>0).length} plots started · ${open.length} open RFIs. Tap a plot to update its progress or answer its RFIs.`:"Progress and RFIs are not available on this view."}</p></div></div>
       ${open.length?`<div class="rfi-all">${open.map(r=>`<a class="rfi-row" href="#plot-${esc(r.plot)}" data-prog="1"><b>Plot ${esc(r.plot)}</b><span class="pill rp-${r.status}">${RST[r.status]}</span><span>${esc(r.sheet||"General")}</span><span class="muted">${esc((r.q||"").slice(0,90))}</span><span class="muted">${fmtD(r.at)}</span></a>`).join("")}</div>`:""}
       <div class="ttab"><table><thead><tr><th>Plot</th><th>Villa</th><th>Now</th><th>Progress</th><th class="num">Open RFIs</th><th>Updated</th></tr></thead><tbody>${rows}</tbody></table></div></div>${footerHTML()}`;
   $("main").querySelectorAll("[data-prog]").forEach(a=>a.addEventListener("click",()=>{ ptab="prog"; }));
@@ -1260,6 +1285,11 @@ function refreshSiteViews(){
   if(!$("rfiDlg").hidden||!$("viewer").hidden) return;
   const a=document.activeElement; if(a&&a.closest&&a.closest("#ptab")&&(a.tagName==="TEXTAREA"&&a.value.trim()||a.tagName==="INPUT"&&a.type==="text")) return;
   if(route==="progress") renderProgress();
+  else if(route.startsWith("plot-")&&ptab==="prog"&&$("pSum")&&plotBy[route.slice(5)]){ const p=plotBy[route.slice(5)], tmp=document.createElement("div"); tmp.innerHTML=progTabHTML(p);
+    const typingRfi=a&&a.closest&&a.closest("#pRfi")&&a.tagName==="TEXTAREA"&&a.value.trim();
+    ["pSum","pTl","pRfi"].forEach(id=>{ if(id==="pRfi"&&typingRfi) return; const o=$(id), n=tmp.querySelector("#"+id); if(o&&n) o.replaceWith(n); });
+    if(!$("uGo")&&tmp.querySelector(".upd")) { redrawTab&&redrawTab(false); return; }
+    bindProgTab(p); const n=document.querySelector('.dtab[data-k="prog"] .n'); if(n) n.textContent=progPct(p.no)+"%"; }
   else if(route.startsWith("plot-")&&redrawTab) redrawTab(false);
 }
 
@@ -1268,5 +1298,6 @@ function refreshSiteViews(){
 handleRoute();
 fetch(typesUrl(),{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(r.status)).then(o=>{ fileTypes=o; refreshTypes(); }).catch(()=>{});
 connectDb();
+if(!IS_ART) fetch(FILE_ROOT+"data/progress.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(o=>{ if(o&&o.plots){ GHPROG=o; RFIS=[].concat(...Object.keys(o.plots).map(k=>(o.plots[k].rfis||[]).map(r=>Object.assign({plot:k},r)))); refreshSiteViews(); if(route==="home") render(); } }).catch(()=>{});
 })();
 </script>

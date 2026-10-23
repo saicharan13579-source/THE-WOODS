@@ -38,6 +38,8 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
 - `SUP` in the template maps each superseded code to [current code, date replaced]. Superseded sheets never show on plot tabs or in the register; they appear only under Drawing register → Revision archive, and the viewer shows "Old revs (n)" on the current sheet. When a new revision arrives: add the new sheet, keep the old row (status "super"), add it to SUP.
 
 ## Site progress & RFIs (per villa "Site" tab, plus the Progress page)
-- Claude artifact db: `progress/<plot>` {stages:{setout|excav|pcc|footing|plinth|walls|roof|services|finish|land:{st:""|"wip"|"done",date,remark,photos:[{id,url}]}},updatedAt,by}; `rfi/<id>` {plot,sheet,rev,sheetTitle,q,photos,status:open|answered|closed,at,by,replies:[{by,at,text}]}. Photos via the assets capability.
-- Who can write: owner + people invited by email as Editor. `villa/types` is owner-only (rule). The GitHub site cannot store anything: its Site tab offers WhatsApp messages (wa.me) with plot and drawing filled in, plus a link to the Claude version.
+- Progress is a dated log: Claude artifact db `updates/<auto>` {plot,date YYYY-MM-DD,stage,st:wip|done,note,photos:[{id,url}],at,by}. `progress/<plot>` {stages:{key:{st,start,done,last,n}},updatedAt,by} is the summary, rewritten on every new update. Stage keys: setout excav pcc footing plinth walls roof services finish land.
+- RFIs: `rfi/<auto>` {plot,sheet,rev,sheetTitle,q,photos,status:open|answered|closed,at,by,replies:[{by,at,text}]}.
+- Who can write: owner + people invited by email as Editor. `villa/types` is owner-only (rule).
+- GitHub site reads `data/progress.json` {syncedAt, plots:{no:{stages,updates,rfis}}} with photos as {path:"progress-photos/<asset id>.jpg"}. SYNC = ArtifactData list progress/updates/rfi -> download each photo asset (Artifact read path=<asset id>) into progress-photos/ -> write progress.json (drop `by`/user ids) -> push.
 - Artifact capabilities: db rules [{path:"",read:"view",write:"admin"},{path:"villa",read:"view",write:"owner"}], user {scopes:["profile"]}, assets {}.
