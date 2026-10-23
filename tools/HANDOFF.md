@@ -25,3 +25,4 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
 - 21-10-2026 GFC reissue: AR-14 (1625E floor plan) and AR-15 (opening schedule) replace AR-09/AR-13; AW-01 = first 1625 West GFC floor plan (TP-02 superseded). CAD-14..17 added; CAD-09/CAD-12 marked old.
   The other sheets in the 2026-10-22 transfer (elevations, sections, centre line, excavation, footing, framing, East and West) were 0-byte files. Add them when re-sent.
 - 21-10-2026 GFC site plan added as ST-01 (pdf 31 MB, too big for the artifact: F flag 1 makes the artifact read it from GitHub) + CAD-18 DWG. CAD-01 kept for spot levels.
+- Structural: S16 now = 1625E set 05-10-2026 (SD-01/03 R02, SD-02 R01); S12 = 1215E R01 07-10; new S6W (1625W R01) and S2W (1215W R01). Old revisions kept as S16-0x-Rxx / S12-0x-R0 (Superseded). All structural DWGs in the 22-10 transfer were 0 bytes.
