@@ -595,10 +595,10 @@ function plotSet(p,type){
     return {arch:{items:[],note:bn},str:{items:[],note:bn},mep:{items:[],note:bn},land:{items:[],note:bn}};
   }
   if(type==="custom"){
-    const cn=k=>["warn","Client custom floor plan for Plot "+p.no+". The standard 1625 and 1215 "+k+" drawings do not apply. Use only drawings issued for this plot; none have been added yet."];
-    set={arch:{items:[],note:cn("architectural")},str:{items:[],note:cn("structural")},mep:{items:T([e?"CAD-03":"CAD-04"]),note:["warn","Client custom floor plan. The typical soak pit & sump position below is for reference only; confirm the position for this plot's layout. External services are in the <a href=\""+SITE_LINK+"\">Site portal</a>."]},land:{items:[],note:cn("landscape")}};
+    const cn=["warn","Client custom floor plan: the floor plan will be as the client requires. No drawings are shown for Plot "+p.no+" until final confirmation is received from the client or the CRM team; the drawings will be updated then. Do not use the standard 1625 or 1215 sets for this plot."];
+    set={arch:{items:[],note:cn},str:{items:[],note:cn},mep:{items:[],note:cn},land:{items:[],note:cn}};
     const x=(PLOT_INFO[p.no]||{}).extra||{};
-    Object.keys(x).forEach(k=>{ if(set[k]&&x[k].length){ set[k].items=T(x[k]).concat(set[k].items); set[k].note=["","Drawings issued for Plot "+p.no+"'s custom floor plan."]; } });
+    Object.keys(x).forEach(k=>{ if(set[k]&&x[k].length){ set[k].items=T(x[k]); set[k].note=["","Drawings issued for Plot "+p.no+"'s custom floor plan."]; } });
     return set;
   }
   if(type==="1625"&&e){
