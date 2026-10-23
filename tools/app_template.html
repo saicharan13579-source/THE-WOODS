@@ -99,7 +99,7 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 
 /* master plan */
 .mp{display:grid;gap:14px;grid-template-columns:1fr}
-@media (min-width:980px){.mp{grid-template-columns:minmax(0,1.35fr) minmax(300px,1fr);align-items:start}}
+@media (min-width:980px){.mp{grid-template-columns:minmax(0,1.75fr) minmax(320px,1fr);align-items:start}.mp .mapbox{max-height:none}}
 .card{padding:14px;min-width:0}
 .card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .card-h h2{margin:0;font-size:20px;font-weight:700}
@@ -322,7 +322,7 @@ section.grp{display:grid;gap:10px}
 const PORTAL=%%PORTAL%%;          // "villa" or "site" — which portal this file opens on
 const SITE_LINK=%%SITE_LINK%%, VILLA_LINK=%%VILLA_LINK%%, FILE_ROOT=%%FILE_ROOT%%, DL=%%DLJS%%;
 const UPDATED="23-10-2026";
-const MAP_W=2338, MAP_H=1654;
+const MAP_W=2011, MAP_H=2296;
 // plot no, sq.m, sq.yd, facing (E/W), hit box x0,y0,x1,y1 on the master plan image
 const PLOTS=%%PLOTS%%.map(a=>({no:a[0],sqm:a[1],sqyd:a[2],face:a[3],box:a.slice(4,8)}));
 const MODEL="30";
@@ -659,7 +659,7 @@ let q="", disc="all", regView="seq", currentList=[], route="";
 try{ const v=localStorage.getItem("woods.reg"); if(["seq","all"].includes(v)) regView=v; }catch(e){}
 let ptab="arch"; try{ const v=localStorage.getItem("woods.ptab"); if(v&&DISC[v]) ptab=v; }catch(e){}
 const pickType={}; let lastType="1625"; try{ const v=localStorage.getItem("woods.vtype"); if(TYPES.includes(v)) lastType=v; }catch(e){}
-let mapZoom=window.innerWidth<700?1.8:1;
+let mapZoom=window.innerWidth<700?1.25:1;
 /* master layout colouring: "type" (standard villa green / client custom purple) or "status" (sales layout) */
 let mapMode="type"; try{ const v=localStorage.getItem("woods.mapmode"); if(v==="type"||v==="status") mapMode=v; }catch(e){}
 const VT_KEY={std:"Standard villa (1625 / 1215)",custom:"Client custom floor plan",none:"Type not confirmed",blocked:"Blocked · not a villa plot"};
@@ -729,7 +729,7 @@ function bindMapZoom(){
 }
 function centerMap(){
   const box=$("mapbox"), mz=$("mapzoom"); if(!box||mapZoom<=1) return;
-  requestAnimationFrame(()=>{ box.scrollLeft=(1400/MAP_W)*mz.clientWidth-box.clientWidth/2; box.scrollTop=(800/MAP_H)*mz.clientHeight-box.clientHeight/2; });
+  requestAnimationFrame(()=>{ box.scrollLeft=(980/MAP_W)*mz.clientWidth-box.clientWidth/2; box.scrollTop=(1100/MAP_H)*mz.clientHeight-box.clientHeight/2; });
 }
 function renderHome(){
   const cnt=s=>PLOTS.filter(p=>pStatus(p)===s).length;
@@ -780,7 +780,7 @@ function renderPlot(no){
       ${info.note?`<div class="note" style="margin-top:10px">${esc(info.note)}</div>`:""}
       <div class="pnav">${prev?`<a href="#plot-${prev.no}">‹ Plot ${prev.no}</a>`:""}${next?`<a href="#plot-${next.no}">Plot ${next.no} ›</a>`:""}</div>
     </div>
-    <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:260%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
+    <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:190%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
   </div>
   <div class="card vtype"><span class="lbl">Villa type</span>${isOffPlot(p)?`<b style="font-size:17px">${esc(statusTxt(p))}</b><span class="conf">Not a villa plot yet</span>`:confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":vtLabel(info.type,p)+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}<a class="vlink" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} villa type</a></div>
   <div class="dtabs" role="tablist" aria-label="Drawings by discipline">${keys.map(k=>`<button type="button" class="dtab" role="tab" data-k="${k}" aria-selected="${k===ptab}" style="--dc:var(${DISC[k].c})">${DISC[k].name}<span class="n"></span></button>`).join("")}</div>
