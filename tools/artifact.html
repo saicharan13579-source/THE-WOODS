@@ -1,7 +1,7 @@
 <title>The Woods Drawings</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
 html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}
 /* Layout: two portals. Villa portal opens on the master plan (tap a plot → its drawings by discipline); Site portal lists whole-layout drawings. Glass panels over a fluid backdrop; dark sheet viewer. */
@@ -234,6 +234,13 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .dlg-in{width:min(560px,100%);max-height:90vh;overflow:auto;display:grid;gap:8px}.dlg h2{margin:0;font-size:20px}
 .fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}.fl select,.fl input{width:100%;min-width:0;box-sizing:border-box}.ufg{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}.ufg .fl{min-width:0}.fl select,.fl input{font:inherit;font-size:15px;height:42px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);color:var(--ink);padding:0 8px}.fl input[type=file]{height:auto;padding:8px}
 .wa{font-size:14px;font-weight:600;color:var(--c-site)}
+.rfi-sheet,.rfi-dwg{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center;padding:8px;border:1px solid var(--line,var(--glass-line));border-radius:10px;background:var(--paper)}
+.rfi-sheet img,.rfi-th img{width:96px;height:68px;object-fit:contain;background:#fff;border-radius:6px;border:1px solid var(--glass-line);display:block}
+.rfi-sheet div,.rfi-dwg div{display:grid;gap:2px;min-width:0;font-size:14px}.rfi-sheet a,.rfi-dwg a{color:var(--forest);font-weight:600}
+.rfi-th{border:0;padding:0;background:none;cursor:pointer}.rfi-dwg{margin:8px 0;grid-template-columns:96px 1fr}
+.rfi-snap{display:grid;grid-template-columns:auto 1fr;gap:6px 8px;align-items:center;font-size:14px;font-weight:600}
+.rfi-snap img{grid-column:1/-1;max-width:100%;max-height:220px;object-fit:contain;border:1px solid var(--glass-line);border-radius:8px;background:#fff}
+.phs a.snap img{outline:2px solid var(--brass,#B8862F)}
 body.wide .wrap{max-width:1720px}
 .pgrid{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}.pmain{display:grid;gap:22px;min-width:0}
 @media (min-width:1280px){.pgrid{grid-template-columns:minmax(0,1fr) 430px;align-items:start}.saside{position:sticky;top:150px;max-height:calc(100vh - 170px);overflow:auto;overscroll-behavior:contain;border-radius:18px}}
@@ -304,88 +311,84 @@ section.grp{display:grid;gap:10px}
 .vgrp{display:flex;gap:6px;align-items:center}
 .zl{font-family:var(--f-mono);font-size:13px;min-width:46px;text-align:center;color:#c9d1cb}
 
-/* ===== Theme: evergreen drawing office =====
-   Evergreen #0E3328 header and map frame, stone #E8ECE6 page, white sheets, brass #B8862F accent.
-   Archivo (wide for the wordmark and headings, normal for text); Plex Mono only for drawing codes. */
+/* ===== Theme: fluid glass, cool palette, square edges =====
+   Frosted glass panels over a slow cool-colour backdrop (sky, periwinkle, aqua). iOS system font
+   (-apple-system / SF Pro; Inter where SF is not installed). iOS blue accent. No rounded corners. */
 :root{
-  --ever:#0E3328; --ever-2:#16473A; --brass:#B8862F; --brass-soft:#F3E7CF; --stone:#E8ECE6; --ink:#15211C; --muted:#56635C; --line:#D5DCD3;
-  --forest:#0E3328; --forest-ink:#ffffff; --forest-soft:#E3ECE6;
-  --base:var(--stone); --glass:#ffffff; --glass-strong:#ffffff; --glass-edge:var(--line); --glass-line:var(--line); --paper:#ffffff;
-  --shadow:0 1px 2px rgba(14,51,40,.06),0 8px 24px -12px rgba(14,51,40,.18);
-  --f-ui:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --acc:#0A84FF; --acc-2:#1FB6D1; --acc-ink:#ffffff; --ink:#0F2236; --muted:#4A5F76; --line:rgba(255,255,255,.65); --hair:rgba(15,34,54,.12);
+  --forest:#0A84FF; --forest-ink:#ffffff; --forest-soft:rgba(10,132,255,.12); --model:#0A84FF;
+  --base:#E6F0FA; --b1:#7CC8F8; --b2:#9AA9FF; --b3:#72E1D6; --b4:#B8D4FF;
+  --glass:rgba(255,255,255,.52); --glass-strong:rgba(255,255,255,.66); --glass-edge:rgba(255,255,255,.75); --glass-line:var(--hair); --paper:rgba(255,255,255,.72);
+  --shadow:0 10px 30px -12px rgba(16,48,92,.25),0 1px 0 rgba(255,255,255,.7) inset;
+  --f-ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter","Segoe UI",system-ui,sans-serif;
+  --f-mono:"SF Mono",ui-monospace,Menlo,"IBM Plex Mono",monospace;
+  --brass:#0A84FF; --ever:#0F2236; --ever-2:#1C4A7A;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --ever:#0A2A21; --ever-2:#123C31; --brass:#D9A852; --brass-soft:#3A2F17; --stone:#0F1714; --ink:#EEF2EE; --muted:#A9B6AE; --line:#26342D;
-  --forest:#7FC4A0; --forest-ink:#0B1A14; --forest-soft:#17291F;
-  --base:var(--stone); --glass:#152019; --glass-strong:#152019; --glass-edge:var(--line); --glass-line:var(--line); --paper:#1A261F;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.6); }}
+  --acc:#409CFF; --acc-2:#3CD3EB; --ink:#EAF2FB; --muted:#9FB3C8; --line:rgba(255,255,255,.14); --hair:rgba(255,255,255,.12);
+  --forest:#409CFF; --forest-ink:#06121F; --forest-soft:rgba(64,156,255,.16); --model:#409CFF;
+  --base:#07111D; --b1:#0E3C6B; --b2:#2A2F7A; --b3:#0B5A5C; --b4:#16305C;
+  --glass:rgba(22,34,52,.55); --glass-strong:rgba(18,28,44,.72); --glass-edge:rgba(255,255,255,.14); --paper:rgba(28,42,62,.7);
+  --shadow:0 12px 32px -14px rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.06) inset; }}
 :root[data-theme="dark"]{
-  --ever:#0A2A21; --ever-2:#123C31; --brass:#D9A852; --brass-soft:#3A2F17; --stone:#0F1714; --ink:#EEF2EE; --muted:#A9B6AE; --line:#26342D;
-  --forest:#7FC4A0; --forest-ink:#0B1A14; --forest-soft:#17291F;
-  --base:var(--stone); --glass:#152019; --glass-strong:#152019; --glass-edge:var(--line); --glass-line:var(--line); --paper:#1A261F; }
-body{background:var(--stone);font-family:var(--f-ui);color:var(--ink)}
-.fluid{display:none}
-/* header band */
-header.tb{background:var(--ever);border-bottom:3px solid var(--brass);box-shadow:0 6px 20px -10px rgba(14,51,40,.6);-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff}
-body::before{background:var(--ever)}
-.tb .wrap{padding-block:14px 12px}
-.eyebrow{font-family:var(--f-ui);text-transform:none;letter-spacing:.01em;font-size:13px;color:rgba(255,255,255,.72)}
-.proj h1{font-stretch:125%;font-weight:800;font-size:30px;letter-spacing:.04em}
-.proj h1 a,.proj h1 .w{color:#fff}
-.portal-tag{background:var(--brass);color:#1d1404;font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
-body.site-portal .portal-tag{background:#7FC4D0;color:#06262c}
-header.tb .portal-link{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
-header.tb .portal-link:hover{background:rgba(255,255,255,.1)}
-header.tb .search{background:#fff;border-color:transparent;color:#15211C}
-header.tb .search input{color:#15211C}
-header.tb .views{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
-header.tb .views button,header.tb .views a{color:#fff;font-weight:600}
-header.tb .views [aria-pressed="true"],header.tb .views [aria-current="page"]{background:#fff;color:var(--ever);box-shadow:inset 0 -3px 0 var(--brass)}
-:focus-visible{outline:3px solid var(--brass)}
-/* surfaces */
-.panel,.grp-h,footer,.empty,.lead,.card,.row,.cadrow{-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--glass)}
-.card,.panel{border-radius:14px}.row,.cadrow{border-radius:10px;border-left-width:4px}
-.row:hover{transform:none;border-color:var(--dc)}
-.lead{border-left:4px solid var(--brass)}
-footer{background:transparent;box-shadow:none;border:0;border-top:1px solid var(--line);border-radius:0}
-/* type */
-.card-h h2,.grp-h h3,.ph-title h2,.saside-h h2,.dlg h2{font-stretch:112%;font-weight:750;letter-spacing:.005em}
-.ph-title h2{font-stretch:118%;font-size:40px}
-h2.k,.stat span,.facts span,.vtype .lbl,.mmode span,.ttab th,.alert b.k{font-family:var(--f-ui);text-transform:none;letter-spacing:.01em;font-size:12.5px;font-weight:600}
-.badge,.conf,.pill,.fc{font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-weight:700;border-radius:999px}
-.grp-h .no{background:var(--ever);font-family:var(--f-ui);border-radius:999px}
-/* stats */
-.stat div{border-radius:12px;background:var(--paper)}
-.stat b{font-stretch:115%;font-size:28px;font-weight:800}
-/* master layout as the centrepiece */
-.mapbox{background:var(--ever);border:0;padding:8px;border-radius:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
-.mapzoom img{border-radius:8px}
-.zbtn{border-radius:10px;font-family:var(--f-ui)}
-.mmode button[aria-pressed="true"]{background:var(--ever);border-color:var(--ever)}
-.feature{border-radius:14px;border:1px solid var(--line);background:var(--paper)}
-.feature .n{font-stretch:115%;font-weight:800}
-a.feature[href^="#plot-"]{background:var(--ever);color:#fff;border-color:var(--ever)}
-a.feature[href^="#plot-"] .n{color:var(--brass)} a.feature[href^="#plot-"] b{color:#fff} a.feature[href^="#plot-"] span span{color:rgba(255,255,255,.75)}
-/* plot finder */
-.pbtn{border-radius:10px;border:1px solid var(--line);border-bottom-width:3px}
-.pbtn b{font-stretch:110%}
-.pbtn small{font-family:var(--f-ui);font-size:11px}
-/* tabs */
-.dtab{border-radius:12px;background:var(--paper);border:1px solid var(--line);border-bottom:3px solid var(--dc)}
-.dtab[aria-selected="true"]{box-shadow:0 6px 16px -8px var(--dc)}
-.vtype .seg button[aria-pressed="true"]{background:var(--ever)}
-/* buttons */
-.portal-link{border-radius:10px;font-family:var(--f-ui)}
-.pub .portal-link,.saside .portal-link,#rfiGo,#uGo,.card .tbar .portal-link{background:var(--ever);color:#fff;border-color:var(--ever)}
-.cadrow a{border-radius:9px}
+  --acc:#409CFF; --acc-2:#3CD3EB; --ink:#EAF2FB; --muted:#9FB3C8; --line:rgba(255,255,255,.14); --hair:rgba(255,255,255,.12);
+  --forest:#409CFF; --forest-ink:#06121F; --forest-soft:rgba(64,156,255,.16); --model:#409CFF;
+  --base:#07111D; --b1:#0E3C6B; --b2:#2A2F7A; --b3:#0B5A5C; --b4:#16305C;
+  --glass:rgba(22,34,52,.55); --glass-strong:rgba(18,28,44,.72); --glass-edge:rgba(255,255,255,.14); --paper:rgba(28,42,62,.7); }
+*,*::before,*::after{border-radius:0!important}
+body{font-family:var(--f-ui);color:var(--ink);background:var(--base);letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+.fluid{display:block}.fluid i{opacity:.85;filter:blur(80px)}
+/* glass surfaces */
+header.tb,.panel,.grp-h,footer,.empty,.lead,.card,.row,.cadrow,.dtab,.pbtn,.stat div,.facts div,.feature,.saside-h,.sti,.tl-it,.rfi,.rfi-row,.views,.search,.zbtn,.dlg-in,.ttab{
+  background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);border:1px solid var(--glass-edge);box-shadow:var(--shadow)}
+.stat div,.facts div,.sti,.tl-it,.pbtn,.ttab{background:var(--paper);box-shadow:none}
+header.tb{background:var(--glass-strong);border-width:0 0 1px 0;color:var(--ink)}
+body::before{background:var(--glass-strong)}
+.eyebrow{font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:13px;color:var(--muted)}
+.proj h1{font-weight:800;font-size:30px;letter-spacing:-.02em}
+.proj h1 a,.proj h1 .w{color:var(--ink)}
+.portal-tag{background:var(--acc);color:#fff;font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;padding:3px 9px}
+body.site-portal .portal-tag{background:var(--acc-2)}
+header.tb .portal-link{background:var(--glass);color:var(--acc);border:1px solid var(--glass-edge)}
+.views [aria-pressed="true"],.views [aria-current="page"]{background:var(--acc);color:#fff;box-shadow:none}
+.views button,.views a{font-weight:600;color:var(--ink)}
+header.tb .search{background:var(--paper)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+/* type: iOS-like */
+.card-h h2,.grp-h h3,.saside-h h2,.dlg h2{font-weight:700;letter-spacing:-.02em}
+.ph-title h2{font-weight:800;font-size:40px;letter-spacing:-.03em}
+h2.k,.stat span,.facts span,.vtype .lbl,.mmode span,.ttab th,.alert b.k,.meta .code{font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:12.5px;font-weight:600}
+.meta .code b{font-family:var(--f-mono)}
+.badge,.conf,.pill,.fc{font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-weight:600}
+.grp-h .no{background:var(--acc);font-family:var(--f-ui)}
+.stat b{font-weight:800;font-size:28px;letter-spacing:-.03em}
+.lead{border-left:3px solid var(--acc)}
+footer{background:transparent;box-shadow:none;border:0;border-top:1px solid var(--hair);-webkit-backdrop-filter:none;backdrop-filter:none}
+/* map */
+.mapbox{background:rgba(15,34,54,.82);border:1px solid var(--glass-edge);padding:6px}
+.mmode button{background:var(--glass)}.mmode button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.feature .n{font-weight:800;letter-spacing:-.03em;color:var(--acc)}
+a.feature[href^="#plot-"]{background:linear-gradient(135deg,rgba(10,132,255,.88),rgba(31,182,209,.82));color:#fff;border-color:rgba(255,255,255,.5)}
+a.feature[href^="#plot-"] .n,a.feature[href^="#plot-"] b{color:#fff} a.feature[href^="#plot-"] span span{color:rgba(255,255,255,.85)}
+/* tabs and buttons */
+.dtab{border-bottom:3px solid var(--dc)}
+.dtab[aria-selected="true"]{background:var(--dc);color:#fff;border-color:var(--dc)}
+.vtype .seg button[aria-pressed="true"]{background:var(--acc)}
+.portal-link{font-family:var(--f-ui)}
+.pub .portal-link,.saside .portal-link,#rfiGo,#uGo,.card .tbar .portal-link,.vlink{background:var(--acc);color:#fff;border-color:var(--acc)}
+.cadrow a{background:var(--paper);color:var(--acc);border-color:var(--acc)}
+.row{border-left:4px solid var(--dc)}
+.row:hover{transform:none;background:var(--glass-strong)}
 /* site panel */
 .saside{border:0;background:transparent;padding:0}
-.saside-h{background:var(--ever);color:#fff;border-radius:14px;padding:14px 16px;border-bottom:3px solid var(--brass)}
-.saside-h h2{color:#fff}.saside-h p{color:rgba(255,255,255,.75)}
-.pbar i{background:linear-gradient(90deg,var(--ever-2),var(--brass))}
-.tl-day{border-left-color:var(--brass)}
-/* viewer keeps its dark drawing-table look */
-#viewer{background:radial-gradient(120% 80% at 20% 0%,#16473A 0%,#0E2A22 55%,#08140F 100%)}
+.saside-h{background:linear-gradient(135deg,rgba(10,132,255,.86),rgba(94,92,230,.8));color:#fff;border-color:rgba(255,255,255,.4)}
+.saside-h h2{color:#fff}.saside-h p{color:rgba(255,255,255,.85)}
+.pbar{background:var(--hair)}.pbar i{background:linear-gradient(90deg,var(--acc),var(--acc-2))}
+.tl-day{border-left-color:var(--acc)}
+.phs a.snap img{outline:2px solid var(--acc)}
+.dlg{background:rgba(10,24,40,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.dlg-in{background:var(--glass-strong)}
+#viewer{background:radial-gradient(120% 80% at 20% 0%,#16325A 0%,#0C1C33 55%,#060E1A 100%)}
 </style>
 <div class="fluid" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
@@ -448,6 +451,8 @@ a.feature[href^="#plot-"] .n{color:var(--brass)} a.feature[href^="#plot-"] b{col
     <p class="hint">Ask the architect's team about a drawing or a site condition. Everyone on this plot's Site tab sees it and the reply.</p>
     <label class="fl">Plot<select id="rfiPlot"></select></label>
     <label class="fl">Drawing<select id="rfiSheet"></select></label>
+    <div class="rfi-sheet" id="rfiSheetBox" hidden></div>
+    <label class="rfi-snap" id="rfiSnapRow" hidden><input type="checkbox" id="rfiSnapOn" checked><span>Attach the part of the drawing on screen</span><img id="rfiSnapImg" alt="Part of the drawing that will be attached"></label>
     <label class="fl">Question<textarea id="rfiQ" rows="4" placeholder="What needs clarifying? Mention grid, level or room if you can."></textarea></label>
     <label class="fl" id="rfiPhRow">Photos (optional)<input type="file" id="rfiPh" accept="image/*" multiple></label>
     <p class="tsave error" id="rfiMsg" role="status"></p>
@@ -1267,6 +1272,10 @@ const openRfis=no=>RFIS.filter(r=>r.plot===no&&r.status==="open");
 const waLink=t=>"https://wa.me/?text="+encodeURIComponent(t);
 const waProg=p=>waLink("THE WOODS · "+pName(p.no)+" · Site progress\nStage: \nStatus (started / done): \nDate: \nRemarks: \n(photos attached)");
 const sheetLine=s=>s.code+(s.no?" ("+s.no+")":"")+" · "+s.title+" · "+(s.rev&&s.rev!=="—"?s.rev+" · ":"")+s.date;
+const pubRoot=()=>DL_ROOT||location.href.split("#")[0].split("?")[0].replace(/[^/]*$/,"");
+const sheetView=s=>pubRoot()+"#"+s.code;
+const sheetPdf=(s,pg)=>pubRoot()+"pdf/"+encodeURIComponent(F[s.f][0])+"#page="+(pg||s.page);
+function rfiText(p,s,q,pg){ return "THE WOODS · RFI · "+(p?pName(p.no):"Plot __")+"\n"+(s?"Drawing: "+sheetLine(s)+"\nOpen in portal: "+sheetView(s)+"\nPDF: "+sheetPdf(s,pg)+"\n":"Drawing: general / site query\n")+"Question: "+(q||"")+"\n"; }
 const waRfi=(p,s)=>waLink("THE WOODS · RFI · "+(p?pName(p.no):"Plot __")+"\nDrawing: "+(s?sheetLine(s):"")+"\nQuestion: \n(photo attached if needed)");
 const who=id=>id&&id===myId?"you":(id&&NAMES[id])||"Someone";
 const fmtD=v=>{ if(!v) return ""; const d=new Date(v); return isNaN(d)?String(v):d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); };
@@ -1290,7 +1299,7 @@ function watchUpdates(no){
 let focusSite=false;
 function renderAside(p){ const a=$("siteAside"); if(!a) return; a.innerHTML=`<div class="saside-h"><h2>${p.no==="SITE"?"Site works progress":"Site updates · Plot "+p.no}</h2><p>${p.no==="SITE"?"Roads, services, compound wall, streetscape and amenities: progress, photos and RFIs.":"Progress, photos and RFIs from site."}</p></div>`+progTabHTML(p); bindProgTab(p); }
 function progTabHTML(p){
-  const wa=`<div class="tbar"><a class="portal-link" href="${waProg(p)}" target="_blank" rel="noopener">Send progress on WhatsApp</a><a class="portal-link" href="${waRfi(p,null)}" target="_blank" rel="noopener">Raise RFI on WhatsApp</a></div>`;
+  const wa=`<div class="tbar"><a class="portal-link" href="${waProg(p)}" target="_blank" rel="noopener">Send progress on WhatsApp</a><button type="button" class="portal-link" data-warfi="${p.no}">Raise RFI on WhatsApp</button></div>`;
   if(IS_ART&&!dbOn) return `<div class="note">Progress and RFIs are not available on this view. Use WhatsApp, or ask Vamsi to invite you as an Editor.</div>${wa}`;
   if(IS_ART) watchUpdates(p.no);
   const can=IS_ART&&canSite, ups=updList(p.no), s=Object.keys(progStages(p.no)).length?progStages(p.no):summarise(ups);
@@ -1310,8 +1319,9 @@ function progTabHTML(p){
   rl.slice().sort((a,b)=>String(a.at).localeCompare(String(b.at))).forEach((r,i)=>num[r.id]=i+1);
   const rfis=list.map(r=>`<div class="rfi rst-${r.status}" data-rfi="${esc(r.id)}">
       <div class="rfi-h"><b>RFI ${p.no}-${String(num[r.id]).padStart(2,"0")}</b><span class="pill rp-${r.status}">${RST[r.status]||r.status}</span>${r.sheet&&byCode[r.sheet]?`<button type="button" class="linkbtn" data-open="${esc(r.sheet)}">${esc(r.sheet)} · ${esc(r.sheetTitle||byCode[r.sheet].title)}${r.rev?" · "+esc(r.rev):""}</button>`:`<span class="muted">${esc(r.sheetTitle||"General / site query")}</span>`}</div>
+      ${r.sheet&&byCode[r.sheet]?`<div class="rfi-dwg"><button type="button" class="rfi-th" data-open="${esc(r.sheet)}" aria-label="Open ${esc(r.sheet)}"><img src="${thumb(byCode[r.sheet])}" alt="" loading="lazy"></button><div><b>${esc(r.sheet)}${r.rev?" · "+esc(r.rev):""}</b><span class="muted">${esc(r.sheetTitle||byCode[r.sheet].title)}${r.page&&r.page!==byCode[r.sheet].page?" · page "+r.page:""}</span><span><button type="button" class="linkbtn" data-open="${esc(r.sheet)}">Open drawing</button> · <a href="${esc(r.pdf||sheetPdf(byCode[r.sheet],r.page))}" target="_blank" rel="noopener">PDF</a></span></div></div>`:""}
       <p class="rfi-q">${esc(r.q||"")}</p>
-      ${(r.photos||[]).length?`<div class="phs">${r.photos.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="RFI photo" loading="lazy"></a>`).join("")}</div>`:""}
+      ${(r.photos||[]).length?`<div class="phs">${r.photos.map((x,i)=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"${r.snap&&i===0?' class="snap" title="Part of the drawing marked when the RFI was raised"':""}><img src="${esc(photoSrc(x))}" alt="${r.snap&&i===0?"Drawing view attached to the RFI":"RFI photo"}" loading="lazy"></a>`).join("")}</div>`:""}
       <p class="muted">Raised${r.by?" by "+esc(who(r.by)):""} · ${fmtD(r.at)}</p>
       ${(r.replies||[]).map(x=>`<div class="rep"><span class="muted">${x.by?esc(who(x.by))+" · ":""}${fmtD(x.at)}</span><p>${esc(x.text)}</p></div>`).join("")}
       ${can?`<div class="rfi-a"><textarea rows="2" data-rtx="${esc(r.id)}" placeholder="Reply or clarification"></textarea><div class="tbar"><button type="button" class="zbtn" data-rsend="${esc(r.id)}">Send reply</button>${r.status!=="answered"?`<button type="button" class="zbtn" data-rset="answered" data-rid="${esc(r.id)}">Mark answered</button>`:""}${r.status!=="closed"?`<button type="button" class="zbtn" data-rset="closed" data-rid="${esc(r.id)}">Close</button>`:`<button type="button" class="zbtn" data-rset="open" data-rid="${esc(r.id)}">Reopen</button>`}</div></div>`:""}
@@ -1343,6 +1353,7 @@ function bindProgTab(p){
     }catch(e){ ps.className="tsave error"; ps.textContent=e&&e.code==="invalid_argument"?"This account can view progress but not add updates.":"Not saved. Check your connection and try again."; }
     go2.disabled=false; };
   box.querySelectorAll("[data-newrfi]").forEach(b=>b.onclick=()=>openRfiDlg(p.no,null));
+  box.querySelectorAll("[data-warfi]").forEach(b=>b.onclick=()=>{ const keep=canSite; canSite=false; openRfiDlg(p.no,null); canSite=keep; });
   box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openSheet(b.dataset.open,true));
   box.querySelectorAll("[data-rsend]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.rsend, ta=box.querySelector(`[data-rtx="${id}"]`), t=ta.value.trim(); if(!t) return; const r=RFIS.find(x=>x.id===id); b.disabled=true;
     try{ await DB.doc("rfi/"+id).update({replies:(r.replies||[]).concat([{by:myId,at:new Date().toISOString(),text:t}])}); ta.value=""; }catch(e){ alertMsg("Reply not sent. Check your connection and try again."); } b.disabled=false; });
@@ -1351,30 +1362,63 @@ function bindProgTab(p){
 function alertMsg(t){ const el=$("ttoast")||document.body.appendChild(Object.assign(document.createElement("div"),{id:"ttoast"})); el.textContent=t; el.className="ttoast tsave error"; setTimeout(()=>{ el.className="ttoast"; },4000); }
 
 /* RFI dialog */
-function openRfiDlg(plotNo,code){
-  const dlg=$("rfiDlg"); rfiCtx={plot:plotNo||"",code:code||""};
+let rfiSnap=null, rfiPage=null;
+function viewerSnap(label){ return new Promise(res=>{ try{
+  if($("viewer").hidden||!cv.width||cv.style.visibility==="hidden") return res(null);
+  const sr=stage.getBoundingClientRect(), cr=cv.getBoundingClientRect();
+  const x0=Math.max(sr.left,cr.left), y0=Math.max(sr.top,cr.top), x1=Math.min(sr.right,cr.right), y1=Math.min(sr.bottom,cr.bottom);
+  if(x1-x0<40||y1-y0<40) return res(null);
+  const k=cv.width/cr.width, sx=(x0-cr.left)*k, sy=(y0-cr.top)*k, sw=(x1-x0)*k, sh=(y1-y0)*k;
+  const sc=Math.min(1,1800/Math.max(sw,sh)), W=Math.round(sw*sc), H=Math.round(sh*sc), band=40;
+  const c=document.createElement("canvas"); c.width=W; c.height=H+band; const g=c.getContext("2d");
+  g.fillStyle="#fff"; g.fillRect(0,0,W,H+band); g.drawImage(cv,sx,sy,sw,sh,0,0,W,H);
+  g.fillStyle="#0E3328"; g.fillRect(0,H,W,band); g.fillStyle="#fff"; g.font="600 17px Archivo, Arial, sans-serif"; g.textBaseline="middle";
+  g.fillText(label,12,H+band/2,W-24);
+  c.toBlob(b=>res(b),"image/jpeg",0.86); }catch(e){ res(null); } }); }
+function showSheetBox(){ const s=byCode[$("rfiSheet").value], box=$("rfiSheetBox");
+  if(!s){ box.hidden=true; box.innerHTML=""; return; }
+  const pg=(rfiPage&&rfiCtx.code===s.code)?rfiPage:s.page;
+  box.hidden=false; box.innerHTML=`<img src="${thumb(Object.assign({},s,{page:s.page}))}" alt=""><div><b>${esc(s.code)} · ${esc(s.title)}</b><span class="muted">${esc([s.no,s.rev&&s.rev!=="—"?s.rev:"",s.date].filter(Boolean).join(" · "))}${pg!==s.page?" · page "+pg:""}</span><span class="muted">The drawing link and its PDF go with the RFI.</span><a href="${esc(sheetPdf(s,pg))}" target="_blank" rel="noopener">Open PDF</a></div>`; }
+function openRfiDlg(plotNo,code,snap,page){
+  const dlg=$("rfiDlg"); rfiCtx={plot:plotNo||"",code:code||""}; rfiSnap=snap||null; rfiPage=page||null;
+  const db=dbOn&&canSite; $("rfiGo").textContent=db?"Send RFI":"Share on WhatsApp"; $("rfiWa").hidden=!db;
+  $("rfiSnapRow").hidden=!rfiSnap; if(rfiSnap){ const u=URL.createObjectURL(rfiSnap); $("rfiSnapImg").src=u; $("rfiSnapOn").checked=true; }
   const ps=$("rfiPlot"); ps.innerHTML=`<option value="">Choose plot</option><option value="SITE"${rfiCtx.plot==="SITE"?" selected":""}>Site works (roads, services, common areas)</option>`+plotOrder().map(p=>`<option value="${p.no}"${p.no===rfiCtx.plot?" selected":""}>Plot ${p.no}</option>`).join("");
   fillRfiSheets(); $("rfiQ").value=""; $("rfiPh").value=""; $("rfiMsg").textContent="";
-  $("rfiPhRow").hidden=!assetsNs; dlg.hidden=false; setTimeout(()=>$("rfiQ").focus(),50);
+  $("rfiPhRow").hidden=db&&!assetsNs; showSheetBox(); dlg.hidden=false; setTimeout(()=>$("rfiQ").focus(),50);
 }
 function fillRfiSheets(){ const no=$("rfiPlot").value, p=no==="SITE"?SITE_P:plotBy[no]; const list=no==="SITE"?[].concat(...SITE_G.map(g=>g.c.map(c=>byCode[c]).filter(Boolean))):p?plotSheets(p):[];
   $("rfiSheet").innerHTML=`<option value="">General / site query</option>`+list.map(s=>`<option value="${s.code}"${s.code===rfiCtx.code?" selected":""}>${esc(s.code)} · ${esc(s.title)}${s.rev&&s.rev!=="—"?" · "+esc(s.rev):""}</option>`).join("")+(rfiCtx.code&&!list.some(s=>s.code===rfiCtx.code)&&byCode[rfiCtx.code]?`<option value="${rfiCtx.code}" selected>${esc(rfiCtx.code)} · ${esc(byCode[rfiCtx.code].title)}</option>`:"");
-  $("rfiWa").href=waRfi(p,byCode[$("rfiSheet").value]||null); }
+  $("rfiWa").href=waLink(rfiText(p,byCode[$("rfiSheet").value]||null,$("rfiQ").value.trim(),rfiPage)); showSheetBox(); }
+async function shareRfiWa(p,s,q){
+  const text=rfiText(p,s,q,rfiPage), files=[];
+  if(rfiSnap&&$("rfiSnapOn").checked) files.push(new File([rfiSnap],"RFI-"+(p?p.no:"")+"-"+(s?s.code:"site")+".jpg",{type:"image/jpeg"}));
+  [...$("rfiPh").files].forEach(f=>files.push(f));
+  if(files.length&&navigator.canShare&&navigator.canShare({files,text})){ try{ await navigator.share({files,text,title:"RFI"}); return true; }catch(e){ if(e&&e.name==="AbortError") return false; } }
+  if(files.length){ files.slice(0,1).forEach(f=>{ const a=document.createElement("a"); a.href=URL.createObjectURL(f); a.download=f.name; document.body.appendChild(a); a.click(); a.remove(); }); $("rfiMsg").className="tsave"; $("rfiMsg").textContent="The drawing image was downloaded. Attach it to the WhatsApp message."; }
+  window.open(waLink(text),"_blank","noopener"); return true;
+}
 async function submitRfi(){
   const no=$("rfiPlot").value, code=$("rfiSheet").value, q=$("rfiQ").value.trim(), msg=$("rfiMsg");
   if(!no){ msg.textContent="Choose the plot."; return; } if(!q){ msg.textContent="Write your question."; return; }
-  const btn=$("rfiGo"); btn.disabled=true; msg.textContent="Sending…";
-  try{ const s=byCode[code]; const photos=assetsNs&&$("rfiPh").files.length?await uploadPhotos([...$("rfiPh").files]):[];
-    await DB.collection("rfi").add({plot:no,sheet:code||"",rev:s&&s.rev!=="—"?s.rev:"",sheetTitle:s?s.title:"General / site query",q,photos,status:"open",at:new Date().toISOString(),by:myId||"",replies:[]});
+  const s=byCode[code], pP=no==="SITE"?SITE_P:plotBy[no];
+  if(!(dbOn&&canSite)){ msg.className="tsave error"; msg.textContent=""; const ok=await shareRfiWa(pP,s,q); if(ok&&!msg.textContent) $("rfiDlg").hidden=true; return; }
+  const btn=$("rfiGo"); btn.disabled=true; msg.className="tsave error"; msg.textContent="Sending…";
+  try{ const files=[]; if(rfiSnap&&$("rfiSnapOn").checked) files.push(rfiSnap); [...$("rfiPh").files].forEach(f=>files.push(f));
+    const photos=assetsNs&&files.length?await uploadPhotos(files):[];
+    await DB.collection("rfi").add({plot:no,sheet:code||"",rev:s&&s.rev!=="—"?s.rev:"",page:s?(rfiPage&&rfiCtx.code===code?rfiPage:s.page):null,sheetTitle:s?s.title:"General / site query",pdf:s?sheetPdf(s,rfiPage&&rfiCtx.code===code?rfiPage:s.page):"",q,photos,snap:!!(rfiSnap&&$("rfiSnapOn").checked),status:"open",at:new Date().toISOString(),by:myId||"",replies:[]});
     $("rfiDlg").hidden=true; if(!$("viewer").hidden) closeViewer(false); focusSite=true; go(no==="SITE"?"site":"plot-"+no);
   }catch(e){ msg.textContent=e&&e.code==="invalid_argument"?"This account cannot raise RFIs here. Use WhatsApp instead.":"Not sent. Check your connection and try again."; }
   btn.disabled=false;
 }
 $("rfiPlot").onchange=()=>{ rfiCtx.code=""; fillRfiSheets(); };
-$("rfiSheet").onchange=()=>{ const v=$("rfiPlot").value, p=v==="SITE"?SITE_P:plotBy[v]; $("rfiWa").href=waRfi(p,byCode[$("rfiSheet").value]||null); };
+$("rfiSheet").onchange=()=>{ const v=$("rfiPlot").value, p=v==="SITE"?SITE_P:plotBy[v]; $("rfiWa").href=waLink(rfiText(p,byCode[$("rfiSheet").value]||null,$("rfiQ").value.trim(),rfiPage)); showSheetBox(); };
+$("rfiQ").oninput=()=>{ const v=$("rfiPlot").value, p=v==="SITE"?SITE_P:plotBy[v]; $("rfiWa").href=waLink(rfiText(p,byCode[$("rfiSheet").value]||null,$("rfiQ").value.trim(),rfiPage)); };
 $("rfiCancel").onclick=()=>{ $("rfiDlg").hidden=true; };
 $("rfiGo").onclick=submitRfi;
-$("vrfi").onclick=()=>{ const no=route.startsWith("plot-")?route.slice(5):route==="site"?"SITE":""; if(dbOn&&canSite){ openRfiDlg(no,cur&&cur.code); } else { window.open(waRfi(no==="SITE"?SITE_P:plotBy[no],cur),"_blank","noopener"); } };
+$("vrfi").onclick=async()=>{ const no=route.startsWith("plot-")?route.slice(5):route==="site"?"SITE":""; const s=cur;
+  const snap=s?await viewerSnap((no?pName(no)+" · ":"")+s.code+(s.rev&&s.rev!=="—"?" "+s.rev:"")+" · "+s.title+(curPage!==s.page?" · page "+curPage:"")):null;
+  openRfiDlg(no,s&&s.code,snap,curPage); };
 /* all-plots overview */
 function renderProgress(){
   const sOpen=openRfis("SITE").length, srec=PROG.SITE;
