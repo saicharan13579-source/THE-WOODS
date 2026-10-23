@@ -33,3 +33,11 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
 - Each plot record also has `status` (booked/registered/blocked; absent = available) and `label` (e.g. Sales office) from Ankura's sales layout; `_asof` holds the status date. Blocked plots (except Plot 30, the model villa) show no villa drawings. Master layout colours follow status.
 - Plots 01-05, 08, 23, 28 are North facing (sales layout); they show the East set as typical reference with a warning.
 - type is "1625", "1215" or "custom" (client custom floor plan: no standard sets shown; add its drawings via PLOT_INFO extra).
+
+## Revision archive
+- `SUP` in the template maps each superseded code to [current code, date replaced]. Superseded sheets never show on plot tabs or in the register; they appear only under Drawing register → Revision archive, and the viewer shows "Old revs (n)" on the current sheet. When a new revision arrives: add the new sheet, keep the old row (status "super"), add it to SUP.
+
+## Site progress & RFIs (per villa "Site" tab, plus the Progress page)
+- Claude artifact db: `progress/<plot>` {stages:{setout|excav|pcc|footing|plinth|walls|roof|services|finish|land:{st:""|"wip"|"done",date,remark,photos:[{id,url}]}},updatedAt,by}; `rfi/<id>` {plot,sheet,rev,sheetTitle,q,photos,status:open|answered|closed,at,by,replies:[{by,at,text}]}. Photos via the assets capability.
+- Who can write: owner + people invited by email as Editor. `villa/types` is owner-only (rule). The GitHub site cannot store anything: its Site tab offers WhatsApp messages (wa.me) with plot and drawing filled in, plus a link to the Claude version.
+- Artifact capabilities: db rules [{path:"",read:"view",write:"admin"},{path:"villa",read:"view",write:"owner"}], user {scopes:["profile"]}, assets {}.

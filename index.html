@@ -215,6 +215,29 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .pub .portal-link{cursor:pointer}.pub .portal-link:disabled{opacity:.45;cursor:default}
 .pub textarea{width:100%;font-family:var(--f-mono);font-size:12px;border:1px solid var(--glass-line);border-radius:10px;padding:8px;background:var(--paper);color:var(--ink)}
 .card .hint{margin:4px 0 10px;font-size:13px;color:var(--muted)}
+.muted{color:var(--muted);font-size:13px}
+.pbar{height:10px;border-radius:6px;background:var(--glass-line);overflow:hidden;margin:4px 0 10px}.pbar i{display:block;height:100%;background:var(--c-site)}
+.pbar.sm{height:6px;margin:0 0 2px;min-width:80px}
+.prog select,.prog input[type=date],.prog input[type=text]{font:inherit;font-size:14px;height:38px;border:1px solid var(--glass-line);border-radius:9px;background:var(--paper);color:var(--ink);padding:0 8px;max-width:100%}
+.prog input[type=text]{min-width:160px;width:100%}
+.prog select.pst-done,.pst.pst-done{color:var(--ok);font-weight:600}.prog select.pst-wip,.pst.pst-wip{color:var(--warn);font-weight:600}
+.phs{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.phs img{width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--glass-line);display:block}
+.phbtn{display:inline-flex;align-items:center;height:36px;padding:0 10px;border:1.5px dashed var(--c-site);border-radius:9px;color:var(--c-site);font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap}
+.rfi{border:1px solid var(--glass-line);border-left:5px solid var(--warn);border-radius:12px;padding:10px 12px;margin-top:10px;background:var(--paper)}
+.rfi.rst-answered{border-left-color:var(--ok)}.rfi.rst-closed{border-left-color:var(--ref);opacity:.85}
+.rfi-h{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.rfi-q{margin:6px 0;white-space:pre-wrap}
+.rep{border-top:1px solid var(--glass-line);margin-top:8px;padding-top:6px}.rep p{margin:2px 0;white-space:pre-wrap}
+.rfi-a textarea,.dlg textarea{width:100%;font:inherit;font-size:15px;border:1px solid var(--glass-line);border-radius:10px;padding:8px;background:var(--paper);color:var(--ink);margin-top:8px}
+.pill.rp-open{background:var(--warn-bg);color:var(--warn)}.pill.rp-answered{background:var(--ok-bg);color:var(--ok)}.pill.rp-closed{background:var(--ref-bg);color:var(--ref)}
+.pill.vtp-std{background:rgba(46,158,79,.16);color:#1f7a3a}.pill.vtp-custom{background:rgba(139,79,214,.16);color:#6a33b0}.pill.vtp-blocked,.pill.vtp-none{background:var(--ref-bg);color:var(--ref)}
+.linkbtn{border:0;background:none;color:var(--forest);font-weight:600;cursor:pointer;padding:0;text-align:left;font:inherit;font-size:14px}
+.rfi-all{display:grid;gap:6px;margin-bottom:12px}.rfi-row{display:grid;grid-template-columns:auto auto auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);text-decoration:none}
+@media (max-width:600px){.rfi-row{grid-template-columns:auto auto 1fr}.rfi-row span:nth-child(4),.rfi-row span:nth-child(5){grid-column:1/-1}}
+.rfi-n{color:var(--warn)}
+.dlg{position:fixed;inset:0;z-index:60;background:rgba(10,16,13,.5);display:flex;align-items:center;justify-content:center;padding:16px}
+.dlg-in{width:min(560px,100%);max-height:90vh;overflow:auto;display:grid;gap:8px}.dlg h2{margin:0;font-size:20px}
+.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}.fl select,.fl input{font:inherit;font-size:15px;height:42px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);color:var(--ink);padding:0 8px}.fl input[type=file]{height:auto;padding:8px}
+.wa{font-size:14px;font-weight:600;color:var(--c-site)}
 .tsave{margin:4px 0 10px;font-size:14px;font-weight:600;color:var(--muted)}
 .tsave.saved{color:var(--ok)}.tsave.saving{color:var(--warn)}.tsave.error,.tsave.denied{color:var(--bad)}
 .ttoast{display:none}.ttoast.saved,.ttoast.saving,.ttoast.error,.ttoast.denied{display:block;font-size:14px;font-weight:600;position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;margin:0;padding:10px 16px;border-radius:12px;background:var(--glass-strong);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);max-width:calc(100vw - 32px);text-align:center}
@@ -301,6 +324,8 @@ section.grp{display:grid;gap:10px}
     <button class="vbtn" id="vclose" type="button" aria-label="Close sheet">✕<span class="hide-s">Close</span></button>
     <div class="vtitle"><span class="a" id="vt-a"></span><span class="b" id="vt-b"></span></div>
     <a class="vbtn" id="vdwg" href="#" target="_blank" rel="noopener" download hidden>DWG</a>
+    <button class="vbtn" id="vold" type="button" hidden>Old revs</button>
+    <button class="vbtn" id="vrfi" type="button">RFI<span class="hide-s"> / query</span></button>
     <a class="vbtn" id="vpdf" href="#" target="_blank" rel="noopener">PDF<span class="hide-s"> original</span></a>
   </div>
   <div id="stage"><div id="paperwrap"><canvas id="cv"></canvas></div><div id="vmsg">Loading…</div></div>
@@ -322,6 +347,19 @@ section.grp{display:grid;gap:10px}
       <button class="vbtn" id="zfit" type="button">Fit</button>
       <button class="vbtn" id="zrot" type="button" aria-label="Rotate">⟳</button>
     </div>
+  </div>
+</div>
+
+<div id="rfiDlg" class="dlg" hidden role="dialog" aria-modal="true" aria-labelledby="rfiTitle">
+  <div class="dlg-in card">
+    <h2 id="rfiTitle">Raise an RFI</h2>
+    <p class="hint">Ask the architect's team about a drawing or a site condition. Everyone on this plot's Site tab sees it and the reply.</p>
+    <label class="fl">Plot<select id="rfiPlot"></select></label>
+    <label class="fl">Drawing<select id="rfiSheet"></select></label>
+    <label class="fl">Question<textarea id="rfiQ" rows="4" placeholder="What needs clarifying? Mention grid, level or room if you can."></textarea></label>
+    <label class="fl" id="rfiPhRow">Photos (optional)<input type="file" id="rfiPh" accept="image/*" multiple></label>
+    <p class="tsave error" id="rfiMsg" role="status"></p>
+    <div class="tbar"><button type="button" class="portal-link" id="rfiGo">Send RFI</button><button type="button" class="zbtn" id="rfiCancel">Cancel</button><a class="wa" id="rfiWa" href="#" target="_blank" rel="noopener">or send on WhatsApp</a></div>
   </div>
 </div>
 
@@ -410,7 +448,8 @@ const DISC={
   mep:{name:"Services (MEP)",c:"--c-mep"},
   land:{name:"Landscape",c:"--c-land"},
   site:{name:"Site & survey",c:"--c-site"},
-  "3d":{name:"3D views",c:"--c-3d"}
+  "3d":{name:"3D views",c:"--c-3d"},
+  prog:{name:"Site",c:"--c-site"}
 };
 const ST={gfc:"GFC",issued:"Issued",approval:"For approval",option:"Option",super:"Superseded",ref:"Reference",cad:"CAD only",typical:"Typical"};
 const ARC="also.design (Architect)", JA="Jashritha Associates (Structural)", LLA="LumiScapes (Landscape)", MEPT="MEP consultant";
@@ -536,6 +575,14 @@ const CAD=[
 ].map(a=>({code:a[0],file:a[1],title:a[2],sub:a[3],date:a[4],disc:a[5],kb:a[6],dir:a[7],by:a[8],ext:/\.xlsx?$/i.test(a[1])?"Excel":"DWG",st:"cad",cad:true}));
 const cadByCode=Object.fromEntries(CAD.map(c=>[c.code,c]));
 const itemBy=c=>byCode[c]||cadByCode[c];
+/* superseded sheets: old code -> [current code, date replaced]. Old sheets are kept only in the Revision archive. */
+const SUP={"AR-09":["AR-14","21-10-2026"],"AR-13":["AR-15","21-10-2026"],"TP-01":["AR-14","08-10-2026"],"TP-02":["AW-01","21-10-2026"],
+ "LA-01":["LA-09","14-10-2026"],"LA-02":["LA-10","13-10-2026"],
+ "S16-01-R01":["S16-01","05-10-2026"],"S16-02-R0":["S16-02","05-10-2026"],"S16-03-R01":["S16-03","05-10-2026"],
+ "S12-01-R0":["S12-01","07-10-2026"],"S12-02-R0":["S12-02","07-10-2026"],"S12-03-R0":["S12-03","07-10-2026"],"S12-05-R0":["S12-05","07-10-2026"],
+ "CAD-09":["CAD-14","21-10-2026"],"CAD-12":["CAD-15","21-10-2026"]};
+const OLDREV={}; Object.keys(SUP).forEach(o=>{ (OLDREV[SUP[o][0]]=OLDREV[SUP[o][0]]||[]).push(o); });
+const notOld=it=>it&&!SUP[it.code];
 const cadUrl=c=>DL_ROOT+c.dir+"/"+encodeURIComponent(c.file);
 // F[key][2]=1: file too large for the Claude artifact, so the artifact build reads it from the GitHub site (DL_ROOT)
 const pdfUrl=s=>(F[s.f][2]&&DL_ROOT?DL_ROOT:FILE_ROOT)+"pdf/"+encodeURIComponent(F[s.f][0]);
@@ -581,12 +628,10 @@ const SEQ=[
 const ALL=[
  {h:"Plot 30 · 1625 East model villa · architectural GFC set",p:"Issued 08-10-2026 by the architect; floor plan and opening schedule reissued 21-10-2026.",c:S.filter(s=>s.disc==="arch"&&s.st==="gfc"&&s.villa==="1625E").map(s=>s.code)},
  {h:"1625 West villa · architectural GFC",p:"Issued 21-10-2026. Only the floor plan arrived; the rest of the West set was empty in the transfer.",c:["AW-01","AR-15"]},
- {h:"Superseded architectural sheets",p:"Kept for record only. Do not build from these.",c:["AR-09","AR-13","TP-01","TP-02"]},
  {h:"Structure · 1625 East villa",p:"Jashritha Associates · SD-01 to SD-06 · SD-01, SD-03 at R02 and SD-02 at R01 (05-10-2026).",c:S.filter(s=>s.f==="S6E").map(s=>s.code)},
  {h:"Structure · 1625 West villa",p:"Jashritha Associates · SD-01 to SD-06 · R01 (07-10-2026).",c:S.filter(s=>s.f==="S6W").map(s=>s.code)},
  {h:"Structure · 1215 East villa",p:"Jashritha Associates · SD-01 to SD-06 · R01 (07-10-2026).",c:S.filter(s=>s.f==="S2E").map(s=>s.code)},
  {h:"Structure · 1215 West villa",p:"Jashritha Associates · SD-01 to SD-06 · R01 (07-10-2026).",c:S.filter(s=>s.f==="S2W").map(s=>s.code)},
- {h:"Superseded structural sheets",p:"Older revisions kept for record only. Do not build from these.",c:S.filter(s=>s.disc==="str"&&s.st==="super").map(s=>s.code)},
  {h:"Landscape · Plot 30 model villa",p:"LumiScapes · For Information & Approval. Dimensions in feet, levels in metres.",c:["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","LA-01","LA-02"]},
  {h:"Landscape · typical villa conceptual plans",p:"LumiScapes · final conceptual plans for each villa type and facing. For Information & Approval. Layout intent only; no marking or levels issued for these yet.",c:["LA-20","LA-21","LA-22","LA-23"]},
  {h:"Villa typology floor plans",p:"All villa types. Reference only, except where a GFC sheet exists.",c:S.filter(s=>s.code.startsWith("TP-")).map(s=>s.code)},
@@ -597,7 +642,7 @@ const ALL=[
 /* drawings for one plot, by discipline, for a villa type ("1625" or "1215") */
 function plotSet(p,type){
   const m=p.no===MODEL, e=p.face!=="W";
-  const T=(codes,st)=>codes.map(c=>{const it=itemBy(c); return st&&!it.cad?Object.assign({},it,{st:st,_typ:true}):it;});
+  const T=(codes,st)=>codes.filter(c=>!SUP[c]).map(c=>{const it=itemBy(c); return st&&!it.cad?Object.assign({},it,{st:st,_typ:true}):it;});
   const siteNote=["","No in-villa plumbing or electrical drawings have been issued yet. External water supply and electrical drawings are in the <a href=\""+SITE_LINK+"\">Site portal</a>."];
   let set;
   if(isOffPlot(p)){
@@ -614,11 +659,11 @@ function plotSet(p,type){
   if(type==="1625"&&e){
     set={
       arch:{items:m?T(["AR-01","AR-02","AR-03","AR-04","AR-05","AR-06","AR-07","AR-08","AR-14","AR-10","AR-11","AR-12","AR-15","AR-09","AR-13"]):T(["AR-14","AR-10","AR-11","AR-12","AR-15","AR-02","AR-04","AR-05","AR-07","AR-08"],"typical"),
-        note:m?["","1625 East GFC set issued for this plot on 08-10-2026; floor plan and opening schedule reissued 21-10-2026 (AR-14, AR-15). Each sheet has a DWG download. AR-09 and AR-13 at the end are superseded."]:["warn","Typical 1625 East villa sheets, issued for Plot 30. Setting-out from the plot boundary (centre line, excavation and footing marking) is plot-specific and has not been issued for Plot "+p.no+" yet."]},
-      str:{items:T(["S16-01","S16-02","S16-03","S16-04","S16-05","S16-06"],m?null:"typical").concat(T(["S16-01-R01","S16-02-R0","S16-03-R01"])),note:["","1625 East villa structural set by Jashritha Associates. SD-01 and SD-03 are R02, SD-02 is R01 (05-10-2026); SD-04 to SD-06 unchanged. Superseded revisions are listed last."]},
+        note:m?["","1625 East GFC set issued for this plot on 08-10-2026; floor plan and opening schedule reissued 21-10-2026 (AR-14, AR-15). Each sheet has a DWG download. Older revisions are in Drawing register → Revision archive."]:["warn","Typical 1625 East villa sheets, issued for Plot 30. Setting-out from the plot boundary (centre line, excavation and footing marking) is plot-specific and has not been issued for Plot "+p.no+" yet."]},
+      str:{items:T(["S16-01","S16-02","S16-03","S16-04","S16-05","S16-06"],m?null:"typical").concat(T(["S16-01-R01","S16-02-R0","S16-03-R01"])),note:["","1625 East villa structural set by Jashritha Associates. SD-01 and SD-03 are R02, SD-02 is R01 (05-10-2026); SD-04 to SD-06 unchanged. Older revisions are in Drawing register → Revision archive."]},
       mep:{items:T(["CAD-03"]),note:siteNote},
       land:{items:m?T(["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","RD-E","LA-01","LA-02"]):T(["LA-20"]).concat(T(["LA-03","LA-04","LA-05","RD-E"])),
-        note:m?["warn","Model villa landscape set (conceptual, marking, levels, irrigation, lighting, sections, storm water). For Information & Approval only; material option 01 or 02 still to be chosen. LA-01 and LA-02 are superseded."]:["","Typical 1625 East landscape conceptual plan (LA-20). Marking, levels, irrigation, lighting and sections have been issued for the Plot 30 model villa only; Plot 30's material options and renders below are for reference."]}
+        note:m?["warn","Model villa landscape set (conceptual, marking, levels, irrigation, lighting, sections, storm water). For Information & Approval only; material option 01 or 02 still to be chosen. Older revisions are in Drawing register → Revision archive."]:["","Typical 1625 East landscape conceptual plan (LA-20). Marking, levels, irrigation, lighting and sections have been issued for the Plot 30 model villa only; Plot 30's material options and renders below are for reference."]}
     };
   } else if(type==="1625"){
     set={
@@ -630,7 +675,7 @@ function plotSet(p,type){
   } else if(e){
     set={
       arch:{items:T(["TP-03"]),note:["warn","Only the 1215 East typology floor plan (18-09-2026) has been issued. No 1215 GFC set yet."]},
-      str:{items:T(["S12-01","S12-02","S12-03","S12-04","S12-05","S12-06"],"typical").concat(T(["S12-01-R0","S12-02-R0","S12-03-R0","S12-05-R0"])),note:["","1215 East villa structural set by Jashritha Associates, R01 (07-10-2026); SD-04 and SD-06 unchanged from R0. Superseded R0 sheets are listed last."]},
+      str:{items:T(["S12-01","S12-02","S12-03","S12-04","S12-05","S12-06"],"typical").concat(T(["S12-01-R0","S12-02-R0","S12-03-R0","S12-05-R0"])),note:["","1215 East villa structural set by Jashritha Associates, R01 (07-10-2026); SD-04 and SD-06 unchanged from R0. Older revisions are in Drawing register → Revision archive."]},
       mep:{items:T(["CAD-03"]),note:siteNote},
       land:{items:T(["LA-22","LA-03","LA-04","LA-05"]),note:["","Typical 1215 East landscape conceptual plan (LA-22, 22-10-2026). No marking, levels or details for the 1215 villa yet. The model villa material options are for reference."]}
     };
@@ -666,7 +711,7 @@ const isOffPlot=p=>pStatus(p)==="blocked"&&p.no!==MODEL;
 const statusTxt=p=>ST_PLOT[pStatus(p)]+(pLabel(p)?" · "+pLabel(p):"");
 function pSmall(p){ const i=PLOT_INFO[p.no]||{}; if(isOffPlot(p)) return pLabel(p)||"Blocked"; if(i.type) return i.type==="custom"?"Custom":i.type+" "+p.face; return faceWord(p); }
 let q="", disc="all", regView="seq", currentList=[], route="";
-try{ const v=localStorage.getItem("woods.reg"); if(["seq","all"].includes(v)) regView=v; }catch(e){}
+try{ const v=localStorage.getItem("woods.reg"); if(["seq","all","arch"].includes(v)) regView=v; }catch(e){}
 let ptab="arch"; try{ const v=localStorage.getItem("woods.ptab"); if(v&&DISC[v]) ptab=v; }catch(e){}
 const pickType={}; let lastType="1625"; try{ const v=localStorage.getItem("woods.vtype"); if(TYPES.includes(v)) lastType=v; }catch(e){}
 let mapZoom=window.innerWidth<700?1.25:1;
@@ -753,6 +798,7 @@ function renderHome(){
       <div class="card"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
         <div class="plotgrid">${order.map(p=>`<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}" href="#plot-${p.no}" title="${esc(statusTxt(p))}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>
       <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${PLOTS.filter(p=>VTYPES.includes((PLOT_INFO[p.no]||{}).type)).length}/${PLOTS.length}</span><span><b>Villa types</b><span>Plots with a confirmed villa type. Tap to confirm or change.</span></span></a>
+      <a class="feature card" href="#progress" style="background:var(--glass)"><span class="n" style="font-size:22px;color:var(--c-site)">${dbOn?PLOTS.filter(p=>progPct(p.no)>0).length:"·"}</span><span><b>Site progress &amp; RFIs</b><span>${dbOn?RFIS.filter(r=>r.status==="open").length+" open RFIs. ":""}Each villa's Site tab: stages, dates, photos and RFIs.</span></span></a>
       ${alertsHTML(VILLA_ALERTS,"Check before you build",false)}
       <a class="feature card" href="${SITE_LINK}" style="background:var(--glass)"><span class="n" style="color:var(--c-mep);font-size:22px">SITE</span><span><b>Site portal</b><span>Site plans, levels, survey, external electrical and water supply</span></span></a>
     </div>
@@ -772,7 +818,7 @@ function renderPlot(no){
   let vtype=confirmed?info.type:(pickType[p.no]||lastType);
   const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
   const i=order.indexOf(p), prev=order[i-1], next=order[i+1];
-  const keys=["arch","str","mep","land"];
+  const keys=["arch","str","mep","land","prog"];
   if(!keys.includes(ptab)) ptab="arch";
   const [x0,y0,x1,y1]=p.box, cxp=((x0+x1)/2)/MAP_W, cyp=((y0+y1)/2)/MAP_H;
   $("main").innerHTML=`
@@ -801,7 +847,9 @@ function renderPlot(no){
   let set=plotSet(p,vtype);
   const showTab=()=>{
     set=plotSet(p,vtype);
-    document.querySelectorAll(".dtab").forEach(b=>b.querySelector(".n").textContent=set[b.dataset.k].items.length);
+    document.querySelectorAll(".dtab").forEach(b=>b.querySelector(".n").textContent=b.dataset.k==="prog"?(dbOn?progPct(p.no)+"%":"+"):set[b.dataset.k].items.length);
+    document.querySelectorAll(".dtab").forEach(b=>b.setAttribute("aria-selected",b.dataset.k===ptab));
+    if(ptab==="prog"){ $("ptab").innerHTML=progTabHTML(p); bindProgTab(p); currentList=[]; return; }
     const d=set[ptab]; const [k,t]=d.note;
     $("ptab").innerHTML=`<div style="display:grid;gap:10px">${t?`<div class="note ${k}">${t}</div>`:""}${d.items.length?itemsHTML(d.items):""}</div>`;
     currentList=d.items.filter(x=>!x.cad);
@@ -809,19 +857,28 @@ function renderPlot(no){
   };
   document.querySelectorAll("[data-ty]").forEach(b=>b.onclick=()=>{vtype=b.dataset.ty; pickType[p.no]=vtype; lastType=vtype; try{localStorage.setItem("woods.vtype",vtype)}catch(e){} document.querySelectorAll("[data-ty]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ty===vtype)); showTab();});
   document.querySelectorAll(".dtab").forEach(b=>b.onclick=()=>{ptab=b.dataset.k; try{localStorage.setItem("woods.ptab",ptab)}catch(e){} showTab();});
+  redrawTab=(force)=>{ if(!route.startsWith("plot-")||route.slice(5)!==p.no) return; showTab(); };
   showTab();
   window.scrollTo(0,0);
 }
 
 /* ---------- register ---------- */
+function archiveGroups(){
+  const cur={}; Object.keys(SUP).forEach(o=>{ const c=SUP[o][0]; (cur[c]=cur[c]||[]).push(o); });
+  return Object.keys(cur).map(c=>{ const now=itemBy(c);
+    return {h:c+" · "+now.title, p:"Current: "+[now.no,now.rev&&now.rev!=="—"?now.rev:"",now.date].filter(Boolean).join(" · ")+". Replaced revisions:",
+      items:cur[c].map(o=>{ const it=itemBy(o); return Object.assign({},it,{sub:"Rev "+(it.rev&&it.rev!=="—"?it.rev:"—")+", issued "+it.date+". Replaced on "+SUP[o][1]+" by "+c+"."}); }).filter(match)}; });
+}
 function renderRegister(){
   const groups = q
-    ? [...ALL.map(g=>({h:g.h,p:"",items:g.c.map(itemBy).filter(match)})),...SITE_G.map(g=>({h:"Site · "+g.h,p:"",items:g.c.map(itemBy).filter(match)}))]
+    ? [...ALL.map(g=>({h:g.h,p:"",items:g.c.map(itemBy).filter(notOld).filter(match)})),{h:"Revision archive (old revisions)",p:"",items:Object.keys(SUP).map(itemBy).filter(match)},...SITE_G.map(g=>({h:"Site · "+g.h,p:"",items:g.c.map(itemBy).filter(match)}))]
     : regView==="seq" ? SEQ.map((g,i)=>({no:String(i+1).padStart(2,"0"),h:g.h,p:g.p,items:g.c.map(itemBy).filter(match)}))
-    : ALL.map(g=>({h:g.h,p:g.p,items:g.c.map(itemBy).filter(match)}));
+    : regView==="arch" ? archiveGroups()
+    : ALL.map(g=>({h:g.h,p:g.p,items:g.c.map(itemBy).filter(notOld).filter(match)}));
   const chipsDef=[["all","All teams",null]].concat(["arch","str","mep","land","3d"].map(k=>[k,DISC[k].name,DISC[k].c]));
   let html=`<div class="chips" id="chips">${chipsDef.map(([k,n,c])=>`<button type="button" class="chip" data-d="${k}" aria-pressed="${disc===k}" style="${c?`--dc:var(${c})`:""}">${c?"<i></i>":""}${esc(n)}</button>`).join("")}</div>`;
-  if(!q) html+=`<div class="views" style="width:max-content;max-width:100%"><button type="button" data-rv="seq" aria-pressed="${regView==="seq"}">Plot 30 sequence</button><button type="button" data-rv="all" aria-pressed="${regView==="all"}">All villa drawings</button></div>`;
+  if(!q) html+=`<div class="views" style="width:max-content;max-width:100%"><button type="button" data-rv="seq" aria-pressed="${regView==="seq"}">Plot 30 sequence</button><button type="button" data-rv="all" aria-pressed="${regView==="all"}">All villa drawings</button><button type="button" data-rv="arch" aria-pressed="${regView==="arch"}">Revision archive</button></div>`;
+  if(!q&&regView==="arch") html+=`<p class="lead"><b>Revision archive.</b> Old revisions kept for record, each under the drawing that replaced it, with the date it was replaced. Do not build from these.</p>`;
   if(!q&&regView==="seq") html+=`<p class="lead">Plot 30 · 1625 sq.ft East facing model villa. Sheets in the order work happens on site. Site-level drawings are in the <a href="${SITE_LINK}">Site portal</a>.</p>`;
   currentList=[]; let shown=0;
   groups.forEach(g=>{ if(!g.items.length) return; shown+=g.items.length; currentList.push(...g.items.filter(x=>!x.cad)); html+=groupHTML(g); });
@@ -851,7 +908,7 @@ function renderSite(){
 /* ---------- routing ---------- */
 function navHTML(){
   if(PORTAL==="site"||route==="site") return `<button type="button" data-go="site" aria-pressed="true">Site drawings</button><a href="${VILLA_LINK}">Villa portal</a>`;
-  return `<button type="button" data-go="home" aria-pressed="${route==="home"||route.startsWith("plot-")}">Master layout</button><button type="button" data-go="register" aria-pressed="${route==="register"}">Drawing register</button><button type="button" data-go="types" aria-pressed="${route==="types"}">Villa types</button>`;
+  return `<button type="button" data-go="home" aria-pressed="${route==="home"||route.startsWith("plot-")}">Master layout</button><button type="button" data-go="register" aria-pressed="${route==="register"}">Drawing register</button><button type="button" data-go="types" aria-pressed="${route==="types"}">Villa types</button><button type="button" data-go="progress" aria-pressed="${route==="progress"}">Progress</button>`;
 }
 function go(r){ try{ history.pushState(null,"","#"+r);}catch(e){} handleRoute(); }
 function handleRoute(){
@@ -859,7 +916,7 @@ function handleRoute(){
   if(byCode[h]){ if(!route) {route=PORTAL==="site"?"site":"home"; render();} openSheet(h,false); return; }
   if(!$("viewer").hidden) closeViewer(true);
   if(!h) h=PORTAL==="site"?"site":"home";
-  if(h!=="site"&&h!=="home"&&h!=="register"&&h!=="types"&&!h.startsWith("plot-")) h=PORTAL==="site"?"site":"home";
+  if(h!=="site"&&h!=="home"&&h!=="register"&&h!=="types"&&h!=="progress"&&!h.startsWith("plot-")) h=PORTAL==="site"?"site":"home";
   const changed=h!==route; route=h; render(); if(changed&&!h.startsWith("plot-")) window.scrollTo(0,0);
 }
 function render(){
@@ -875,6 +932,7 @@ function render(){
   if(site) renderSite();
   else if(route==="register"||q) renderRegister();
   else if(route==="types") renderTypes();
+  else if(route==="progress") renderProgress();
   else if(route.startsWith("plot-")) renderPlot(route.slice(5));
   else renderHome();
 }
@@ -910,6 +968,7 @@ function showSheet(){
   $("vt-a").textContent=[s.code,s.no,s.rev&&s.rev!=="—"?s.rev:"",s.date,ST[s.st]].filter(Boolean).join(" · ");
   $("vt-b").textContent=s.title;
   { const cc=CADMAP[s.code]&&cadByCode[CADMAP[s.code]]; $("vdwg").hidden=!cc; if(cc) $("vdwg").href=cadUrl(cc); }
+  { const o=OLDREV[s.code]||[]; $("vold").hidden=!o.length; $("vold").textContent=o.length?"Old revs ("+o.length+")":""; }
   $("vpdf").href=pdfUrl(s)+"#page="+curPage;
   $("vpos").textContent=(idx+1)+"/"+currentList.length;
   $("vprev").disabled=idx<=0; $("vnext").disabled=idx>=currentList.length-1;
@@ -962,6 +1021,7 @@ $("zout").onclick=()=>setZoom(zoom/1.6);
 $("zfit").onclick=()=>{zoom=1;draw();};
 $("zrot").onclick=()=>{rot=(rot+90)%360; zoom=1; draw();};
 $("vclose").onclick=()=>closeViewer(false);
+$("vold").onclick=()=>{ regView="arch"; try{localStorage.setItem("woods.reg",regView)}catch(e){} closeViewer(true); go("register"); };
 $("vprev").onclick=()=>{const i=currentList.indexOf(cur); if(i>0) swap(currentList[i-1]);};
 $("vnext").onclick=()=>{const i=currentList.indexOf(cur); if(i<currentList.length-1) swap(currentList[i+1]);};
 $("pprev").onclick=()=>{if(curPage>cur.page){curPage--;zoom=1;showSheet();}};
@@ -1076,13 +1136,143 @@ async function connectDb(){
   if(!IS_ART||!window.claude||!window.claude.use) return;
   try{
     const db=await window.claude.use("db"); if(!db) return;
-    dbRef=db.doc("villa/types");
-    let ok=true; try{ const user=await window.claude.use("user"); if(user&&typeof user.can==="function"){ const c=await user.can("data.write"); if(c===false) ok=false; } }catch(e){}
-    canSave=ok;
+    DB=db; dbOn=true; dbRef=db.doc("villa/types");
+    let types=true, site=true;
+    try{ const user=await window.claude.use("user"); userNs=user;
+      if(user){ if(typeof user.id==="function") myId=await user.id();
+        if(typeof user.can==="function"){ const c=await user.can("data.write"); if(c===false){ types=false; site=false; } }
+        if(typeof user.isOwner==="function"){ const o=await user.isOwner(); if(o===false) types=false; } } }catch(e){}
+    canSave=types; canSite=site;
+    try{ assetsNs=await window.claude.use("assets"); }catch(e){ assetsNs=null; }
     dbRef.onSnapshot(snap=>{ if(snap.metadata&&snap.metadata.hasPendingWrites) return; const d=snap.exists?snap.data():null; if(d&&d.plots&&typeof d.plots==="object"){ dbTypes=d.plots; refreshTypes(); } else if(route==="types") renderTypes(); },()=>{});
-    if(route==="types") renderTypes();
+    db.collection("progress").onSnapshot(qs=>{ const o={}; qs.docs.forEach(d=>{ o[d.id]=d.data(); }); Object.keys(progTimers).forEach(k=>{ if(PROG[k]) o[k]=PROG[k]; }); PROG=o; resolveNames(qs.docs.map(d=>(d.data()||{}).by)); refreshSiteViews(); },()=>{});
+    db.collection("rfi").onSnapshot(qs=>{ RFIS=qs.docs.map(d=>Object.assign({id:d.id},d.data())); const ids=[]; RFIS.forEach(r=>{ ids.push(r.by); (r.replies||[]).forEach(x=>ids.push(x.by)); }); resolveNames(ids); refreshSiteViews(); },()=>{});
+    render();
   }catch(e){}
 }
+
+/* ---------- site progress & RFIs (per villa) ----------
+   Saved in the Claude version's database: progress/<plot> = {stages:{key:{st,date,remark,photos:[{id,url}]}},updatedAt,by}
+   and rfi/<auto id> = {plot,sheet,rev,sheetTitle,q,photos,status:"open"|"answered"|"closed",at,by,replies:[{by,at,text}]}.
+   The GitHub site cannot store anything, so it offers WhatsApp messages with the plot and drawing filled in. */
+const STAGES=[["setout","Setting out"],["excav","Excavation"],["pcc","PCC"],["footing","Footings & columns to plinth"],["plinth","Plinth beams"],["walls","Walls & openings"],["roof","Roof"],["services","Plumbing & electrical"],["finish","Finishes"],["land","Landscape & external works"]];
+const SSTAT={"":"Not started",wip:"In progress",done:"Done"};
+const RST={open:"Open",answered:"Answered",closed:"Closed"};
+let DB=null, dbOn=false, canSite=false, assetsNs=null, userNs=null, myId=null, NAMES={}, PROG={}, RFIS=[], progTimers={}, progSaving={}, redrawTab=null, rfiCtx=null;
+const progStages=no=>((PROG[no]||{}).stages)||{};
+function progPct(no){ const s=progStages(no); return Math.round(STAGES.filter(([k])=>(s[k]||{}).st==="done").length*100/STAGES.length); }
+function progNow(no){ const s=progStages(no); const w=STAGES.find(([k])=>(s[k]||{}).st==="wip"); if(w) return w[1]+" · in progress"; const d=STAGES.filter(([k])=>(s[k]||{}).st==="done").pop(); return d?d[1]+" · done":"Not started"; }
+const openRfis=no=>RFIS.filter(r=>r.plot===no&&r.status==="open");
+const waLink=t=>"https://wa.me/?text="+encodeURIComponent(t);
+const waProg=p=>waLink("THE WOODS · Plot "+p.no+" · Site progress\nStage: \nStatus (started / done): \nDate: \nRemarks: \n(photos attached)");
+const sheetLine=s=>s.code+(s.no?" ("+s.no+")":"")+" · "+s.title+" · "+(s.rev&&s.rev!=="—"?s.rev+" · ":"")+s.date;
+const waRfi=(p,s)=>waLink("THE WOODS · RFI · Plot "+(p?p.no:"__")+"\nDrawing: "+(s?sheetLine(s):"")+"\nQuestion: \n(photo attached if needed)");
+const who=id=>id&&id===myId?"you":(id&&NAMES[id])||"Someone";
+const fmtD=v=>{ if(!v) return ""; const d=new Date(v); return isNaN(d)?String(v):d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); };
+const photoSrc=ph=>ph.url||("/_blob/"+ph.id);
+async function resolveNames(ids){ if(!userNs||typeof userNs.profiles!=="function") return; const need=[...new Set(ids.filter(i=>i&&!NAMES[i]))]; if(!need.length) return; try{ const ps=await userNs.profiles(need); Object.keys(ps).forEach(k=>NAMES[k]=(ps[k]&&ps[k].name)||"Someone"); refreshSiteViews(); }catch(e){} }
+async function shrink(file){ try{ const bmp=await createImageBitmap(file); const s=Math.min(1,1600/Math.max(bmp.width,bmp.height)); const c=document.createElement("canvas"); c.width=Math.round(bmp.width*s); c.height=Math.round(bmp.height*s); c.getContext("2d").drawImage(bmp,0,0,c.width,c.height); return await new Promise(r=>c.toBlob(b=>r(b||file),"image/jpeg",0.82)); }catch(e){ return file; } }
+async function uploadPhotos(files){ const out=[]; for(const f of files){ const r=await assetsNs.upload(await shrink(f)); out.push({id:r.id,url:r.url}); } return out; }
+function plotSheets(p){ const info=PLOT_INFO[p.no]||{}; const types=TYPES.includes(info.type)||info.type==="custom"?[info.type]:TYPES; const seen={}, out=[]; types.forEach(ty=>{ const set=plotSet(p,ty); ["arch","str","mep","land"].forEach(k=>set[k].items.forEach(it=>{ if(!it.cad&&!seen[it.code]){ seen[it.code]=1; out.push(byCode[it.code]); } })); }); return out; }
+function progTabHTML(p){
+  const wa=`<div class="tbar"><a class="portal-link" href="${waProg(p)}" target="_blank" rel="noopener">Send progress on WhatsApp</a><a class="portal-link" href="${waRfi(p,null)}" target="_blank" rel="noopener">Raise RFI on WhatsApp</a></div>`;
+  if(!IS_ART) return `<div class="note">Site progress and RFIs for each villa are recorded in the Claude version of this portal by site engineers Vamsi has invited. <a href="${ART_LINK}" target="_blank" rel="noopener">Open the Claude version</a>. No login? Send them on WhatsApp; the plot is filled in for you.</div>${wa}`;
+  if(!dbOn) return `<div class="note">Progress and RFIs are not available on this view. Use WhatsApp, or ask Vamsi to invite you as an Editor.</div>${wa}`;
+  const s=progStages(p.no), can=canSite, rec=PROG[p.no];
+  const rows=STAGES.map(([k,n])=>{ const v=s[k]||{}, ph=v.photos||[];
+    return `<tr data-stage="${k}"><td><b>${n}</b></td>
+      <td>${can?`<select data-pst="${k}" class="pst-${v.st||"none"}">${Object.keys(SSTAT).map(x=>`<option value="${x}"${(v.st||"")===x?" selected":""}>${SSTAT[x]}</option>`).join("")}</select>`:`<span class="pst pst-${v.st||"none"}">${SSTAT[v.st||""]}</span>`}</td>
+      <td>${can?`<input type="date" data-pdt="${k}" value="${esc(v.date||"")}">`:esc(v.date?fmtD(v.date):"")}</td>
+      <td>${can?`<input type="text" data-prm="${k}" value="${esc(v.remark||"")}" placeholder="Remark">`:esc(v.remark||"")}</td>
+      <td><div class="phs">${ph.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="${esc(n)} photo" loading="lazy"></a>`).join("")}${can&&assetsNs?`<label class="phbtn">+ Photo<input type="file" accept="image/*" multiple data-pph="${k}" hidden></label>`:""}</div></td></tr>`; }).join("");
+  const list=RFIS.filter(r=>r.plot===p.no).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  const num={}; RFIS.filter(r=>r.plot===p.no).sort((a,b)=>String(a.at).localeCompare(String(b.at))).forEach((r,i)=>num[r.id]=i+1);
+  const rfis=list.map(r=>`<div class="rfi rst-${r.status}" data-rfi="${esc(r.id)}">
+      <div class="rfi-h"><b>RFI ${p.no}-${String(num[r.id]).padStart(2,"0")}</b><span class="pill rp-${r.status}">${RST[r.status]||r.status}</span>${r.sheet&&byCode[r.sheet]?`<button type="button" class="linkbtn" data-open="${esc(r.sheet)}">${esc(r.sheet)} · ${esc(r.sheetTitle||byCode[r.sheet].title)}${r.rev?" · "+esc(r.rev):""}</button>`:`<span class="muted">${esc(r.sheetTitle||"General / site query")}</span>`}</div>
+      <p class="rfi-q">${esc(r.q||"")}</p>
+      ${(r.photos||[]).length?`<div class="phs">${r.photos.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="RFI photo" loading="lazy"></a>`).join("")}</div>`:""}
+      <p class="muted">Raised by ${esc(who(r.by))} · ${fmtD(r.at)}</p>
+      ${(r.replies||[]).map(x=>`<div class="rep"><span class="muted">${esc(who(x.by))} · ${fmtD(x.at)}</span><p>${esc(x.text)}</p></div>`).join("")}
+      ${can?`<div class="rfi-a"><textarea rows="2" data-rtx="${esc(r.id)}" placeholder="Reply or clarification"></textarea><div class="tbar"><button type="button" class="zbtn" data-rsend="${esc(r.id)}">Send reply</button>${r.status!=="answered"?`<button type="button" class="zbtn" data-rset="answered" data-rid="${esc(r.id)}">Mark answered</button>`:""}${r.status!=="closed"?`<button type="button" class="zbtn" data-rset="closed" data-rid="${esc(r.id)}">Close</button>`:`<button type="button" class="zbtn" data-rset="open" data-rid="${esc(r.id)}">Reopen</button>`}</div></div>`:""}
+    </div>`).join("");
+  return `<div class="card prog"><div class="card-h"><div><h2>Site progress · ${progPct(p.no)}%</h2><p>${esc(progNow(p.no))}${rec&&rec.updatedAt?` · last updated ${fmtD(rec.updatedAt)} by ${esc(who(rec.by))}`:""}</p></div></div>
+      <div class="pbar"><i style="width:${progPct(p.no)}%"></i></div>
+      ${can?`<p class="tsave" id="psave"></p>`:`<p class="hint">${canSite?"":"View only. Ask Vamsi to invite you as an Editor to update progress, or send it on WhatsApp."}</p>`}
+      <div class="ttab"><table><thead><tr><th>Stage</th><th>Status</th><th>Date</th><th>Remark</th><th>Photos</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+    <div class="card"><div class="card-h"><div><h2>RFIs &amp; clarifications · ${openRfis(p.no).length} open</h2><p>Ask about any drawing for this plot. The architect's team answers here.</p></div>${can?`<button type="button" class="portal-link" data-newrfi="${p.no}">Raise RFI</button>`:""}</div>
+      ${rfis||`<p class="muted">No RFIs raised for Plot ${p.no} yet.</p>`}</div>
+    ${wa}`;
+}
+function bindProgTab(p){
+  const box=$("ptab"); if(!box) return;
+  const mark=()=>{ const el=$("psave"); if(el){ el.textContent="Saving…"; el.className="tsave saving"; } };
+  const head=()=>{ const h=box.querySelector(".prog h2"), s=box.querySelector(".prog .card-h p"), b=box.querySelector(".prog .pbar i"), n=document.querySelector('.dtab[data-k="prog"] .n'); if(h) h.textContent="Site progress · "+progPct(p.no)+"%"; if(s) s.textContent=progNow(p.no); if(b) b.style.width=progPct(p.no)+"%"; if(n) n.textContent=progPct(p.no)+"%"; };
+  const edit=(k,patch)=>{ const rec=PROG[p.no]=JSON.parse(JSON.stringify(PROG[p.no]||{stages:{}})); rec.stages=rec.stages||{}; rec.stages[k]=Object.assign({},rec.stages[k]||{},patch); mark(); head(); queueProg(p.no); };
+  box.querySelectorAll("[data-pst]").forEach(el=>el.onchange=()=>{ el.className="pst-"+(el.value||"none"); const patch={st:el.value}; const d=box.querySelector(`[data-pdt="${el.dataset.pst}"]`); if(el.value&&d&&!d.value){ d.value=new Date().toISOString().slice(0,10); patch.date=d.value; } edit(el.dataset.pst,patch); });
+  box.querySelectorAll("[data-pdt]").forEach(el=>el.onchange=()=>edit(el.dataset.pdt,{date:el.value}));
+  box.querySelectorAll("[data-prm]").forEach(el=>el.oninput=()=>edit(el.dataset.prm,{remark:el.value.trim()}));
+  box.querySelectorAll("[data-pph]").forEach(el=>el.onchange=async()=>{ const k=el.dataset.pph, files=[...el.files]; if(!files.length) return; const ps=$("psave"); if(ps){ps.textContent="Uploading "+files.length+" photo"+(files.length>1?"s":"")+"…"; ps.className="tsave saving";}
+    try{ const up=await uploadPhotos(files); const cur=(progStages(p.no)[k]||{}).photos||[]; edit(k,{photos:cur.concat(up)}); if(redrawTab) redrawTab(true); }catch(e){ if(ps){ps.textContent="Photo upload failed: "+((e&&e.message)||"try again"); ps.className="tsave error";} } });
+  box.querySelectorAll("[data-newrfi]").forEach(b=>b.onclick=()=>openRfiDlg(p.no,null));
+  box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openSheet(b.dataset.open,true));
+  box.querySelectorAll("[data-rsend]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.rsend, ta=box.querySelector(`[data-rtx="${id}"]`), t=ta.value.trim(); if(!t) return; const r=RFIS.find(x=>x.id===id); b.disabled=true;
+    try{ await DB.doc("rfi/"+id).update({replies:(r.replies||[]).concat([{by:myId,at:new Date().toISOString(),text:t}])}); ta.value=""; }catch(e){ alertMsg("Reply not sent. Check your connection and try again."); } b.disabled=false; });
+  box.querySelectorAll("[data-rset]").forEach(b=>b.onclick=async()=>{ b.disabled=true; try{ await DB.doc("rfi/"+b.dataset.rid).update({status:b.dataset.rset}); }catch(e){ alertMsg("Could not update the RFI. Try again."); } b.disabled=false; });
+}
+function alertMsg(t){ const el=$("ttoast")||document.body.appendChild(Object.assign(document.createElement("div"),{id:"ttoast"})); el.textContent=t; el.className="ttoast tsave error"; setTimeout(()=>{ el.className="ttoast"; },4000); }
+function queueProg(no){ clearTimeout(progTimers[no]); progTimers[no]=setTimeout(()=>saveProg(no),800); }
+async function saveProg(no){
+  if(progSaving[no]){ queueProg(no); return; }
+  progSaving[no]=true; const rec=PROG[no]||{stages:{}};
+  try{ await DB.doc("progress/"+no).set({stages:rec.stages||{},updatedAt:new Date().toISOString(),by:myId||""}); const el=$("psave"); if(el){ el.textContent="Saved. Everyone using this version sees it now."; el.className="tsave saved"; } }
+  catch(e){ const el=$("psave"); if(el){ el.textContent=e&&e.code==="invalid_argument"?"This account can view progress but not change it.":"Could not save. Check your connection."; el.className="tsave error"; } }
+  progSaving[no]=false;
+}
+/* RFI dialog */
+function openRfiDlg(plotNo,code){
+  const dlg=$("rfiDlg"); rfiCtx={plot:plotNo||"",code:code||""};
+  const ps=$("rfiPlot"); ps.innerHTML=`<option value="">Choose plot</option>`+plotOrder().map(p=>`<option value="${p.no}"${p.no===rfiCtx.plot?" selected":""}>Plot ${p.no}</option>`).join("");
+  fillRfiSheets(); $("rfiQ").value=""; $("rfiPh").value=""; $("rfiMsg").textContent="";
+  $("rfiPhRow").hidden=!assetsNs; dlg.hidden=false; setTimeout(()=>$("rfiQ").focus(),50);
+}
+function fillRfiSheets(){ const no=$("rfiPlot").value, p=plotBy[no]; const list=p?plotSheets(p):[];
+  $("rfiSheet").innerHTML=`<option value="">General / site query</option>`+list.map(s=>`<option value="${s.code}"${s.code===rfiCtx.code?" selected":""}>${esc(s.code)} · ${esc(s.title)}${s.rev&&s.rev!=="—"?" · "+esc(s.rev):""}</option>`).join("")+(rfiCtx.code&&!list.some(s=>s.code===rfiCtx.code)&&byCode[rfiCtx.code]?`<option value="${rfiCtx.code}" selected>${esc(rfiCtx.code)} · ${esc(byCode[rfiCtx.code].title)}</option>`:"");
+  $("rfiWa").href=waRfi(p,byCode[$("rfiSheet").value]||null); }
+async function submitRfi(){
+  const no=$("rfiPlot").value, code=$("rfiSheet").value, q=$("rfiQ").value.trim(), msg=$("rfiMsg");
+  if(!no){ msg.textContent="Choose the plot."; return; } if(!q){ msg.textContent="Write your question."; return; }
+  const btn=$("rfiGo"); btn.disabled=true; msg.textContent="Sending…";
+  try{ const s=byCode[code]; const photos=assetsNs&&$("rfiPh").files.length?await uploadPhotos([...$("rfiPh").files]):[];
+    await DB.collection("rfi").add({plot:no,sheet:code||"",rev:s&&s.rev!=="—"?s.rev:"",sheetTitle:s?s.title:"General / site query",q,photos,status:"open",at:new Date().toISOString(),by:myId||"",replies:[]});
+    $("rfiDlg").hidden=true; if(!$("viewer").hidden) closeViewer(false); ptab="prog"; go("plot-"+no);
+  }catch(e){ msg.textContent=e&&e.code==="invalid_argument"?"This account cannot raise RFIs here. Use WhatsApp instead.":"Not sent. Check your connection and try again."; }
+  btn.disabled=false;
+}
+$("rfiPlot").onchange=()=>{ rfiCtx.code=""; fillRfiSheets(); };
+$("rfiSheet").onchange=()=>{ const p=plotBy[$("rfiPlot").value]; $("rfiWa").href=waRfi(p,byCode[$("rfiSheet").value]||null); };
+$("rfiCancel").onclick=()=>{ $("rfiDlg").hidden=true; };
+$("rfiGo").onclick=submitRfi;
+$("vrfi").onclick=()=>{ const no=route.startsWith("plot-")?route.slice(5):""; if(dbOn&&canSite){ openRfiDlg(no,cur&&cur.code); } else { window.open(waRfi(plotBy[no],cur),"_blank","noopener"); } };
+/* all-plots overview */
+function renderProgress(){
+  const rows=plotOrder().map(p=>{ const o=openRfis(p.no).length, rec=PROG[p.no];
+    return `<tr><td><a href="#plot-${p.no}" data-prog="1"><b>${p.no}</b></a></td><td><span class="pill ${colCls(p).replace("vt-","vtp-").replace("st-","vtp-")}">${esc(isOffPlot(p)?statusTxt(p):((PLOT_INFO[p.no]||{}).type==="custom"?"Custom":(PLOT_INFO[p.no]||{}).type?vtLabel(PLOT_INFO[p.no].type,p):"Not confirmed"))}</span></td>
+      <td>${esc(progNow(p.no))}</td><td><div class="pbar sm"><i style="width:${progPct(p.no)}%"></i></div><span class="muted">${progPct(p.no)}%</span></td><td class="num">${o?`<b class="rfi-n">${o}</b>`:"0"}</td><td>${rec&&rec.updatedAt?fmtD(rec.updatedAt):""}</td></tr>`; }).join("");
+  const open=RFIS.filter(r=>r.status!=="closed").sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  $("main").innerHTML= !IS_ART ? `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>Progress and RFIs are recorded in the Claude version of this portal by site engineers Vamsi has invited.</p></div></div><div class="tbar"><a class="portal-link" href="${ART_LINK}" target="_blank" rel="noopener">Open the Claude version</a></div><p class="hint">No login? Open a plot, go to its Site tab and send progress or an RFI on WhatsApp.</p></div>${footerHTML()}`
+   : `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>${dbOn?`${PLOTS.filter(p=>progPct(p.no)>0).length} plots started · ${open.length} open RFIs. Tap a plot to update its progress or answer its RFIs.`:"Progress and RFIs are not available on this view."}</p></div></div>
+      ${open.length?`<div class="rfi-all">${open.map(r=>`<a class="rfi-row" href="#plot-${esc(r.plot)}" data-prog="1"><b>Plot ${esc(r.plot)}</b><span class="pill rp-${r.status}">${RST[r.status]}</span><span>${esc(r.sheet||"General")}</span><span class="muted">${esc((r.q||"").slice(0,90))}</span><span class="muted">${fmtD(r.at)}</span></a>`).join("")}</div>`:""}
+      <div class="ttab"><table><thead><tr><th>Plot</th><th>Villa</th><th>Now</th><th>Progress</th><th class="num">Open RFIs</th><th>Updated</th></tr></thead><tbody>${rows}</tbody></table></div></div>${footerHTML()}`;
+  $("main").querySelectorAll("[data-prog]").forEach(a=>a.addEventListener("click",()=>{ ptab="prog"; }));
+  currentList=[];
+}
+function refreshSiteViews(){
+  if(!$("rfiDlg").hidden||!$("viewer").hidden) return;
+  const a=document.activeElement; if(a&&a.closest&&a.closest("#ptab")&&(a.tagName==="TEXTAREA"&&a.value.trim()||a.tagName==="INPUT"&&a.type==="text")) return;
+  if(route==="progress") renderProgress();
+  else if(route.startsWith("plot-")&&redrawTab) redrawTab(false);
+}
+
 
 /* boot */
 handleRoute();
