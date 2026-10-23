@@ -1,0 +1,824 @@
+<title>The Woods Drawings</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
+<style>
+html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}
+/* Layout: two portals. Villa portal opens on the master plan (tap a plot → its drawings by discipline); Site portal lists whole-layout drawings. Glass panels over a fluid backdrop; dark sheet viewer. */
+:root{
+  --sheet:#ffffff; --rule:#d9ddd5;
+  --forest:#2f5d3a; --forest-ink:#ffffff; --forest-soft:#e3ece2;
+  --c-arch:#2b5c8a; --c-str:#9a4b1c; --c-land:#3b7a3e; --c-site:#6a4f8f; --c-3d:#7a6a2a; --c-mep:#0d7287;
+  --east:#2b6cb0; --west:#c56a12; --model:#1f7a3a; --tab-ink:#ffffff;
+  --ok:#1f7a3a; --ok-bg:#dff1e3; --warn:#8a5a00; --warn-bg:#fbefd2; --bad:#9b2c2c; --bad-bg:#f8e0de; --ref:#4a5560; --ref-bg:#e7eaec;
+  --base:#e6efe9; --b1:#9fd8c0; --b2:#b9d3f2; --b3:#d8e9a8; --b4:#7fc4b0;
+  --glass:rgba(255,255,255,.80); --glass-strong:rgba(255,255,255,.88); --glass-edge:rgba(255,255,255,.95);
+  --glass-line:rgba(24,40,30,.12); --shadow:0 8px 28px rgba(20,45,32,.12);
+  --ink:#0d1712; --muted:#3e4b43; --paper:rgba(255,255,255,.92);
+  --f-ui:"IBM Plex Sans Condensed","Arial Narrow","Roboto Condensed",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --sheet:#1a201c; --rule:#2c342f; --forest:#7fbf8a; --forest-ink:#0f1a12; --forest-soft:#1f2d22;
+  --c-arch:#7fb0de; --c-str:#e39a6a; --c-land:#8fcf8f; --c-site:#b9a0dc; --c-3d:#d6c27a; --c-mep:#73cbd8;
+  --east:#7fb0f0; --west:#f0a65a; --model:#8fd6a0; --tab-ink:#0d1712;
+  --ok:#8fd6a0; --ok-bg:#163522; --warn:#f0c66a; --warn-bg:#3a2e12; --bad:#f2a19a; --bad-bg:#3d1c1a; --ref:#b8c2cc; --ref-bg:#262d33;
+  --base:#08110d; --b1:#0f5a45; --b2:#1d3a6b; --b3:#3d5a1c; --b4:#0b6b66;
+  --glass:rgba(16,24,20,.82); --glass-strong:rgba(14,21,17,.88); --glass-edge:rgba(255,255,255,.14);
+  --glass-line:rgba(255,255,255,.12); --shadow:0 10px 30px rgba(0,0,0,.45);
+  --ink:#f3f7f2; --muted:#c3cfc6; --paper:rgba(10,16,13,.88); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --sheet:#1a201c; --rule:#2c342f; --forest:#7fbf8a; --forest-ink:#0f1a12; --forest-soft:#1f2d22;
+  --c-arch:#7fb0de; --c-str:#e39a6a; --c-land:#8fcf8f; --c-site:#b9a0dc; --c-3d:#d6c27a; --c-mep:#73cbd8;
+  --east:#7fb0f0; --west:#f0a65a; --model:#8fd6a0; --tab-ink:#0d1712;
+  --ok:#8fd6a0; --ok-bg:#163522; --warn:#f0c66a; --warn-bg:#3a2e12; --bad:#f2a19a; --bad-bg:#3d1c1a; --ref:#b8c2cc; --ref-bg:#262d33;
+  --base:#08110d; --b1:#0f5a45; --b2:#1d3a6b; --b3:#3d5a1c; --b4:#0b6b66;
+  --glass:rgba(16,24,20,.82); --glass-strong:rgba(14,21,17,.88); --glass-edge:rgba(255,255,255,.14);
+  --glass-line:rgba(255,255,255,.12); --shadow:0 10px 30px rgba(0,0,0,.45);
+  --ink:#f3f7f2; --muted:#c3cfc6; --paper:rgba(10,16,13,.88); color-scheme:dark }
+body.site-portal{--forest:#1d5f73;--forest-soft:#dcecf0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body.site-portal{--forest:#73cbd8;--forest-soft:#13303a}}
+:root[data-theme="dark"] body.site-portal{--forest:#73cbd8;--forest-soft:#13303a}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--base);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--glass-strong)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button,input{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--forest);outline-offset:2px}
+.fluid{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--base)}
+.fluid i{position:absolute;width:62vmax;height:62vmax;border-radius:50%;filter:blur(70px);opacity:.75}
+.fluid i:nth-child(1){background:var(--b1);top:-22vmax;left:-18vmax;animation:d1 26s ease-in-out infinite alternate}
+.fluid i:nth-child(2){background:var(--b2);top:10vmax;right:-26vmax;animation:d2 32s ease-in-out infinite alternate}
+.fluid i:nth-child(3){background:var(--b3);bottom:-30vmax;left:8vmax;animation:d3 30s ease-in-out infinite alternate}
+.fluid i:nth-child(4){background:var(--b4);top:38vmax;left:-24vmax;width:44vmax;height:44vmax;animation:d2 36s ease-in-out infinite alternate-reverse}
+@keyframes d1{to{transform:translate(18vmax,14vmax) scale(1.15)}}
+@keyframes d2{to{transform:translate(-16vmax,10vmax) scale(.9)}}
+@keyframes d3{to{transform:translate(12vmax,-16vmax) scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.fluid i{animation:none!important}*{transition:none!important}}
+
+/* header */
+header.tb{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--glass-strong);-webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);border-bottom:1px solid var(--glass-line);box-shadow:var(--shadow)}
+.tb .wrap{display:grid;gap:10px;padding-block:12px}
+.tb-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.proj{display:flex;flex-direction:column;gap:2px;min-width:0}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.4}
+.proj h1{margin:0;font-size:26px;line-height:1.05;font-weight:700;letter-spacing:.01em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.proj h1 a{text-decoration:none}
+.proj h1 .w{color:var(--forest)}
+.portal-tag{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--forest);color:var(--forest-ink)}
+.portal-link{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:600;font-size:15px;padding:9px 14px;border-radius:12px;border:1.5px solid var(--forest);color:var(--forest);background:var(--paper)}
+.searchrow{display:flex;gap:8px;flex-wrap:wrap}
+.search{flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--glass-line);border-radius:14px;padding:0 10px;height:46px}
+.search svg{flex:none;color:var(--muted)}
+.search input{flex:1;min-width:0;border:0;background:transparent;font-size:16px;height:100%;outline:none}
+.search button{border:0;background:none;color:var(--muted);font-size:14px;cursor:pointer;padding:6px}
+.views{display:flex;border:1px solid var(--glass-line);border-radius:14px;overflow:hidden;flex:none;background:var(--paper)}
+.views button,.views a{border:0;background:transparent;padding:0 14px;height:44px;font-weight:600;cursor:pointer;font-size:15px;white-space:nowrap;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.views [aria-pressed="true"],.views [aria-current="page"]{background:var(--forest);color:var(--forest-ink)}
+@media (max-width:560px){.views{flex:1 1 100%}.views button,.views a{flex:1;padding:0 8px}}
+
+main{padding-block:18px 60px;display:grid;gap:22px}
+.panel,.grp-h,footer,.empty,.lead,.card{background:var(--glass);border:1px solid var(--glass-edge);border-radius:18px;box-shadow:var(--shadow),inset 0 1px 0 var(--glass-edge);-webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%)}
+.panel{padding:14px 16px;min-width:0}
+.panel summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.panel summary::-webkit-details-marker{display:none}
+.panel summary::after{content:'Show';font-family:var(--f-mono);font-size:12px;color:var(--forest);font-weight:600}
+.panel details[open] summary::after{content:'Hide'}
+.panel details[open] summary{margin-bottom:10px}
+h2.k{margin:0;font-size:13px;font-family:var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.alerts{display:grid;gap:8px}
+.alert{display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:14px;line-height:1.4;padding:10px 12px;border-radius:12px;background:var(--warn-bg);color:var(--ink)}
+.alert b.k{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);padding-top:2px}
+.alert.bad{background:var(--bad-bg)} .alert.bad b.k{color:var(--bad)}
+.alert.info{background:var(--ref-bg)} .alert.info b.k{color:var(--ref)}
+.lead{margin:0;padding:12px 16px;font-size:15px}
+footer{padding:14px 16px;color:var(--muted);font-size:13px}
+.empty{padding:24px 16px;color:var(--muted);text-align:center}
+
+/* master plan */
+.mp{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:980px){.mp{grid-template-columns:minmax(0,1.35fr) minmax(300px,1fr);align-items:start}}
+.card{padding:14px;min-width:0}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.card-h h2{margin:0;font-size:20px;font-weight:700}
+.card-h p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.zoomctl{display:flex;gap:6px}
+.zbtn{height:38px;min-width:38px;padding:0 10px;border-radius:10px;border:1px solid var(--glass-line);background:var(--paper);font-weight:700;font-size:16px;cursor:pointer}
+.mapbox{background:#fff;border-radius:12px;border:1px solid var(--glass-line);overflow:auto;max-height:78vh;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.mapzoom{position:relative;width:100%;margin:0 auto;transition:width .2s ease}
+.mapzoom img{display:block;width:100%;height:auto;max-width:none}
+.mapzoom svg{position:absolute;inset:0;width:100%;height:100%}
+.plot{cursor:pointer}
+.plot rect{fill:var(--pc);fill-opacity:.14;stroke:var(--pc);stroke-opacity:.0;stroke-width:6;transition:fill-opacity .15s}
+.plot:hover rect,.plot:focus rect{fill-opacity:.32;stroke-opacity:.9}
+.plot.e{--pc:#2b6cb0} .plot.w{--pc:#d0730f} .plot.m{--pc:#1f9a46}
+.plot.m rect{fill-opacity:.28;stroke-opacity:1}
+.plot.sel rect{fill-opacity:.45;stroke-opacity:1;stroke-width:10}
+.plot:focus{outline:none}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:14px;margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:4px;border:2px solid currentColor;display:inline-block}
+.sw.e{color:#2b6cb0;background:rgba(43,108,176,.18)} .sw.w{color:#d0730f;background:rgba(208,115,15,.18)} .sw.m{color:#1f9a46;background:rgba(31,154,70,.3)}
+.plotgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.pbtn{display:grid;gap:0;justify-items:center;padding:7px 4px;border-radius:10px;border:1px solid var(--glass-line);background:var(--paper);cursor:pointer;text-decoration:none;border-bottom:3px solid var(--pc)}
+.pbtn b{font-size:17px;line-height:1.1;font-variant-numeric:tabular-nums}
+.pbtn small{font-family:var(--f-mono);font-size:10px;color:var(--muted)}
+.pbtn.e{--pc:var(--east)} .pbtn.w{--pc:var(--west)} .pbtn.m{--pc:var(--model);background:var(--forest-soft)}
+.side{display:grid;gap:14px;min-width:0}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat div{background:var(--paper);border:1px solid var(--glass-line);border-radius:12px;padding:10px;display:grid;gap:2px}
+.stat b{font-size:22px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted);font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.05em}
+.feature{display:flex;gap:12px;align-items:center;text-decoration:none;padding:12px;border-radius:14px;background:var(--forest-soft);border:1px solid var(--glass-line)}
+.feature .n{font-size:30px;font-weight:700;color:var(--model);font-variant-numeric:tabular-nums;min-width:52px;text-align:center}
+.feature b{display:block;font-size:16px}
+.feature span{font-size:13px;color:var(--muted)}
+
+/* plot page */
+.plothead{display:grid;gap:12px;grid-template-columns:1fr;align-items:start}
+@media (min-width:760px){.plothead{grid-template-columns:minmax(0,1fr) 230px}}
+.crumbs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.crumbs a{color:var(--forest);font-weight:600;text-decoration:none}
+.ph-title{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:6px 0 10px}
+.ph-title h2{margin:0;font-size:38px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.badge{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;color:#fff;background:var(--pc)}
+.badge.e{--pc:#2b6cb0} .badge.w{--pc:#c56a12} .badge.m{--pc:#1f7a3a}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.facts div{background:var(--paper);border:1px solid var(--glass-line);border-radius:12px;padding:8px 10px;display:grid;gap:1px}
+.facts span{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.facts b{font-size:15px}
+.pnav{display:flex;gap:8px;margin-top:10px}
+.pnav a{flex:1;text-align:center;text-decoration:none;font-weight:600;padding:9px;border-radius:12px;border:1px solid var(--glass-line);background:var(--paper)}
+.locmap{background:#fff;border-radius:12px;border:1px solid var(--glass-line);overflow:hidden;height:250px;position:relative}
+.locmap .mapzoom{position:absolute;left:0;top:0;width:100%}
+.dtabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.dtabs::-webkit-scrollbar{display:none}
+.dtab{flex:1 0 auto;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 14px;border-radius:14px;border:1px solid var(--glass-line);background:var(--glass);font-weight:600;font-size:15px;cursor:pointer;white-space:nowrap;border-bottom:3px solid var(--dc)}
+.dtab .n{font-family:var(--f-mono);font-size:12px;font-weight:600;background:var(--paper);border-radius:999px;padding:1px 7px}
+.dtab[aria-selected="true"]{background:var(--dc);color:var(--tab-ink);border-color:var(--dc)}
+.dtab[aria-selected="true"] .n{color:var(--ink)}
+.vtype{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.vtype .lbl{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.vtype .seg{display:flex;border:1px solid var(--glass-line);border-radius:12px;overflow:hidden;background:var(--paper)}
+.vtype .seg button{border:0;background:transparent;padding:9px 16px;font-weight:700;font-size:15px;cursor:pointer;font-variant-numeric:tabular-nums}
+.vtype .seg button[aria-pressed="true"]{background:var(--forest);color:var(--forest-ink)}
+.conf{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--warn-bg);color:var(--warn)}
+.conf.ok{background:var(--ok-bg);color:var(--ok)}
+.note{font-size:14px;line-height:1.45;padding:10px 12px;border-radius:12px;background:var(--ref-bg);color:var(--ink)}
+.note.warn{background:var(--warn-bg)}
+.note a{color:var(--forest);font-weight:600}
+
+/* lists */
+section.grp{display:grid;gap:10px}
+.grp-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:12px 16px}
+.grp-h .no{font-family:var(--f-mono);font-weight:600;font-size:14px;background:var(--forest);color:var(--forest-ink);padding:2px 8px;border-radius:8px}
+.grp-h h3{margin:0;font-size:20px;font-weight:700;text-wrap:balance}
+.grp-h p{margin:0;color:var(--muted);font-size:14px;flex-basis:100%}
+.rows{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+@media (max-width:420px){.rows{grid-template-columns:1fr}}
+.row{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:stretch;background:var(--glass);border:1px solid var(--glass-edge);border-left:5px solid var(--dc);border-radius:14px;box-shadow:var(--shadow);padding:8px;cursor:pointer;text-align:left;width:100%;min-width:0;transition:transform .15s ease}
+.row:hover{transform:translateY(-2px)}
+.thumb{width:118px;height:84px;background:#fff;border:1px solid var(--glass-line);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.meta{display:grid;gap:3px;min-width:0;align-content:start}
+.meta .code{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.meta .code b{color:var(--dc);font-weight:600}
+.meta .t{font-weight:600;font-size:16px;line-height:1.2;color:var(--ink)}
+.meta .s{font-size:13px;color:var(--muted);line-height:1.3}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.st-gfc,.st-issued{background:var(--ok-bg);color:var(--ok)} .st-approval,.st-option,.st-typical{background:var(--warn-bg);color:var(--warn)}
+.st-super{background:var(--bad-bg);color:var(--bad)} .st-ref,.st-cad{background:var(--ref-bg);color:var(--ref)}
+.cad{display:grid;gap:6px}
+.cadrow{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--glass);border:1px solid var(--glass-edge);border-left:5px solid var(--dc);border-radius:14px;box-shadow:var(--shadow);padding:10px 12px;min-width:0}
+.cadrow .meta{flex:1}
+.cadrow a{flex:none;font-weight:600;color:var(--forest);text-decoration:none;border:1.5px solid var(--forest);border-radius:10px;padding:7px 10px;font-size:14px;background:var(--paper)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--glass-line);background:var(--glass);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap}
+.chip i{width:9px;height:9px;border-radius:2px;background:var(--dc,var(--muted))}
+.chip[aria-pressed="true"]{background:var(--forest);border-color:var(--forest);color:var(--forest-ink)}
+.chip .n{font-family:var(--f-mono);font-size:12px;opacity:.7}
+.hide-s{display:inline}
+@media (max-width:520px){.hide-s{display:none}}
+
+/* viewer */
+#viewer{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;color:#f1f3f0;background:radial-gradient(120% 80% at 20% 0%,#1d3a30 0%,#121a16 55%,#0b100d 100%)}
+.vbar{display:flex;align-items:center;gap:8px;padding:8px max(10px,env(safe-area-inset-right,0px)) 8px max(10px,env(safe-area-inset-left,0px));padding-top:calc(8px + env(safe-area-inset-top,0px));background:rgba(12,18,15,.86);border-bottom:1px solid #3a413d}
+.vbtn{flex:none;height:42px;min-width:42px;padding:0 10px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#f1f3f0;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:15px;text-decoration:none}
+.vbtn:disabled{opacity:.35;cursor:default}
+.vtitle{flex:1;min-width:0;display:grid}
+.vtitle .a{font-family:var(--f-mono);font-size:11px;color:#a9b4ac;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vtitle .b{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#stage{flex:1;overflow:auto;position:relative;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#paperwrap{position:relative;margin:0 auto;transform-origin:0 0}
+#cv{display:block;background:#fff;box-shadow:0 2px 18px rgba(0,0,0,.45)}
+#vmsg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;font-size:15px;color:#d5dbd6;pointer-events:none}
+.vfoot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px max(10px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));background:rgba(12,18,15,.86);border-top:1px solid #3a413d}
+.vgrp{display:flex;gap:6px;align-items:center}
+.zl{font-family:var(--f-mono);font-size:13px;min-width:46px;text-align:center;color:#c9d1cb}
+</style>
+<div class="fluid" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="tb">
+  <div class="wrap">
+    <div class="tb-top">
+      <div class="proj">
+        <div class="eyebrow">Ankura Homes · Keesaragutta · Drawing portal</div>
+        <h1><a id="homelink" href="#home">THE <span class="w">WOODS</span></a> <span class="portal-tag" id="ptag">Villa portal</span></h1>
+      </div>
+      <a class="portal-link" id="otherportal" href="#site">Site portal →</a>
+    </div>
+    <div class="searchrow">
+      <label class="search" for="q">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search: plot 30, footing, SD-03, water…" autocomplete="off">
+        <button id="qclear" type="button" hidden aria-label="Clear search">Clear</button>
+      </label>
+      <nav class="views" id="nav" aria-label="Sections"></nav>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="main"></main>
+
+<div id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="vt-b">
+  <div class="vbar">
+    <button class="vbtn" id="vclose" type="button" aria-label="Close sheet">✕<span class="hide-s">Close</span></button>
+    <div class="vtitle"><span class="a" id="vt-a"></span><span class="b" id="vt-b"></span></div>
+    <a class="vbtn" id="vdwg" href="#" target="_blank" rel="noopener"%%DL%% hidden>DWG</a>
+    <a class="vbtn" id="vpdf" href="#" target="_blank" rel="noopener">PDF<span class="hide-s"> original</span></a>
+  </div>
+  <div id="stage"><div id="paperwrap"><canvas id="cv"></canvas></div><div id="vmsg">Loading…</div></div>
+  <div class="vfoot">
+    <div class="vgrp">
+      <button class="vbtn" id="vprev" type="button" aria-label="Previous sheet">‹</button>
+      <span class="zl" id="vpos"></span>
+      <button class="vbtn" id="vnext" type="button" aria-label="Next sheet">›</button>
+    </div>
+    <div class="vgrp" id="pgctl">
+      <button class="vbtn" id="pprev" type="button" aria-label="Previous page">Pg −</button>
+      <span class="zl" id="ppos"></span>
+      <button class="vbtn" id="pnext" type="button" aria-label="Next page">Pg +</button>
+    </div>
+    <div class="vgrp">
+      <button class="vbtn" id="zout" type="button" aria-label="Zoom out">−</button>
+      <span class="zl" id="zlab">Fit</span>
+      <button class="vbtn" id="zin" type="button" aria-label="Zoom in">+</button>
+      <button class="vbtn" id="zfit" type="button">Fit</button>
+      <button class="vbtn" id="zrot" type="button" aria-label="Rotate">⟳</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script>
+(function(){
+const PORTAL=%%PORTAL%%;          // "villa" or "site" — which portal this file opens on
+const SITE_LINK=%%SITE_LINK%%, VILLA_LINK=%%VILLA_LINK%%, FILE_ROOT=%%FILE_ROOT%%, DL=%%DLJS%%;
+const UPDATED="22-10-2026";
+const MAP_W=1830, MAP_H=2220;
+// plot no, sq.m, sq.yd, facing (E/W), hit box x0,y0,x1,y1 on the master plan image
+const PLOTS=%%PLOTS%%.map(a=>({no:a[0],sqm:a[1],sqyd:a[2],face:a[3],box:a.slice(4,8)}));
+const MODEL="30";
+// Per-plot record. Fill in as decisions come in:
+//   type:  "1625" or "1215" once the villa type for that plot is confirmed (until then both sets are shown)
+//   note:  any site note for the plot
+//   extra: plot-specific drawings, e.g. {arch:["AR-xx"], str:["S16-xx"]} added on top of the typical set
+const PLOT_INFO={
+  "30":{type:"1625",note:"Model villa. Villa type confirmed as 1625 sq.ft East."},
+};
+const TYPES=["1625","1215"];
+
+const F={
+  CL:["2026-10-08_Ankura-The_Woods_Plot-30-Center_Line_Drawing.pdf",508],
+  EX:["2026-10-08_Ankura-The_Woods_1625E_Excavation_Layout.pdf",696],
+  FT:["2026-10-08_Ankura-The_Woods_1625E_Footing_Layout.pdf",840],
+  FR:["2026-10-08_Ankura-The_Woods_1625E_Framing.pdf",648],
+  FP:["2026-10-07_Ankura-The_Woods_1625_East_Villa_floor_plan.pdf",2832],
+  EL:["2026-10-08_Ankura-The_Woods_1625E_Building_Elevations.pdf",924],
+  SE:["2026-10-08_Ankura-The_Woods_1625E_Building_Sections.pdf",872],
+  OS:["2026-10-08_Ankura-The_Woods_Opening_schedule.pdf",332],
+  S16:["1625_EAST_REV_STL_DWGS.pdf",1088],
+  S12:["1215_EAST_STL_DWGS.pdf",1048],
+  LMK:["261005_Marking_Plan-Plot_30_Model_Villa.pdf",1468],
+  LLV:["261005_Level_Indication_Plan-Plot_30_Model_Villa.pdf",1568],
+  LM1:["06-10-2026_Landscape_Material_Plan-Material_Plan_Option-01.pdf",1848],
+  LM2:["06-10-2026_Landscape_Material_Plan-Material_Plan_Option-02.pdf",1856],
+  LMI:["06-10-2026_Landscape_Material_Plan-Material_Images.pdf",424],
+  TRK:["LLA_The_Woods_Ankura_Homes_Deliverables_and_Timelines.pdf",200],
+  AFP:["2026-09-18_Ankura-The_Woods-Villas_All_Floor_Plans.pdf",8052],
+  A21:["2026-10-13_Ankura-The_Woods-2175_Villas_Floor_Plans.pdf",6684],
+  RND:["The_Woods_Renders_05.10.26.pdf",12604],
+  STR:["The_Woods_Streetscape_Renders_15.10.26.pdf",1840]
+};
+const DISC={
+  arch:{name:"Architecture",c:"--c-arch"},
+  str:{name:"Structure",c:"--c-str"},
+  mep:{name:"Services (MEP)",c:"--c-mep"},
+  land:{name:"Landscape",c:"--c-land"},
+  site:{name:"Site & survey",c:"--c-site"},
+  "3d":{name:"3D views",c:"--c-3d"}
+};
+const ST={gfc:"GFC",issued:"Issued",approval:"For approval",option:"Option",super:"Superseded",ref:"Reference",cad:"CAD only",typical:"Typical"};
+const ARC="also.design (Architect)", JA="Jashritha Associates (Structural)", LLA="LumiScapes (Landscape)", MEPT="MEP consultant";
+// code, file, page, title, sub, sheetNo, rev, date, by, disc, villa, status, rot, pages
+const S=[
+ ["AR-01","CL",1,"Centre line drawing","Plot 30 · grid lines 1–9 / A–E with centre-to-centre dims","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-02","EX",1,"Excavation layout · pit sizes","Excavation pits with 500 mm offset from footing edge","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-03","EX",2,"Excavation layout · marking from plot boundary","Excavation marking tied to the Plot 30 boundary","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-04","FT",1,"Footing layout · footing & PCC dimensions","Footing line and PCC, external marking","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-05","FT",2,"Footing layout · column marking in footings","Column positions within each footing","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-06","FT",3,"Footing layout · marking from plot boundary","Footing grid tied to the Plot 30 boundary","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-07","FR",1,"Plinth framing layout","Plinth beam framing on grid","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-08","FR",2,"Roof framing layout","Roof beam framing on grid","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-09","FP",1,"1625 East villa · floor plan","Floor plan and floor plan with roof above","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-10","EL",1,"Building elevations 1/2","North and south elevations with levels","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-11","EL",2,"Building elevations 2/2","East and west elevations with levels","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-12","SE",1,"Building sections A, B, C","Plinth, lawn, road, backyard and roof levels","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["AR-13","OS",1,"Schedule of openings","Doors, windows and sliding doors (UPVC + glass)","","—","08-10-2026",ARC,"arch","1625E","gfc"],
+ ["S16-01","S16",1,"1625 East · marking plan","Column / footing marking (C1, C2 / F1, F2)","SD-01","R01","23-09-2026",JA,"str","1625E","issued",270],
+ ["S16-02","S16",2,"1625 East · column & footing schedule","Column sizes, footing groups, depth and reinforcement","SD-02","R0","19-09-2026",JA,"str","1625E","issued",270],
+ ["S16-03","S16",3,"1625 East · plinth beam layout","EPB / IPB plinth beams, sunken areas","SD-03","R01","23-09-2026",JA,"str","1625E","issued",270],
+ ["S16-04","S16",4,"1625 East · plinth beam details","Plinth beam sections, foundation detail under brick wall","SD-04","R0","19-09-2026",JA,"str","1625E","issued",270],
+ ["S16-05","S16",5,"1625 East · roof beam layout","Roof beams B1–B7 (230×425)","SD-05","R01","23-09-2026",JA,"str","1625E","issued",270],
+ ["S16-06","S16",6,"1625 East · roof beam details","Longitudinal sections of roof beams","SD-06","R01","23-09-2026",JA,"str","1625E","issued",270],
+ ["S12-01","S12",1,"1215 East · marking plan","Column / footing marking","SD-01","R0","23-09-2026",JA,"str","1215E","issued",270],
+ ["S12-02","S12",2,"1215 East · column & footing schedule","Column sizes, footing groups, reinforcement","SD-02","R0","23-09-2026",JA,"str","1215E","issued",270],
+ ["S12-03","S12",3,"1215 East · plinth beam layout","EPB / IPB plinth beams","SD-03","R0","23-09-2026",JA,"str","1215E","issued",270],
+ ["S12-04","S12",4,"1215 East · plinth beam details","Plinth beam sections and foundation details","SD-04","R0","23-09-2026",JA,"str","1215E","issued",270],
+ ["S12-05","S12",5,"1215 East · roof beam layout","Roof beam layout","SD-05","R0","23-09-2026",JA,"str","1215E","issued",270],
+ ["S12-06","S12",6,"1215 East · roof beam details","Longitudinal sections of roof beams","SD-06","R0","23-09-2026",JA,"str","1215E","issued",270],
+ ["LA-01","LMK",1,"Landscape marking plan","Plot 30 model villa · dimensions in feet","","R11","05-10-2026",LLA,"land","1625E","approval"],
+ ["LA-02","LLV",1,"Landscape level indication plan","Top of lawn, paving, deck, steps, driveway (+499.90 to +500.65 m)","","R11","05-10-2026",LLA,"land","1625E","approval"],
+ ["LA-03","LM1",1,"Material plan · option 01","Basalt stepping stones, Canyon Bianco parking tile","","—","06-10-2026",LLA,"land","1625E","option"],
+ ["LA-04","LM2",1,"Material plan · option 02","Slate stepping stones, Rivera Brown parking tile","","—","06-10-2026",LLA,"land","1625E","option"],
+ ["LA-05","LMI",1,"Material images","Photos of each stone and tile in options 01 and 02","","—","06-10-2026",LLA,"land","1625E","option"],
+ ["LA-06","TRK",1,"Landscape deliverables & timelines","Status of every landscape deliverable, incl. Plot 30","","—","Oct 2026",LLA,"land","site","ref",0,3],
+ ["TP-01","AFP",1,"1625 East villa · floor plan (old)","Replaced by the GFC floor plan AR-09","","—","18-09-2026",ARC,"arch","1625E","super"],
+ ["TP-02","AFP",2,"1625 West villa · floor plan","Typology floor plan with roof above","","—","18-09-2026",ARC,"arch","1625W","ref"],
+ ["TP-03","AFP",3,"1215 East villa · floor plan","Typology floor plan with roof above","","—","18-09-2026",ARC,"arch","1215E","ref"],
+ ["TP-04","AFP",4,"1215 West villa · floor plan","Typology floor plan with roof above","","—","18-09-2026",ARC,"arch","1215W","ref"],
+ ["TP-05","A21",1,"2175 East villa · floor plan","Typology floor plan with roof above","","—","13-10-2026",ARC,"arch","2175E","ref"],
+ ["TP-06","A21",2,"2175 West villa · floor plan","Typology floor plan with roof above","","—","13-10-2026",ARC,"arch","2175W","ref"],
+ ["RD-01","RND",1,"Landscape renders · model villas","1210 sq.yd plot, 1625 sq.ft house · east & west facing · 17 pages","","—","05-10-2026",LLA,"3d","1625E","ref",0,17],
+ ["RD-E","RND",2,"Landscape renders · east facing villa","Plan and views of the east facing model villa","","—","05-10-2026",LLA,"land","1625E","ref",0,8],
+ ["RD-W","RND",10,"Landscape renders · west facing villa","Plan and views of the west facing model villa","","—","05-10-2026",LLA,"land","1625W","ref",0,5],
+ ["RD-02","STR",1,"Streetscape renders","Streetscape, junction options 01/02, bird's eye · 6 pages","","—","15-10-2026",LLA,"3d","site","ref",0,6]
+].map(a=>({code:a[0],f:a[1],page:a[2],title:a[3],sub:a[4],no:a[5],rev:a[6],date:a[7],by:a[8],disc:a[9],villa:a[10],st:a[11],rot:a[12]||0,pages:a[13]||1}));
+const byCode=Object.fromEntries(S.map(s=>[s.code,s]));
+const CADMAP={"AR-01":"CAD-05","AR-02":"CAD-06","AR-03":"CAD-06","AR-04":"CAD-07","AR-05":"CAD-07","AR-06":"CAD-07","AR-07":"CAD-08","AR-08":"CAD-08","AR-09":"CAD-09","AR-10":"CAD-10","AR-11":"CAD-10","AR-12":"CAD-11","AR-13":"CAD-12"};
+const CAD=[
+ ["CAD-01","2026-09-26_Ankura-The_Woods_Site_Plan_with_Levels.dwg","Site plan with levels","Whole layout · no PDF issued","26-09-2026","site",944,"cad",ARC],
+ ["CAD-02","2026-09-22_Ankura-The_Woods_Site_Plan_with_existing_trees.dwg","Site plan with existing trees","Tree survey on layout · no PDF issued","22-09-2026","site",544,"cad",ARC],
+ ["CAD-03","2026-09-18_Ankura-The_Woods_East_Facing_Villa_Soak_pit_and_Sump_location.dwg","East facing villa · soak pit & sump location","Typical for east facing plots · no PDF issued","18-09-2026","mep",960,"cad",ARC],
+ ["CAD-04","2026-09-18_Ankura-The_Woods_West_Facing_Villa_Soak_pit_and_Sump_location.dwg","West facing villa · soak pit & sump location","Typical for west facing plots · no PDF issued","18-09-2026","mep",1064,"cad",ARC],
+ ["CAD-05","2026-10-08_Ankura-The_Woods_Plot-30-Center_Line_Drawing.dwg","Plot 30 centre line drawing","CAD of AR-01","08-10-2026","arch",912,"cad",ARC],
+ ["CAD-06","2026-10-07_Ankura-The_Woods_1625E_Excavation_Layout.dwg","1625E excavation layout","CAD of AR-02, AR-03","07-10-2026","arch",1288,"cad",ARC],
+ ["CAD-07","2026-10-08_Ankura-The_Woods_1625E_Footing_Layout.dwg","1625E footing layout","CAD of AR-04 to AR-06","08-10-2026","arch",1032,"cad",ARC],
+ ["CAD-08","2026-10-08_Ankura-The_Woods_1625E_Framing.dwg","1625E framing","CAD of AR-07, AR-08","08-10-2026","arch",2032,"cad",ARC],
+ ["CAD-09","2026-10-07_Ankura-The_Woods_1625_East_Villa.dwg","1625 East villa floor plan","CAD of AR-09","07-10-2026","arch",1532,"cad",ARC],
+ ["CAD-10","2026-10-07_Ankura-The_Woods_1625E_Building_Elevations.dwg","1625E building elevations","CAD of AR-10, AR-11","07-10-2026","arch",1416,"cad",ARC],
+ ["CAD-11","2026-10-08_Ankura-The_Woods_1625E_Building_Sections.dwg","1625E building sections","CAD of AR-12","08-10-2026","arch",2456,"cad",ARC],
+ ["CAD-12","2026-10-07_Ankura-The_Woods_Opening_schedule.dwg","Opening schedule","CAD of AR-13","07-10-2026","arch",284,"cad",ARC],
+ ["CAD-13","05.CONTOUR_AND_GRID_IMPOSED_ON_LATEST_LAYOUT_rev.dwg","Contour & grid on latest layout (rev)","Survey contours and grid over the site layout · no PDF issued","07-08-2026","site",16697,"mep",MEPT],
+ ["MEP-01","01.wood_external_electrical_layout_revised.dwg","External electrical layout (revised)","HT line, transformer yard, feeder pillars, street lighting · no PDF issued","18-09-2026","mep",29497,"mep",MEPT],
+ ["MEP-02","02.SCHEMATIC_DIAGRAM-01-06-2026.dwg","Electrical schematic diagram","Single-line diagram from 11 kV supply to feeder pillars · no PDF issued","01-06-2026","mep",26816,"mep",MEPT],
+ ["MEP-03","03.EXTERNAL_WATER_SUPPLY.dwg","External water supply (domestic)","Domestic water mains to villas · no PDF issued","26-08-2026","mep",25113,"mep",MEPT],
+ ["MEP-04","04.EXTERNAL_WATER_SUPPLY_for_land_scape.dwg","External water supply for landscape","Landscape water supply network · no PDF issued","26-08-2026","mep",25131,"mep",MEPT],
+ ["MEP-05","3._Woods_Villas_ELEC_LOAD_SHEET-_01-06-2026.xlsx","Electrical load sheet","Connected load per feeder pillar and villa group","01-06-2026","mep",11,"mep",MEPT],
+ ["MEP-06","4.Woods_Villas_CABLE_SCHEDULE-_01-06-2026.xlsx","Cable schedule","Cable sizes, runs and lengths from 11 kV pole to feeder pillars","01-06-2026","mep",21,"mep",MEPT],
+ ["MEP-07","7._REV_R3-_ELECTRICL_WOODS_EB__DG_BOQ-25-08-2026-_1_1.xls","Electrical BOQ · Rev R3","EB / HT works, RCC hume pipes, DG set, street lighting, approved makes","25-08-2026","mep",130,"mep",MEPT],
+ ["MEP-08","PLUMBING_BOQ_OF_Ankura_woods_on_26-8-2026.xls","Plumbing BOQ · external water supply","Domestic and landscape external water supply","26-08-2026","mep",257,"mep",MEPT]
+].map(a=>({code:a[0],file:a[1],title:a[2],sub:a[3],date:a[4],disc:a[5],kb:a[6],dir:a[7],by:a[8],ext:/\.xlsx?$/i.test(a[1])?"Excel":"DWG",st:"cad",cad:true}));
+const cadByCode=Object.fromEntries(CAD.map(c=>[c.code,c]));
+const itemBy=c=>byCode[c]||cadByCode[c];
+const cadUrl=c=>FILE_ROOT+c.dir+"/"+encodeURIComponent(c.file);
+const pdfUrl=s=>FILE_ROOT+"pdf/"+encodeURIComponent(F[s.f][0]);
+
+/* site portal content */
+const SITE_G=[
+ {h:"Site plans & survey",p:"Whole-layout drawings for roads, plots and levels. DWG only, no PDF issued: open on a laptop with a DWG viewer.",c:["CAD-01","CAD-02","CAD-13"]},
+ {h:"External electrical",p:"11 kV supply, transformer yard, feeder pillars, cabling and street lighting.",c:["MEP-01","MEP-02","MEP-05","MEP-06","MEP-07"]},
+ {h:"External water supply & drainage",p:"Domestic and landscape water mains, and the typical soak pit & sump positions for east and west facing plots.",c:["MEP-03","MEP-04","MEP-08","CAD-03","CAD-04"]},
+ {h:"Streetscape & landscape master",p:"Streetscape renders for design intent, and the landscape consultant's deliverables tracker.",c:["RD-02","LA-06"]}
+];
+const SITE_ALERTS=[
+ ["info","DWG only","Site plan with levels, existing trees, contour & grid, external electrical and water supply drawings exist only as DWG. They need a laptop with a DWG viewer. Ask for PDF plots for site use."],
+ ["warn","Cross-check","The plumbing BOQ workbook also has sheets for other buildings (college, admin, prayer hall, guest house). Only the two External water supply sheets are for The Woods."],
+ ["info","Missing","No storm water drainage, sewer, compound wall or road section drawings have been received yet."]
+];
+const VILLA_ALERTS=[
+ ["bad","Do not use","The 1625 East floor plan dated 18-09-2026 (TP-01) is superseded. Use the GFC floor plan AR-09 dated 08-10-2026."],
+ ["warn","Cross-check","Architect's footing marking (AR-04 to AR-06, 08-10) and structural schedule SD-02 (19-09) come from different teams. Confirm footing sizes match before excavation and PCC."],
+ ["warn","Plot specific","The GFC set was issued for Plot 30. Setting-out sheets tied to the plot boundary (AR-01, AR-03, AR-06) apply to Plot 30 only. Other east facing plots need their own setting-out."],
+ ["warn","Not GFC","All landscape sheets are stamped For Information & Approval. Material plan options 01 and 02 still need the client's choice."],
+ ["info","Villa type","Only Plot 30 is confirmed (1625 East). Every other plot shows both the 1625 and 1215 sets until its type is confirmed. Only 1625 East has a GFC set; 1215 East has structural drawings; west facing villas have floor plans only."]
+];
+/* Plot 30 build sequence (register) */
+const SEQ=[
+ {h:"Setting out",p:"Fix grid lines and column centres on Plot 30 before any digging.",c:["AR-01","S16-01"]},
+ {h:"Excavation",p:"Pit sizes include a 500 mm working offset from the footing edge.",c:["AR-02","AR-03"]},
+ {h:"Footings & columns up to plinth",p:"Check footing sizes and depth on SD-02 against the architect's footing marking before PCC.",c:["AR-04","AR-05","AR-06","S16-02"]},
+ {h:"Plinth beams",p:"Plinth framing with beam sizes, sunken areas and wall foundation details.",c:["AR-07","S16-03","S16-04"]},
+ {h:"Walls, openings & levels",p:"Masonry, opening sizes and floor-to-roof levels.",c:["AR-09","AR-13","AR-12","AR-10","AR-11"]},
+ {h:"Roof",p:"Roof framing and beam reinforcement.",c:["AR-08","S16-05","S16-06"]},
+ {h:"Landscape & external works",p:"For information and approval only. Do not execute until the landscape GFC is issued.",c:["LA-01","LA-02","LA-03","LA-04","LA-05"]}
+];
+const ALL=[
+ {h:"Plot 30 · 1625 East model villa · architectural GFC set",p:"Issued 08-10-2026 by the architect.",c:S.filter(s=>s.disc==="arch"&&s.st==="gfc").map(s=>s.code)},
+ {h:"Structure · 1625 East villa (Rev 01)",p:"Jashritha Associates · SD-01 to SD-06.",c:S.filter(s=>s.f==="S16").map(s=>s.code)},
+ {h:"Structure · 1215 East villa (R0)",p:"Jashritha Associates · SD-01 to SD-06. The 1215 villa is not placed on the current layout.",c:S.filter(s=>s.f==="S12").map(s=>s.code)},
+ {h:"Landscape · Plot 30 model villa",p:"LumiScapes · For Information & Approval. Dimensions in feet, levels in metres.",c:["LA-01","LA-02","LA-03","LA-04","LA-05"]},
+ {h:"Villa typology floor plans",p:"All villa types. Reference only, except where a GFC sheet exists.",c:S.filter(s=>s.code.startsWith("TP-")).map(s=>s.code)},
+ {h:"3D views",p:"Landscape renders of the model villas. Design intent, not for measurement.",c:["RD-01"]},
+ {h:"Villa CAD files (DWG)",p:"DWG of the Plot 30 GFC sheets, for the office, surveyor and consultants.",c:CAD.filter(c=>c.dir==="cad"&&c.disc==="arch").map(c=>c.code)}
+];
+
+/* drawings for one plot, by discipline, for a villa type ("1625" or "1215") */
+function plotSet(p,type){
+  const m=p.no===MODEL, e=p.face==="E";
+  const T=(codes,st)=>codes.map(c=>{const it=itemBy(c); return st&&!it.cad?Object.assign({},it,{st:st,_typ:true}):it;});
+  const siteNote=["","No in-villa plumbing or electrical drawings have been issued yet. External water supply and electrical drawings are in the <a href=\""+SITE_LINK+"\">Site portal</a>."];
+  let set;
+  if(type==="1625"&&e){
+    set={
+      arch:{items:m?T(["AR-01","AR-02","AR-03","AR-04","AR-05","AR-06","AR-07","AR-08","AR-09","AR-10","AR-11","AR-12","AR-13"]):T(["AR-09","AR-10","AR-11","AR-12","AR-13","AR-02","AR-04","AR-05","AR-07","AR-08"],"typical"),
+        note:m?["","1625 East GFC set issued for this plot on 08-10-2026. Each sheet has a DWG download."]:["warn","Typical 1625 East villa sheets, issued for Plot 30. Setting-out from the plot boundary (centre line, excavation and footing marking) is plot-specific and has not been issued for Plot "+p.no+" yet."]},
+      str:{items:T(["S16-01","S16-02","S16-03","S16-04","S16-05","S16-06"],m?null:"typical"),note:["","1625 East villa structural set by Jashritha Associates, Rev 01 (SD-02 and SD-04 unchanged from R0)."]},
+      mep:{items:T(["CAD-03"]),note:siteNote},
+      land:{items:m?T(["LA-01","LA-02","LA-03","LA-04","LA-05","RD-E"]):T(["LA-03","LA-04","LA-05","RD-E"]),
+        note:m?["warn","Model villa landscape. For Information & Approval only; material option 01 or 02 still to be chosen."]:["","Landscape drawings have been issued for the Plot 30 model villa only. Material options and east facing renders below are for reference."]}
+    };
+  } else if(type==="1625"){
+    set={
+      arch:{items:T(["TP-02"]),note:["warn","No GFC set has been issued for the 1625 West villa yet. Only the typology floor plan (18-09-2026) is available."]},
+      str:{items:[],note:["warn","No structural drawings have been issued for the 1625 West villa yet. Do not mirror the 1625 East set without the structural engineer's written confirmation."]},
+      mep:{items:T(["CAD-04"]),note:siteNote},
+      land:{items:T(["RD-W"]),note:["","No landscape drawings for west facing plots yet. The west facing model villa renders are for reference."]}
+    };
+  } else if(e){
+    set={
+      arch:{items:T(["TP-03"]),note:["warn","Only the 1215 East typology floor plan (18-09-2026) has been issued. No 1215 GFC set yet."]},
+      str:{items:T(["S12-01","S12-02","S12-03","S12-04","S12-05","S12-06"],"typical"),note:["","1215 East villa structural set by Jashritha Associates, R0 (23-09-2026)."]},
+      mep:{items:T(["CAD-03"]),note:siteNote},
+      land:{items:T(["LA-03","LA-04","LA-05"]),note:["","No landscape drawings for the 1215 villa yet. The model villa material options are for reference."]}
+    };
+  } else {
+    set={
+      arch:{items:T(["TP-04"]),note:["warn","Only the 1215 West typology floor plan (18-09-2026) has been issued. No 1215 GFC set yet."]},
+      str:{items:[],note:["warn","No structural drawings have been issued for the 1215 West villa yet. Do not mirror the 1215 East set without the structural engineer's written confirmation."]},
+      mep:{items:T(["CAD-04"]),note:siteNote},
+      land:{items:[],note:["","No landscape drawings for the 1215 West villa yet."]}
+    };
+  }
+  const x=(PLOT_INFO[p.no]||{}).extra||{};
+  Object.keys(x).forEach(k=>{ if(set[k]) set[k].items=T(x[k]).concat(set[k].items.filter(i=>!x[k].includes(i.code))); });
+  return set;
+}
+
+/* ---------- helpers ---------- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const thumb=s=>FILE_ROOT+"thumb/"+F[s.f][0].replace(/\.pdf$/,"")+"_p"+s.page+".jpg";
+const hay=s=>[s.code,s.title,s.sub,s.no||"",s.rev||"",s.date,s.by,DISC[s.disc].name,s.villa||"",ST[s.st],s.file||""].join(" ").toLowerCase();
+const plotBy=Object.fromEntries(PLOTS.map(p=>[p.no,p]));
+const plotCls=p=>p.no===MODEL?"m":p.face==="E"?"e":"w";
+const faceTxt=p=>p.face==="E"?"East facing":"West facing";
+let q="", disc="all", regView="seq", currentList=[], route="";
+try{ const v=localStorage.getItem("woods.reg"); if(["seq","all"].includes(v)) regView=v; }catch(e){}
+let ptab="arch"; try{ const v=localStorage.getItem("woods.ptab"); if(v&&DISC[v]) ptab=v; }catch(e){}
+const pickType={}; let lastType="1625"; try{ const v=localStorage.getItem("woods.vtype"); if(TYPES.includes(v)) lastType=v; }catch(e){}
+let mapZoom=window.innerWidth<700?1.8:1;
+
+function rowHTML(s){
+  const dc=`var(${DISC[s.disc].c})`;
+  const no=s.no?`<span>${esc(s.no)}</span>`:"";
+  const rev=s.rev&&s.rev!=="—"?`<span>${esc(s.rev)}</span>`:"";
+  const pg=s.pages>1?` · ${s.pages} pages`:"";
+  return `<button type="button" class="row" data-code="${s.code}" style="--dc:${dc}">
+    <span class="thumb"><img loading="lazy" src="${thumb(s)}" alt=""></span>
+    <span class="meta">
+      <span class="code"><b>${s.code}</b>${no}${rev}<span>${esc(s.date)}</span><span class="pill st-${s.st}">${ST[s.st]}</span>${CADMAP[s.code]?'<span class="pill st-cad">+ DWG</span>':""}</span>
+      <span class="t">${esc(s.title)}</span>
+      <span class="s">${esc(s.sub)}${pg}</span>
+      <span class="s">${esc(s.by)}</span>
+    </span></button>`;
+}
+function cadHTML(c){
+  const size=c.kb>=1024?(c.kb/1024).toFixed(1)+" MB":c.kb+" KB";
+  return `<div class="cadrow" style="--dc:var(${DISC[c.disc].c})"><span class="meta">
+    <span class="code"><b>${c.code}</b><span>${esc(c.date)}</span><span class="pill st-cad">${c.ext} · ${size}</span></span>
+    <span class="t">${esc(c.title)}</span><span class="s">${esc(c.sub)}</span></span>
+    <a href="${cadUrl(c)}" target="_blank" rel="noopener"${DL}>Download ${c.ext}</a></div>`;
+}
+function itemsHTML(items){
+  const allCad=items.length&&items.every(i=>i.cad);
+  return `<div class="${allCad?"cad":"rows"}">${items.map(i=>i.cad?cadHTML(i):rowHTML(i)).join("")}</div>`;
+}
+function groupHTML(g){
+  return `<section class="grp"><div class="grp-h">${g.no?`<span class="no">${g.no}</span>`:""}<h3>${esc(g.h)}</h3>${g.p?`<p>${esc(g.p)}</p>`:""}</div>${itemsHTML(g.items)}</section>`;
+}
+function alertsHTML(list,title,open){
+  return `<div class="panel"><details ${open?"open":""}><summary><h2 class="k">${title} · ${list.length} notes</h2></summary><div class="alerts">${
+    list.map(([k,t,m])=>`<div class="alert ${k}"><b class="k">${t}</b><span>${esc(m).replace(/\b(AR-\d+|TP-\d+|SD-\d+)\b/g,"<b>$1</b>")}</span></div>`).join("")}</div></details></div>`;
+}
+function match(s){
+  if(disc!=="all"&&s.disc!==disc) return false;
+  if(!q) return true;
+  const h=hay(s); return q.split(/\s+/).every(t=>h.includes(t));
+}
+const plotHref=no=>(PORTAL==="site"?VILLA_LINK:"")+"#plot-"+no;
+
+/* ---------- master plan ---------- */
+function mapSVG(sel){
+  return `<svg viewBox="0 0 ${MAP_W} ${MAP_H}" preserveAspectRatio="none" aria-label="Master layout with ${PLOTS.length} plots">${
+    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" class="plot ${plotCls(p)}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}</svg>`;
+}
+function masterCard(title,sub){
+  return `<div class="card"><div class="card-h"><div><h2>${title}</h2><p>${sub}</p></div>
+    <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
+    <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/master-plan.png" alt="Master layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
+    <div class="legend"><span><i class="sw e"></i>East facing villa</span><span><i class="sw w"></i>West facing villa</span><span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div></div>`;
+}
+function bindMapZoom(){
+  document.querySelectorAll(".zbtn[data-z]").forEach(b=>b.onclick=()=>{
+    const z=+b.dataset.z; mapZoom=z===0?1:Math.max(1,Math.min(3.5,mapZoom*(z>0?1.5:1/1.5)));
+    const box=$("mapbox"), mz=$("mapzoom"); if(!mz) return;
+    const cx=(box.scrollLeft+box.clientWidth/2)/mz.clientWidth, cy=(box.scrollTop+box.clientHeight/2)/mz.clientHeight;
+    mz.style.width=(mapZoom*100)+"%";
+    requestAnimationFrame(()=>setTimeout(()=>{box.scrollLeft=cx*mz.clientWidth-box.clientWidth/2; box.scrollTop=cy*mz.clientHeight-box.clientHeight/2;},220));
+  });
+}
+function centerMap(){
+  const box=$("mapbox"), mz=$("mapzoom"); if(!box||mapZoom<=1) return;
+  requestAnimationFrame(()=>{ box.scrollLeft=(1390/MAP_W)*mz.clientWidth-box.clientWidth/2; box.scrollTop=(1050/MAP_H)*mz.clientHeight-box.clientHeight/2; });
+}
+function renderHome(){
+  const nE=PLOTS.filter(p=>p.face==="E").length, nW=PLOTS.length-nE;
+  const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
+  $("main").innerHTML=`
+  <div class="mp">
+    ${masterCard("Master layout","Tap any plot to open its architectural, structural, MEP and landscape drawings for both the 1625 and 1215 villa types.")}
+    <div class="side">
+      <div class="card"><div class="stat"><div><b>${PLOTS.length}</b><span>Plots</span></div><div><b>${nE}</b><span>East facing</span></div><div><b>${nW}</b><span>West facing</span></div></div></div>
+      <a class="feature card" href="#plot-${MODEL}"><span class="n">30</span><span><b>Plot 30 · model villa</b><span>East facing · full 1625 GFC, structural and landscape set</span></span></a>
+      <div class="card"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
+        <div class="plotgrid">${order.map(p=>`<a class="pbtn ${plotCls(p)}" href="#plot-${p.no}"><b>${p.no}</b><small>${p.face==="E"?"East":"West"}</small></a>`).join("")}</div></div>
+      ${alertsHTML(VILLA_ALERTS,"Check before you build",false)}
+      <a class="feature card" href="${SITE_LINK}" style="background:var(--glass)"><span class="n" style="color:var(--c-mep);font-size:22px">SITE</span><span><b>Site portal</b><span>Site plans, levels, survey, external electrical and water supply</span></span></a>
+    </div>
+  </div>
+  ${footerHTML()}`;
+  bindMapZoom(); centerMap(); currentList=[];
+}
+function footerHTML(){
+  return `<footer>Architect: also.design · Structural &amp; MEP: Jashritha Associates · Landscape: LumiScapes Landscape Architects · Updated ${UPDATED}.
+  Plot facing is read from the architect's key plan on the GFC sheets. Each plot shows both the 1625 and 1215 villa sets until its type is confirmed. Always check you are on the latest revision with the site engineer.</footer>`;
+}
+
+/* ---------- plot page ---------- */
+function renderPlot(no){
+  const p=plotBy[no]; if(!p){ go("home"); return; }
+  const info=PLOT_INFO[p.no]||{}, confirmed=TYPES.includes(info.type);
+  let vtype=confirmed?info.type:(pickType[p.no]||lastType);
+  const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
+  const i=order.indexOf(p), prev=order[i-1], next=order[i+1];
+  const keys=["arch","str","mep","land"];
+  if(!keys.includes(ptab)) ptab="arch";
+  const [x0,y0,x1,y1]=p.box, cxp=((x0+x1)/2)/MAP_W, cyp=((y0+y1)/2)/MAP_H;
+  $("main").innerHTML=`
+  <div class="crumbs"><a href="#home">← Master layout</a><span>/</span><span>Plot ${p.no}</span></div>
+  <div class="card plothead">
+    <div>
+      <div class="ph-title"><h2>Plot ${p.no}</h2><span class="badge ${plotCls(p)}">${p.no===MODEL?"Model villa · GFC":faceTxt(p)}</span></div>
+      <div class="facts">
+        <div><span>Villa type</span><b>${confirmed?info.type+" sq.ft "+(p.face==="E"?"East":"West"):"1625 or 1215 · not confirmed"}</b></div>
+        <div><span>Facing</span><b>${faceTxt(p)}</b></div>
+        <div><span>Plot area</span><b>${p.sqyd} sq.yd</b></div>
+        <div><span>Plot area</span><b>${p.sqm} sq.m</b></div>
+      </div>
+      ${info.note?`<div class="note" style="margin-top:10px">${esc(info.note)}</div>`:""}
+      <div class="pnav">${prev?`<a href="#plot-${prev.no}">‹ Plot ${prev.no}</a>`:""}${next?`<a href="#plot-${next.no}">Plot ${next.no} ›</a>`:""}</div>
+    </div>
+    <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:260%"><img src="${FILE_ROOT}img/master-plan.png" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
+  </div>
+  <div class="card vtype"><span class="lbl">Villa type</span>${confirmed?`<b style="font-size:17px">${info.type} sq.ft ${p.face==="E"?"East":"West"} villa</b><span class="conf ok">Confirmed</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}</div>
+  <div class="dtabs" role="tablist" aria-label="Drawings by discipline">${keys.map(k=>`<button type="button" class="dtab" role="tab" data-k="${k}" aria-selected="${k===ptab}" style="--dc:var(${DISC[k].c})">${DISC[k].name}<span class="n"></span></button>`).join("")}</div>
+  <div id="ptab"></div>
+  ${footerHTML()}`;
+  const lm=$("locmap");
+  requestAnimationFrame(()=>{ const mz=lm.firstElementChild; lm.scrollLeft=0; mz.style.left=(-(cxp*mz.clientWidth-lm.clientWidth/2))+"px"; mz.style.top=(-(cyp*mz.clientHeight-lm.clientHeight/2))+"px"; });
+  let set=plotSet(p,vtype);
+  const showTab=()=>{
+    set=plotSet(p,vtype);
+    document.querySelectorAll(".dtab").forEach(b=>b.querySelector(".n").textContent=set[b.dataset.k].items.length);
+    const d=set[ptab]; const [k,t]=d.note;
+    $("ptab").innerHTML=`<div style="display:grid;gap:10px">${t?`<div class="note ${k}">${t}</div>`:""}${d.items.length?itemsHTML(d.items):""}</div>`;
+    currentList=d.items.filter(x=>!x.cad);
+    document.querySelectorAll(".dtab").forEach(b=>b.setAttribute("aria-selected",b.dataset.k===ptab));
+  };
+  document.querySelectorAll("[data-ty]").forEach(b=>b.onclick=()=>{vtype=b.dataset.ty; pickType[p.no]=vtype; lastType=vtype; try{localStorage.setItem("woods.vtype",vtype)}catch(e){} document.querySelectorAll("[data-ty]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ty===vtype)); showTab();});
+  document.querySelectorAll(".dtab").forEach(b=>b.onclick=()=>{ptab=b.dataset.k; try{localStorage.setItem("woods.ptab",ptab)}catch(e){} showTab();});
+  showTab();
+  window.scrollTo(0,0);
+}
+
+/* ---------- register ---------- */
+function renderRegister(){
+  const groups = q
+    ? [...ALL.map(g=>({h:g.h,p:"",items:g.c.map(itemBy).filter(match)})),...SITE_G.map(g=>({h:"Site · "+g.h,p:"",items:g.c.map(itemBy).filter(match)}))]
+    : regView==="seq" ? SEQ.map((g,i)=>({no:String(i+1).padStart(2,"0"),h:g.h,p:g.p,items:g.c.map(itemBy).filter(match)}))
+    : ALL.map(g=>({h:g.h,p:g.p,items:g.c.map(itemBy).filter(match)}));
+  const chipsDef=[["all","All teams",null]].concat(["arch","str","mep","land","3d"].map(k=>[k,DISC[k].name,DISC[k].c]));
+  let html=`<div class="chips" id="chips">${chipsDef.map(([k,n,c])=>`<button type="button" class="chip" data-d="${k}" aria-pressed="${disc===k}" style="${c?`--dc:var(${c})`:""}">${c?"<i></i>":""}${esc(n)}</button>`).join("")}</div>`;
+  if(!q) html+=`<div class="views" style="width:max-content;max-width:100%"><button type="button" data-rv="seq" aria-pressed="${regView==="seq"}">Plot 30 sequence</button><button type="button" data-rv="all" aria-pressed="${regView==="all"}">All villa drawings</button></div>`;
+  if(!q&&regView==="seq") html+=`<p class="lead">Plot 30 · 1625 sq.ft East facing model villa. Sheets in the order work happens on site. Site-level drawings are in the <a href="${SITE_LINK}">Site portal</a>.</p>`;
+  currentList=[]; let shown=0;
+  groups.forEach(g=>{ if(!g.items.length) return; shown+=g.items.length; currentList.push(...g.items.filter(x=>!x.cad)); html+=groupHTML(g); });
+  if(!shown) html+=`<div class="empty">No drawings match “${esc(q)}”.<br>Try a sheet code (AR-04), a word (plinth, water) or a villa type (1215).</div>`;
+  if(q){ const hits=PLOTS.filter(p=>("plot "+p.no).includes(q)||p.no===q.replace(/^plot\s*/,"")); if(hits.length) html=`<div class="card"><div class="card-h"><div><h2>Plots</h2></div></div><div class="plotgrid">${hits.map(p=>`<a class="pbtn ${plotCls(p)}" href="${plotHref(p.no)}"><b>${p.no}</b><small>${p.face==="E"?"East":"West"}</small></a>`).join("")}</div></div>`+html; }
+  $("main").innerHTML=html+footerHTML();
+  $("chips").onclick=e=>{const b=e.target.closest(".chip"); if(!b) return; disc=b.dataset.d; renderRegister();};
+  document.querySelectorAll("[data-rv]").forEach(b=>b.onclick=()=>{regView=b.dataset.rv; try{localStorage.setItem("woods.reg",regView)}catch(e){} renderRegister();});
+}
+
+/* ---------- site portal ---------- */
+function renderSite(){
+  const groups=SITE_G.map(g=>({h:g.h,p:g.p,items:g.c.map(itemBy).filter(match)}));
+  let html="";
+  if(!q){
+    html+=`<p class="lead"><b>Site portal.</b> Drawings for the whole layout: roads, levels, survey, external electrical and water supply. They apply across all plots. For one villa's drawings, tap its plot on the layout below.</p>`;
+    html+=`<div class="mp">${masterCard("Master layout","Tap a plot to open its villa drawings in the Villa portal.")}<div class="side">${alertsHTML(SITE_ALERTS,"Site notes",true)}
+      <div class="card"><div class="stat"><div><b>${CAD.filter(c=>SITE_G.some(g=>g.c.includes(c.code))&&c.ext==="DWG").length}</b><span>DWG files</span></div><div><b>${CAD.filter(c=>SITE_G.some(g=>g.c.includes(c.code))&&c.ext==="Excel").length}</b><span>Excel files</span></div><div><b>2</b><span>PDF sets</span></div></div></div></div></div>`;
+  }
+  currentList=[]; let shown=0;
+  groups.forEach((g,i)=>{ if(!g.items.length) return; shown+=g.items.length; currentList.push(...g.items.filter(x=>!x.cad)); html+=groupHTML({...g,no:String(i+1).padStart(2,"0")}); });
+  if(!shown) html+=`<div class="empty">No site drawings match “${esc(q)}”.</div>`;
+  $("main").innerHTML=html+footerHTML();
+  bindMapZoom(); centerMap();
+}
+
+/* ---------- routing ---------- */
+function navHTML(){
+  if(PORTAL==="site"||route==="site") return `<button type="button" data-go="site" aria-pressed="true">Site drawings</button><a href="${VILLA_LINK}">Villa portal</a>`;
+  return `<button type="button" data-go="home" aria-pressed="${route==="home"||route.startsWith("plot-")}">Master layout</button><button type="button" data-go="register" aria-pressed="${route==="register"}">Drawing register</button>`;
+}
+function go(r){ try{ history.pushState(null,"","#"+r);}catch(e){} handleRoute(); }
+function handleRoute(){
+  let h=location.hash.slice(1);
+  if(byCode[h]){ if(!route) {route=PORTAL==="site"?"site":"home"; render();} openSheet(h,false); return; }
+  if(!$("viewer").hidden) closeViewer(true);
+  if(!h) h=PORTAL==="site"?"site":"home";
+  if(h!=="site"&&h!=="home"&&h!=="register"&&!h.startsWith("plot-")) h=PORTAL==="site"?"site":"home";
+  const changed=h!==route; route=h; render(); if(changed&&!h.startsWith("plot-")) window.scrollTo(0,0);
+}
+function render(){
+  const site=route==="site";
+  document.body.classList.toggle("site-portal",site);
+  $("ptag").textContent=site?"Site portal":"Villa portal";
+  $("otherportal").textContent=site?"← Villa portal":"Site portal →";
+  $("otherportal").href=site?VILLA_LINK:SITE_LINK;
+  $("homelink").href=site?(PORTAL==="site"?"#site":VILLA_LINK):"#home";
+  $("q").placeholder=site?"Search site drawings: water, electrical, levels…":"Search: plot 30, footing, SD-03, plinth…";
+  $("nav").innerHTML=navHTML();
+  $("nav").querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+  if(site) renderSite();
+  else if(route==="register"||q) renderRegister();
+  else if(route.startsWith("plot-")) renderPlot(route.slice(5));
+  else renderHome();
+}
+$("main").addEventListener("click",e=>{const r=e.target.closest(".row"); if(r) openSheet(r.dataset.code,true);});
+$("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase(); $("qclear").hidden=!q;
+  if(q&&route!=="site"&&route!=="register"){ try{history.replaceState(null,"","#register");}catch(_){} route="register"; }
+  render();});
+$("qclear").addEventListener("click",()=>{$("q").value="";q="";$("qclear").hidden=true;render();$("q").focus();});
+window.addEventListener("popstate",handleRoute);
+
+/* ---------- viewer ---------- */
+const lib=window.pdfjsLib;
+if(lib){ lib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"; }
+const docs={};
+let cur=null, curPage=1, zoom=1, rot=0, task=null, pageObj=null;
+const stage=$("stage"), wrap=$("paperwrap"), cv=$("cv"), msg=$("vmsg");
+function getDoc(key){ if(!docs[key]) docs[key]=lib.getDocument({url:pdfUrl({f:key})}).promise; return docs[key]; }
+function openSheet(code,push){
+  const base=byCode[code]; if(!base) return;
+  const s=currentList.find(x=>x.code===code)||base;
+  cur=s; curPage=s.page; rot=s.rot||0; zoom=1;
+  if(!currentList.some(x=>x.code===code)) currentList=[s];
+  $("viewer").hidden=false; document.body.style.overflow="hidden";
+  if(push){ try{ history.pushState({sheet:code},"","#"+code);}catch(e){} }
+  showSheet();
+}
+function closeViewer(fromPop){
+  $("viewer").hidden=true; document.body.style.overflow=""; if(task){try{task.cancel()}catch(e){}}
+  if(!fromPop){ try{ if(history.state&&history.state.sheet) history.back(); else history.replaceState(null,"","#"+route);}catch(e){} }
+}
+function showSheet(){
+  const s=cur, idx=currentList.indexOf(s);
+  $("vt-a").textContent=[s.code,s.no,s.rev&&s.rev!=="—"?s.rev:"",s.date,ST[s.st]].filter(Boolean).join(" · ");
+  $("vt-b").textContent=s.title;
+  { const cc=CADMAP[s.code]&&cadByCode[CADMAP[s.code]]; $("vdwg").hidden=!cc; if(cc) $("vdwg").href=cadUrl(cc); }
+  $("vpdf").href=pdfUrl(s)+"#page="+curPage;
+  $("vpos").textContent=(idx+1)+"/"+currentList.length;
+  $("vprev").disabled=idx<=0; $("vnext").disabled=idx>=currentList.length-1;
+  const multi=s.pages>1; $("pgctl").hidden=!multi;
+  if(multi){ const rel=curPage-s.page+1; $("ppos").textContent=rel+"/"+s.pages; $("pprev").disabled=rel<=1; $("pnext").disabled=rel>=s.pages; }
+  if(!lib){ msg.hidden=false; msg.textContent="The sheet viewer could not load. Tap “PDF original” to open the drawing."; return; }
+  cv.style.visibility="hidden"; msg.hidden=false;
+  msg.textContent=`Loading ${s.code}… (${(F[s.f][1]/1024).toFixed(1)} MB file)`;
+  const want=s.code+":"+curPage;
+  getDoc(s.f).then(d=>d.getPage(curPage)).then(p=>{
+    if(cur.code+":"+curPage!==want) return;
+    pageObj=p; stage.scrollTop=0; stage.scrollLeft=0; draw();
+  }).catch(err=>{ msg.textContent="Couldn't open this sheet here. Tap “PDF original” to view it. ("+(err&&err.message||err)+")"; });
+}
+function draw(keep){
+  if(!pageObj) return;
+  const r=(pageObj.rotate+rot)%360;
+  const v1=pageObj.getViewport({scale:1,rotation:r});
+  const avail=Math.max(200,stage.clientWidth-16), availH=Math.max(200,stage.clientHeight-16);
+  const scale=Math.min(avail/v1.width, availH/v1.height)*zoom;
+  const vp=pageObj.getViewport({scale,rotation:r});
+  let dpr=Math.min(window.devicePixelRatio||1,3);
+  const maxPx=16e6; if(vp.width*vp.height*dpr*dpr>maxPx) dpr=Math.sqrt(maxPx/(vp.width*vp.height));
+  const vpx=pageObj.getViewport({scale:scale*dpr,rotation:r});
+  if(task){try{task.cancel()}catch(e){}}
+  const off=document.createElement("canvas"); off.width=Math.floor(vpx.width); off.height=Math.floor(vpx.height);
+  const ctx=off.getContext("2d"); ctx.fillStyle="#fff"; ctx.fillRect(0,0,off.width,off.height);
+  task=pageObj.render({canvasContext:ctx,viewport:vpx});
+  const t=task;
+  t.promise.then(()=>{
+    if(t!==task) return;
+    cv.width=off.width; cv.height=off.height; cv.getContext("2d").drawImage(off,0,0);
+    cv.style.width=Math.floor(vp.width)+"px"; cv.style.height=Math.floor(vp.height)+"px";
+    wrap.style.width=Math.floor(vp.width)+"px"; wrap.style.transform="";
+    wrap.style.marginTop = vp.height<stage.clientHeight ? Math.floor((stage.clientHeight-vp.height)/2)+"px" : "8px";
+    if(keep){ stage.scrollLeft=keep.x; stage.scrollTop=keep.y; }
+    cv.style.visibility="visible"; msg.hidden=true;
+    $("zlab").textContent=zoom===1?"Fit":Math.round(zoom*100)/100+"×";
+  }).catch(()=>{});
+}
+function setZoom(z,cx,cy){
+  z=Math.max(1,Math.min(10,z)); if(Math.abs(z-zoom)<0.01) return;
+  if(cx==null){cx=stage.clientWidth/2; cy=stage.clientHeight/2;}
+  const k=z/zoom, top=parseFloat(wrap.style.marginTop)||0;
+  const keep={x:(stage.scrollLeft+cx)*k-cx, y:(stage.scrollTop+cy-top)*k-cy+8};
+  zoom=z; draw(keep);
+}
+$("zin").onclick=()=>setZoom(zoom*1.6);
+$("zout").onclick=()=>setZoom(zoom/1.6);
+$("zfit").onclick=()=>{zoom=1;draw();};
+$("zrot").onclick=()=>{rot=(rot+90)%360; zoom=1; draw();};
+$("vclose").onclick=()=>closeViewer(false);
+$("vprev").onclick=()=>{const i=currentList.indexOf(cur); if(i>0) swap(currentList[i-1]);};
+$("vnext").onclick=()=>{const i=currentList.indexOf(cur); if(i<currentList.length-1) swap(currentList[i+1]);};
+$("pprev").onclick=()=>{if(curPage>cur.page){curPage--;zoom=1;showSheet();}};
+$("pnext").onclick=()=>{if(curPage<cur.page+cur.pages-1){curPage++;zoom=1;showSheet();}};
+function swap(s){cur=s;curPage=s.page;rot=s.rot||0;zoom=1; try{history.replaceState({sheet:s.code},"","#"+s.code);}catch(e){} showSheet();}
+document.addEventListener("keydown",e=>{
+  if($("viewer").hidden) return;
+  if(e.key==="Escape") closeViewer(false);
+  else if(e.key==="ArrowRight") $("vnext").click();
+  else if(e.key==="ArrowLeft") $("vprev").click();
+  else if(e.key==="+"||e.key==="=") setZoom(zoom*1.6);
+  else if(e.key==="-") setZoom(zoom/1.6);
+});
+let rz; window.addEventListener("resize",()=>{clearTimeout(rz); rz=setTimeout(()=>{ if(!$("viewer").hidden) draw(); },200);});
+let pinch=null, lastTap=0;
+stage.addEventListener("touchstart",e=>{
+  if(e.touches.length===2){
+    const [a,b]=e.touches, rc=stage.getBoundingClientRect();
+    const mx=(a.clientX+b.clientX)/2-rc.left, my=(a.clientY+b.clientY)/2-rc.top;
+    const top=parseFloat(wrap.style.marginTop)||0;
+    pinch={d0:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),mx,my,s:1};
+    wrap.style.transformOrigin=`${stage.scrollLeft+mx-wrap.offsetLeft}px ${stage.scrollTop+my-top}px`;
+  } else if(e.touches.length===1){
+    const now=Date.now(), t=e.touches[0];
+    if(now-lastTap<300){ const rc=stage.getBoundingClientRect(); e.preventDefault(); setZoom(zoom>1.5?1:3, t.clientX-rc.left, t.clientY-rc.top); lastTap=0; }
+    else lastTap=now;
+  }
+},{passive:false});
+stage.addEventListener("touchmove",e=>{
+  if(pinch&&e.touches.length===2){
+    e.preventDefault();
+    const [a,b]=e.touches; let s=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)/pinch.d0;
+    s=Math.max(1/zoom,Math.min(10/zoom,s)); pinch.s=s; wrap.style.transform=`scale(${s})`;
+  }
+},{passive:false});
+stage.addEventListener("touchend",e=>{
+  if(pinch&&e.touches.length<2){ const p=pinch; pinch=null; if(Math.abs(p.s-1)>0.03) setZoom(zoom*p.s,p.mx,p.my); else wrap.style.transform=""; }
+});
+stage.addEventListener("wheel",e=>{
+  if(!e.ctrlKey) return; e.preventDefault();
+  const rc=stage.getBoundingClientRect();
+  setZoom(zoom*(e.deltaY<0?1.25:0.8), e.clientX-rc.left, e.clientY-rc.top);
+},{passive:false});
+
+/* boot */
+handleRoute();
+})();
+</script>
