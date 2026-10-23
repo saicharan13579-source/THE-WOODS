@@ -183,6 +183,7 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .ttab .num{text-align:right;font-variant-numeric:tabular-nums}
 .ttab select{width:100%;min-width:150px}.ttab input{width:100%;min-width:140px}
 .ttab tr.chg td{background:var(--warn-bg)}
+.ttab select.cus{border-color:var(--warn);color:var(--warn);font-weight:600}
 .ttab tr.foc td{outline:2px solid var(--forest);outline-offset:-2px}
 .fc{font-family:var(--f-mono);font-size:11px;font-weight:600;text-transform:uppercase;padding:2px 6px;border-radius:4px;color:#fff;background:var(--pc)}
 .fc.e{--pc:#2b6cb0}.fc.w{--pc:#c56a12}.fc.m{--pc:#1f7a3a}
@@ -317,6 +318,9 @@ const PLOT_INFO={
   "30":{type:"1625",note:"Model villa. Villa type confirmed as 1625 sq.ft East."},
 };
 const TYPES=["1625","1215"];
+// "custom" = client's own floor plan: standard 1625/1215 sets do not apply to that plot
+const VTYPES=[...TYPES,"custom"];
+const vtLabel=(ty,p)=>ty==="custom"?"Client custom floor plan":ty+" sq.ft "+(p.face==="E"?"East":"West");
 
 const F={
   CL:["2026-10-08_Ankura-The_Woods_Plot-30-Center_Line_Drawing.pdf",508],
@@ -565,6 +569,13 @@ function plotSet(p,type){
   const T=(codes,st)=>codes.map(c=>{const it=itemBy(c); return st&&!it.cad?Object.assign({},it,{st:st,_typ:true}):it;});
   const siteNote=["","No in-villa plumbing or electrical drawings have been issued yet. External water supply and electrical drawings are in the <a href=\""+SITE_LINK+"\">Site portal</a>."];
   let set;
+  if(type==="custom"){
+    const cn=k=>["warn","Client custom floor plan for Plot "+p.no+". The standard 1625 and 1215 "+k+" drawings do not apply. Use only drawings issued for this plot; none have been added yet."];
+    set={arch:{items:[],note:cn("architectural")},str:{items:[],note:cn("structural")},mep:{items:T([e?"CAD-03":"CAD-04"]),note:["warn","Client custom floor plan. The typical soak pit & sump position below is for reference only; confirm the position for this plot's layout. External services are in the <a href=\""+SITE_LINK+"\">Site portal</a>."]},land:{items:[],note:cn("landscape")}};
+    const x=(PLOT_INFO[p.no]||{}).extra||{};
+    Object.keys(x).forEach(k=>{ if(set[k]&&x[k].length){ set[k].items=T(x[k]).concat(set[k].items); set[k].note=["","Drawings issued for Plot "+p.no+"'s custom floor plan."]; } });
+    return set;
+  }
   if(type==="1625"&&e){
     set={
       arch:{items:m?T(["AR-01","AR-02","AR-03","AR-04","AR-05","AR-06","AR-07","AR-08","AR-14","AR-10","AR-11","AR-12","AR-15","AR-09","AR-13"]):T(["AR-14","AR-10","AR-11","AR-12","AR-15","AR-02","AR-04","AR-05","AR-07","AR-08"],"typical"),
@@ -688,8 +699,8 @@ function renderHome(){
       <div class="card"><div class="stat"><div><b>${PLOTS.length}</b><span>Plots</span></div><div><b>${nE}</b><span>East facing</span></div><div><b>${nW}</b><span>West facing</span></div></div></div>
       <a class="feature card" href="#plot-${MODEL}"><span class="n">30</span><span><b>Plot 30 · model villa</b><span>East facing · full 1625 GFC, structural and landscape set</span></span></a>
       <div class="card"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
-        <div class="plotgrid">${order.map(p=>`<a class="pbtn ${plotCls(p)}" href="#plot-${p.no}"><b>${p.no}</b><small>${(PLOT_INFO[p.no]||{}).type?(PLOT_INFO[p.no].type+(p.face==="E"?" E":" W")):(p.face==="E"?"East":"West")}</small></a>`).join("")}</div></div>
-      <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${PLOTS.filter(p=>TYPES.includes((PLOT_INFO[p.no]||{}).type)).length}/${PLOTS.length}</span><span><b>Villa types</b><span>Plots with a confirmed villa type. Tap to confirm or change.</span></span></a>
+        <div class="plotgrid">${order.map(p=>`<a class="pbtn ${plotCls(p)}" href="#plot-${p.no}"><b>${p.no}</b><small>${(PLOT_INFO[p.no]||{}).type?(PLOT_INFO[p.no].type==="custom"?"Custom":PLOT_INFO[p.no].type+(p.face==="E"?" E":" W")):(p.face==="E"?"East":"West")}</small></a>`).join("")}</div></div>
+      <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${PLOTS.filter(p=>VTYPES.includes((PLOT_INFO[p.no]||{}).type)).length}/${PLOTS.length}</span><span><b>Villa types</b><span>Plots with a confirmed villa type. Tap to confirm or change.</span></span></a>
       ${alertsHTML(VILLA_ALERTS,"Check before you build",false)}
       <a class="feature card" href="${SITE_LINK}" style="background:var(--glass)"><span class="n" style="color:var(--c-mep);font-size:22px">SITE</span><span><b>Site portal</b><span>Site plans, levels, survey, external electrical and water supply</span></span></a>
     </div>
@@ -705,7 +716,7 @@ function footerHTML(){
 /* ---------- plot page ---------- */
 function renderPlot(no){
   const p=plotBy[no]; if(!p){ go("home"); return; }
-  const info=PLOT_INFO[p.no]||{}, confirmed=TYPES.includes(info.type);
+  const info=PLOT_INFO[p.no]||{}, confirmed=VTYPES.includes(info.type);
   let vtype=confirmed?info.type:(pickType[p.no]||lastType);
   const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
   const i=order.indexOf(p), prev=order[i-1], next=order[i+1];
@@ -728,7 +739,7 @@ function renderPlot(no){
     </div>
     <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:260%"><img src="${FILE_ROOT}img/master-plan.png" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
   </div>
-  <div class="card vtype"><span class="lbl">Villa type</span>${confirmed?`<b style="font-size:17px">${info.type} sq.ft ${p.face==="E"?"East":"West"} villa</b><span class="conf ok">Confirmed</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}<a class="vlink" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} villa type</a></div>
+  <div class="card vtype"><span class="lbl">Villa type</span>${confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":info.type+" sq.ft "+(p.face==="E"?"East":"West")+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}<a class="vlink" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} villa type</a></div>
   <div class="dtabs" role="tablist" aria-label="Drawings by discipline">${keys.map(k=>`<button type="button" class="dtab" role="tab" data-k="${k}" aria-selected="${k===ptab}" style="--dc:var(${DISC[k].c})">${DISC[k].name}<span class="n"></span></button>`).join("")}</div>
   <div id="ptab"></div>
   ${footerHTML()}`;
@@ -945,7 +956,7 @@ stage.addEventListener("wheel",e=>{
 /* ---------- villa types (confirm page) ---------- */
 const typesUrl=()=>(DL_ROOT||FILE_ROOT)+TYPES_FILE+"?t="+Date.now();
 let draft=null, focusPlot=null;
-function savedTypes(){ const o={}; Object.keys(PLOT_INFO).forEach(k=>{const r=PLOT_INFO[k]; if(TYPES.includes(r.type)||r.note) o[k]={...(r.type?{type:r.type}:{}),...(r.note?{note:r.note}:{})};}); return o; }
+function savedTypes(){ const o={}; Object.keys(PLOT_INFO).forEach(k=>{const r=PLOT_INFO[k]; if(VTYPES.includes(r.type)||r.note) o[k]={...(r.type?{type:r.type}:{}),...(r.note?{note:r.note}:{})};}); return o; }
 function loadDraft(){ try{ const v=JSON.parse(localStorage.getItem("woods.typesDraft")||"null"); if(v&&typeof v==="object") return v; }catch(e){} return null; }
 function storeDraft(){ try{ draft?localStorage.setItem("woods.typesDraft",JSON.stringify(draft)):localStorage.removeItem("woods.typesDraft"); }catch(e){} }
 function plotOrder(){ return PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0))); }
@@ -954,13 +965,13 @@ function changedCount(){ if(!draft) return 0; const s=savedTypes(); return plotO
 function renderTypes(){
   if(!draft) draft=loadDraft()||JSON.parse(JSON.stringify(savedTypes()));
   const s=savedTypes(), n=changedCount();
-  const nConf=plotOrder().filter(p=>TYPES.includes((s[p.no]||{}).type)).length;
+  const nConf=plotOrder().filter(p=>VTYPES.includes((s[p.no]||{}).type)).length, nCus=plotOrder().filter(p=>(s[p.no]||{}).type==="custom").length;
   const rows=plotOrder().map(p=>{const d=draft[p.no]||{}, sv=s[p.no]||{}, ch=(sv.type||"")!==(d.type||"")||(sv.note||"")!==(d.note||"");
     return `<tr class="${ch?"chg":""}${focusPlot===p.no?" foc":""}" id="tp-${p.no}"><td><a href="#plot-${p.no}"><b>${p.no}</b></a></td><td><span class="fc ${plotCls(p)}">${p.face==="E"?"East":"West"}</span></td><td class="num">${p.sqyd}</td>
-      <td><select data-p="${p.no}" aria-label="Villa type for plot ${p.no}"><option value="">Not confirmed</option>${TYPES.map(ty=>`<option value="${ty}"${d.type===ty?" selected":""}>${ty} sq.ft ${p.face==="E"?"East":"West"}</option>`).join("")}</select></td>
+      <td><select data-p="${p.no}" class="${d.type==="custom"?"cus":""}" aria-label="Villa type for plot ${p.no}"><option value="">Not confirmed</option>${VTYPES.map(ty=>`<option value="${ty}"${d.type===ty?" selected":""}>${vtLabel(ty,p)}</option>`).join("")}</select></td>
       <td><input type="text" data-n="${p.no}" value="${esc(d.note||"")}" placeholder="Note (optional)" aria-label="Note for plot ${p.no}"></td></tr>`;}).join("");
   $("main").innerHTML=`
-  <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots confirmed${typesLoaded?"":" · showing the built-in list (could not read the live file)"}. Pick a type for each plot, then publish. A confirmed plot shows only that villa's drawings.</p></div></div>
+  <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots confirmed${nCus?` (${nCus} custom)`:""}${typesLoaded?"":" · showing the built-in list (could not read the live file)"}. Pick 1625, 1215 or <b>Client custom floor plan</b> for each plot, then publish. A confirmed plot shows only that villa's drawings; a custom plot shows none of the standard sets.</p></div></div>
     <div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button><button type="button" class="zbtn" id="tReset"${n?"":" disabled"}>Undo changes</button></div>
     <div class="ttab"><table><thead><tr><th>Plot</th><th>Facing</th><th class="num">sq.yd</th><th>Villa type</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
   <div class="card pub" id="pub">
@@ -972,7 +983,7 @@ function renderTypes(){
   ${footerHTML()}`;
   const upd=()=>{storeDraft(); const c=changedCount(); const h=$("pub").querySelector("h2"); h.textContent=c?c+" change"+(c>1?"s":"")+" not published yet":"No unpublished changes"; $("pubGo").disabled=!c; $("tReset").disabled=!c;};
   const mark=no=>{const sv=s[no]||{}, d=draft[no]||{}; $("tp-"+no).classList.toggle("chg",(sv.type||"")!==(d.type||"")||(sv.note||"")!==(d.note||""));};
-  $("main").querySelectorAll("select[data-p]").forEach(el=>el.onchange=()=>{const k=el.dataset.p; draft[k]={...(draft[k]||{}),type:el.value}; if(!el.value) delete draft[k].type; mark(k); upd();});
+  $("main").querySelectorAll("select[data-p]").forEach(el=>el.onchange=()=>{const k=el.dataset.p; el.classList.toggle("cus",el.value==="custom"); draft[k]={...(draft[k]||{}),type:el.value}; if(!el.value) delete draft[k].type; mark(k); upd();});
   $("main").querySelectorAll("input[data-n]").forEach(el=>el.oninput=()=>{const k=el.dataset.n; draft[k]={...(draft[k]||{}),note:el.value.trim()}; if(!draft[k].note) delete draft[k].note; mark(k); upd();});
   $("bulkGo").onclick=()=>{const f=$("bulkFace").value, ty=$("bulkType").value; PLOTS.filter(p=>p.face===f&&!(draft[p.no]||{}).type).forEach(p=>{draft[p.no]={...(draft[p.no]||{}),type:ty};}); storeDraft(); renderTypes();};
   $("tReset").onclick=()=>{draft=null; storeDraft(); renderTypes();};
@@ -987,7 +998,7 @@ function renderTypes(){
 $("main").addEventListener("click",e=>{const a=e.target.closest("a.vlink"); if(a) focusPlot=a.dataset.focus;});
 function applyTypes(o){
   Object.keys(PLOT_INFO).forEach(k=>{ const r=PLOT_INFO[k]; delete r.type; delete r.note; });
-  Object.keys(o||{}).forEach(k=>{ if(!plotBy[k]) return; const v=o[k]||{}; PLOT_INFO[k]=Object.assign(PLOT_INFO[k]||{}, TYPES.includes(v.type)?{type:v.type}:{}, v.note?{note:String(v.note)}:{}); });
+  Object.keys(o||{}).forEach(k=>{ if(!plotBy[k]) return; const v=o[k]||{}; PLOT_INFO[k]=Object.assign(PLOT_INFO[k]||{}, VTYPES.includes(v.type)?{type:v.type}:{}, v.note?{note:String(v.note)}:{}); });
   typesLoaded=true;
   const d=loadDraft(); if(d&&!changedCountFor(d)){ draft=null; storeDraft(); }
 }
