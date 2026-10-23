@@ -30,4 +30,6 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
 ## Villa types
 - Saving happens in the Claude artifact: its db doc `villa/types` ({plots:{"31":{"type":"custom","note":"..."}}, updatedAt}) is authoritative there; the owner picks a type and it saves instantly.
 - The GitHub site is read-only for types: it reads `data/villa-types.json`. Sync = read the artifact db (ArtifactData get villa/types) -> write the json -> push. No regenerate needed.
+- Each plot record also has `status` (booked/registered/blocked; absent = available) and `label` (e.g. Sales office) from Ankura's sales layout; `_asof` holds the status date. Blocked plots (except Plot 30, the model villa) show no villa drawings. Master layout colours follow status.
+- Plots 01-05, 08, 23, 28 are North facing (sales layout); they show the East set as typical reference with a warning.
 - type is "1625", "1215" or "custom" (client custom floor plan: no standard sets shown; add its drawings via PLOT_INFO extra).

@@ -1,57 +1,95 @@
 {
+  "_asof": "21-10-2026, 4:51 pm",
   "12": {
     "type": "custom",
+    "status": "registered",
     "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "16": {
     "type": "1215",
+    "status": "booked",
     "note": "Booked."
   },
   "19": {
     "type": "custom",
+    "status": "registered",
     "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "20": {
     "type": "custom",
+    "status": "registered",
     "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+  },
+  "21": {
+    "status": "blocked",
+    "label": "Model home"
+  },
+  "22": {
+    "status": "blocked",
+    "label": "Model plot"
   },
   "23": {
     "type": "custom",
+    "status": "registered",
     "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "24": {
     "type": "1625",
+    "status": "booked",
     "note": "Booked."
   },
   "26": {
+    "status": "booked",
     "note": "Booked. 3BHK option, not final yet (mostly 3BHK)."
+  },
+  "28": {
+    "status": "blocked",
+    "label": "Site office"
+  },
+  "29": {
+    "status": "blocked",
+    "label": "Sales office"
   },
   "30": {
     "type": "1625",
+    "status": "blocked",
+    "label": "Model villa (GFC)",
     "note": "Model villa. Villa type confirmed as 1625 sq.ft East."
   },
   "33": {
     "type": "custom",
+    "status": "registered",
     "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "34": {
     "type": "1625",
+    "status": "booked",
     "note": "Booked."
   },
   "38": {
     "type": "1215",
+    "status": "booked",
     "note": "Booked."
   },
   "42": {
     "type": "1625",
+    "status": "booked",
     "note": "Booked."
   },
   "44": {
     "type": "custom",
+    "status": "registered",
     "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+  },
+  "45": {
+    "status": "blocked"
+  },
+  "46": {
+    "status": "blocked"
   },
   "50": {
     "type": "1215",
+    "status": "booked",
     "note": "Booked."
   }
 }

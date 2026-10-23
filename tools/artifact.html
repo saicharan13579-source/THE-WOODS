@@ -113,21 +113,25 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .plot{cursor:pointer}
 .plot rect{fill:var(--pc);fill-opacity:.14;stroke:var(--pc);stroke-opacity:.0;stroke-width:6;transition:fill-opacity .15s}
 .plot:hover rect,.plot:focus rect{fill-opacity:.32;stroke-opacity:.9}
-.plot.e{--pc:#2b6cb0} .plot.w{--pc:#d0730f} .plot.m{--pc:#1f9a46}
-.plot.m rect{fill-opacity:.28;stroke-opacity:1}
+.plot.st-available{--pc:#8a7a4f} .plot.st-booked{--pc:#e3a12f} .plot.st-registered{--pc:#d9651c} .plot.st-blocked{--pc:#7d8580}
+.plot.st-available rect{fill-opacity:.06}.plot.st-booked rect,.plot.st-registered rect,.plot.st-blocked rect{fill-opacity:.5}
+.plot.m rect{stroke:#1f9a46;stroke-opacity:1;stroke-width:12}
+.asof{margin:6px 0 0;font-size:12px;color:var(--muted)}
 .plot.sel rect{fill-opacity:.45;stroke-opacity:1;stroke-width:10}
 .plot:focus{outline:none}
 .legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:14px;margin-top:10px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .sw{width:14px;height:14px;border-radius:4px;border:2px solid currentColor;display:inline-block}
-.sw.e{color:#2b6cb0;background:rgba(43,108,176,.18)} .sw.w{color:#d0730f;background:rgba(208,115,15,.18)} .sw.m{color:#1f9a46;background:rgba(31,154,70,.3)}
+.sw.st-available{color:#b8a77a;background:#f3e9d4} .sw.st-booked{color:#c98a1c;background:#e8b24f} .sw.st-registered{color:#b4510f;background:#dd7430} .sw.st-blocked{color:#6c736f;background:#9aa09c} .sw.m{color:#1f9a46;background:transparent}
 .plotgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
 .pbtn{display:grid;gap:0;justify-items:center;padding:7px 4px;border-radius:10px;border:1px solid var(--glass-line);background:var(--paper);cursor:pointer;text-decoration:none;border-bottom:3px solid var(--pc)}
 .pbtn b{font-size:17px;line-height:1.1;font-variant-numeric:tabular-nums}
 .pbtn small{font-family:var(--f-mono);font-size:10px;color:var(--muted)}
-.pbtn.e{--pc:var(--east)} .pbtn.w{--pc:var(--west)} .pbtn.m{--pc:var(--model);background:var(--forest-soft)}
+.pbtn.s-available{--pc:#c9b98f} .pbtn.s-booked{--pc:#e3a12f;background:rgba(227,161,47,.18)} .pbtn.s-registered{--pc:#d9651c;background:rgba(217,101,28,.18)} .pbtn.s-blocked{--pc:#7d8580;background:rgba(125,133,128,.2)} .pbtn.m{outline:2px solid var(--model);outline-offset:-2px}
 .side{display:grid;gap:14px;min-width:0}
 .stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat.stat4{grid-template-columns:repeat(4,1fr)}
+.stat .sc-booked{border-bottom:3px solid #e3a12f}.stat .sc-registered{border-bottom:3px solid #d9651c}.stat .sc-blocked{border-bottom:3px solid #7d8580}.stat .sc-available{border-bottom:3px solid #c9b98f}
 .stat div{background:var(--paper);border:1px solid var(--glass-line);border-radius:12px;padding:10px;display:grid;gap:2px}
 .stat b{font-size:22px;font-variant-numeric:tabular-nums}
 .stat span{font-size:12px;color:var(--muted);font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.05em}
@@ -144,7 +148,8 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .ph-title{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:6px 0 10px}
 .ph-title h2{margin:0;font-size:38px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
 .badge{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;color:#fff;background:var(--pc)}
-.badge.e{--pc:#2b6cb0} .badge.w{--pc:#c56a12} .badge.m{--pc:#1f7a3a}
+.badge.e{--pc:#2b6cb0} .badge.w{--pc:#c56a12} .badge.n{--pc:#6a4f8f} .badge.m{--pc:#1f7a3a}
+.badge.st.st-available{--pc:#8a7a4f}.badge.st.st-booked{--pc:#b87a12}.badge.st.st-registered{--pc:#c4520f}.badge.st.st-blocked{--pc:#646b67}
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
 .facts div{background:var(--paper);border:1px solid var(--glass-line);border-radius:12px;padding:8px 10px;display:grid;gap:1px}
 .facts span{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
@@ -183,10 +188,12 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .ttab .num{text-align:right;font-variant-numeric:tabular-nums}
 .ttab select{width:100%;min-width:150px}.ttab input{width:100%;min-width:140px}
 .ttab tr.chg td{background:var(--warn-bg)}
+.ttab select.sel-booked{color:#b87a12;font-weight:600}.ttab select.sel-registered{color:#c4520f;font-weight:600}.ttab select.sel-blocked{color:#646b67;font-weight:600}
+.ttab select[data-s]{min-width:120px}.ttab input.lab{margin-top:4px;font-size:13px;height:32px}
 .ttab select.cus{border-color:var(--warn);color:var(--warn);font-weight:600}
 .ttab tr.foc td{outline:2px solid var(--forest);outline-offset:-2px}
 .fc{font-family:var(--f-mono);font-size:11px;font-weight:600;text-transform:uppercase;padding:2px 6px;border-radius:4px;color:#fff;background:var(--pc)}
-.fc.e{--pc:#2b6cb0}.fc.w{--pc:#c56a12}.fc.m{--pc:#1f7a3a}
+.fc.e{--pc:#2b6cb0}.fc.w{--pc:#c56a12}.fc.n{--pc:#6a4f8f}.fc.m{--pc:#1f7a3a}
 .pub .steps{margin:0 0 10px;padding-left:20px;font-size:14px;line-height:1.5}
 .pub .portal-link{cursor:pointer}.pub .portal-link:disabled{opacity:.45;cursor:default}
 .pub textarea{width:100%;font-family:var(--f-mono);font-size:12px;border:1px solid var(--glass-line);border-radius:10px;padding:8px;background:var(--paper);color:var(--ink)}
@@ -307,7 +314,7 @@ const SITE_LINK="#site", VILLA_LINK="#home", FILE_ROOT="", DL_ROOT="https://saic
 const UPDATED="23-10-2026";
 const MAP_W=1830, MAP_H=2220;
 // plot no, sq.m, sq.yd, facing (E/W), hit box x0,y0,x1,y1 on the master plan image
-const PLOTS=[["12A","1154.95","1381.32","E",936,832,1063,986],["01","1114.55","1333","E",121,1586,248,1728],["02","1011.71","1210","E",279,1608,406,1750],["03","1011.71","1210","E",425,1628,552,1770],["04","1011.71","1210","E",569,1648,696,1790],["05","1011.71","1210","E",713,1666,840,1808],["06","1386.29","1658","E",815,1968,942,2110],["07","1692.32","2024","E",835,1830,962,1968],["08","1587.80","1899","E",853,1692,980,1830],["09","1136.00","1358.65","E",939,1482,1066,1624],["10","1627.10","1946","E",937,1264,1064,1482],["11","1031.27","1233.39","E",937,1126,1064,1264],["12","1030.62","1232.62","E",937,986,1064,1126],["14","1416.99","1694.71","W",1127,202,1281,390],["15","1011.71","1210","W",1127,390,1281,528],["16","1011.71","1210","W",1127,528,1281,668],["17","1011.71","1210","W",1127,668,1281,802],["18","1011.71","1210","W",1127,848,1281,986],["19","1011.71","1210","W",1127,986,1281,1126],["20","1011.71","1210","W",1127,1126,1281,1264],["21","1595.33","1908","W",1127,1264,1281,1482],["22","1112.88","1331","W",1127,1482,1281,1646],["23","1011.71","1210","W",1127,1692,1281,1830],["24","1011.71","1210","W",1127,1830,1281,1968],["25","1178.94","1410","W",1127,1968,1281,2132],["26","1417.23","1695","E",1283,1968,1437,2132],["27","1011.71","1210","E",1283,1830,1437,1968],["28","1011.71","1210","E",1283,1692,1437,1830],["29","1337.80","1600","E",1283,1452,1437,1646],["30","1369.57","1638","E",1283,1264,1437,1452],["31","1011.71","1210","E",1283,1126,1437,1264],["32","1011.71","1210","E",1283,986,1437,1126],["33","1011.71","1210","E",1283,848,1437,986],["34","1011.71","1210","E",1283,668,1437,802],["35","1011.71","1210","E",1283,528,1437,668],["36","1011.71","1210","E",1283,390,1437,528],["37","1684.79","2015","E",1283,176,1437,390],["38","969.90","1160","W",1477,114,1631,240],["39","1011.71","1210","W",1477,240,1631,382],["40","1011.71","1210","W",1479,382,1633,524],["41","1011.71","1210","W",1479,524,1633,664],["42","1011.71","1210","W",1479,664,1633,802],["43","1011.71","1210","W",1479,848,1633,990],["44","1011.71","1210","W",1479,990,1633,1130],["45","1360.37","1625","W",1479,1130,1633,1359],["46","1534.29","1835","E",1633,1130,1787,1359],["47","1011.71","1210","E",1633,990,1787,1130],["48","1011.71","1210","E",1633,848,1787,990],["49","1011.71","1210","E",1633,664,1787,802],["50","1011.71","1210","E",1633,524,1787,664],["51","1011.71","1210","E",1633,382,1787,524],["52","1011.71","1210","E",1633,240,1787,382],["53","1259.20","1506","E",1633,80,1787,240]].map(a=>({no:a[0],sqm:a[1],sqyd:a[2],face:a[3],box:a.slice(4,8)}));
+const PLOTS=[["12A","1154.95","1381.32","E",936,832,1063,986],["01","1114.55","1333","N",121,1586,248,1728],["02","1011.71","1210","N",279,1608,406,1750],["03","1011.71","1210","N",425,1628,552,1770],["04","1011.71","1210","N",569,1648,696,1790],["05","1011.71","1210","N",713,1666,840,1808],["06","1386.29","1658","E",815,1968,942,2110],["07","1692.32","2024","E",835,1830,962,1968],["08","1587.80","1899","N",853,1692,980,1830],["09","1136.00","1358.65","E",939,1482,1066,1624],["10","1627.10","1946","E",937,1264,1064,1482],["11","1031.27","1233.39","E",937,1126,1064,1264],["12","1030.62","1232.62","E",937,986,1064,1126],["14","1416.99","1694.71","W",1127,202,1281,390],["15","1011.71","1210","W",1127,390,1281,528],["16","1011.71","1210","W",1127,528,1281,668],["17","1011.71","1210","W",1127,668,1281,802],["18","1011.71","1210","W",1127,848,1281,986],["19","1011.71","1210","W",1127,986,1281,1126],["20","1011.71","1210","W",1127,1126,1281,1264],["21","1595.33","1908","W",1127,1264,1281,1482],["22","1112.88","1331","W",1127,1482,1281,1646],["23","1011.71","1210","N",1127,1692,1281,1830],["24","1011.71","1210","W",1127,1830,1281,1968],["25","1178.94","1410","W",1127,1968,1281,2132],["26","1417.23","1695","E",1283,1968,1437,2132],["27","1011.71","1210","E",1283,1830,1437,1968],["28","1011.71","1210","N",1283,1692,1437,1830],["29","1337.80","1600","E",1283,1452,1437,1646],["30","1369.57","1638","E",1283,1264,1437,1452],["31","1011.71","1210","E",1283,1126,1437,1264],["32","1011.71","1210","E",1283,986,1437,1126],["33","1011.71","1210","E",1283,848,1437,986],["34","1011.71","1210","E",1283,668,1437,802],["35","1011.71","1210","E",1283,528,1437,668],["36","1011.71","1210","E",1283,390,1437,528],["37","1684.79","2015","E",1283,176,1437,390],["38","969.90","1160","W",1477,114,1631,240],["39","1011.71","1210","W",1477,240,1631,382],["40","1011.71","1210","W",1479,382,1633,524],["41","1011.71","1210","W",1479,524,1633,664],["42","1011.71","1210","W",1479,664,1633,802],["43","1011.71","1210","W",1479,848,1633,990],["44","1011.71","1210","W",1479,990,1633,1130],["45","1360.37","1625","W",1479,1130,1633,1359],["46","1534.29","1835","E",1633,1130,1787,1359],["47","1011.71","1210","E",1633,990,1787,1130],["48","1011.71","1210","E",1633,848,1787,990],["49","1011.71","1210","E",1633,664,1787,802],["50","1011.71","1210","E",1633,524,1787,664],["51","1011.71","1210","E",1633,382,1787,524],["52","1011.71","1210","E",1633,240,1787,382],["53","1259.20","1506","E",1633,80,1787,240]].map(a=>({no:a[0],sqm:a[1],sqyd:a[2],face:a[3],box:a.slice(4,8)}));
 const MODEL="30";
 // Per-plot record. Villa types and notes live in data/villa-types.json (edited from the "Villa types" page
 // or by Claude) and are merged over this built-in copy when the page loads.
@@ -322,7 +329,7 @@ const PLOT_INFO={
 const TYPES=["1625","1215"];
 // "custom" = client's own floor plan: standard 1625/1215 sets do not apply to that plot
 const VTYPES=[...TYPES,"custom"];
-const vtLabel=(ty,p)=>ty==="custom"?"Client custom floor plan":ty+" sq.ft "+(p.face==="E"?"East":"West");
+const vtLabel=(ty,p)=>ty==="custom"?"Client custom floor plan":ty+" sq.ft "+(p.face==="E"?"East":p.face==="W"?"West":"North");
 
 const F={
   CL:["2026-10-08_Ankura-The_Woods_Plot-30-Center_Line_Drawing.pdf",508],
@@ -536,7 +543,9 @@ const VILLA_ALERTS=[
  ["warn","Plot specific","The GFC set was issued for Plot 30. Setting-out sheets tied to the plot boundary (AR-01, AR-03, AR-06) apply to Plot 30 only. Other east facing plots need their own setting-out."],
  ["bad","Do not use","Plot 30 landscape marking plan LA-01 and level plan LA-02 (05-10-2026) are superseded. Use LA-09 (14-10-2026) and LA-10 (13-10-2026)."],
  ["warn","Not GFC","All landscape sheets are stamped For Information & Approval. Material plan options 01 and 02 still need the client's choice."],
- ["info","Villa type","Only Plot 30 is confirmed (1625 East). Every other plot shows both the 1625 and 1215 sets until its type is confirmed. 1625 East has a GFC set; 1625 West has a GFC floor plan; all four villa types (1625/1215, East/West) have structural sets."],
+ ["warn","North facing","Plots 01–05, 08, 23 and 28 face North on Ankura's sales layout. Only East and West villa sets exist, so these plots show the East set as typical reference. Confirm North-facing drawings with the architect before setting out."],
+ ["info","Plot status","Booked, registered and blocked plots follow Ankura's sales layout (21-10-2026). Blocked plots (model home, model plot, sales office, site office, 45, 46) show no villa drawings; Plot 30 stays the model villa with its GFC set."],
+ ["info","Villa type","Plots without a confirmed type show both the 1625 and 1215 sets; see the Villa types page for what is confirmed. 1625 East has a GFC set; 1625 West has a GFC floor plan; all four villa types (1625/1215, East/West) have structural sets."],
  ["bad","Do not use","Structural sheets 1625 East SD-01 to SD-03 (19/23-09-2026) and 1215 East SD-01, 02, 03, 05 (R0, 23-09-2026) are superseded. Use the current revisions dated 05-10 and 07-10-2026."]
 ];
 /* Plot 30 build sequence (register) */
@@ -567,10 +576,14 @@ const ALL=[
 
 /* drawings for one plot, by discipline, for a villa type ("1625" or "1215") */
 function plotSet(p,type){
-  const m=p.no===MODEL, e=p.face==="E";
+  const m=p.no===MODEL, e=p.face!=="W";
   const T=(codes,st)=>codes.map(c=>{const it=itemBy(c); return st&&!it.cad?Object.assign({},it,{st:st,_typ:true}):it;});
   const siteNote=["","No in-villa plumbing or electrical drawings have been issued yet. External water supply and electrical drawings are in the <a href=\""+SITE_LINK+"\">Site portal</a>."];
   let set;
+  if(isOffPlot(p)){
+    const bn=["","Plot "+p.no+" is blocked"+(pLabel(p)?" ("+pLabel(p)+")":"")+" on Ankura's sales layout. No villa drawings are shown until it is released for a villa."];
+    return {arch:{items:[],note:bn},str:{items:[],note:bn},mep:{items:[],note:bn},land:{items:[],note:bn}};
+  }
   if(type==="custom"){
     const cn=k=>["warn","Client custom floor plan for Plot "+p.no+". The standard 1625 and 1215 "+k+" drawings do not apply. Use only drawings issued for this plot; none have been added yet."];
     set={arch:{items:[],note:cn("architectural")},str:{items:[],note:cn("structural")},mep:{items:T([e?"CAD-03":"CAD-04"]),note:["warn","Client custom floor plan. The typical soak pit & sump position below is for reference only; confirm the position for this plot's layout. External services are in the <a href=\""+SITE_LINK+"\">Site portal</a>."]},land:{items:[],note:cn("landscape")}};
@@ -611,6 +624,7 @@ function plotSet(p,type){
   }
   const x=(PLOT_INFO[p.no]||{}).extra||{};
   Object.keys(x).forEach(k=>{ if(set[k]) set[k].items=T(x[k]).concat(set[k].items.filter(i=>!x[k].includes(i.code))); });
+  if(p.face==="N") ["arch","str","land"].forEach(k=>{ const n=set[k].note; set[k].note=["warn","North facing plot: the East villa set is shown as typical reference. Confirm North-facing drawings with the architect before setting out."+(n&&n[1]?" "+n[1]:"")]; });
   return set;
 }
 
@@ -620,8 +634,17 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const thumb=s=>FILE_ROOT+"thumb/"+F[s.f][0].replace(/\.pdf$/,"")+"_p"+s.page+".jpg";
 const hay=s=>[s.code,s.title,s.sub,s.no||"",s.rev||"",s.date,s.by,DISC[s.disc].name,s.villa||"",ST[s.st],s.file||""].join(" ").toLowerCase();
 const plotBy=Object.fromEntries(PLOTS.map(p=>[p.no,p]));
-const plotCls=p=>p.no===MODEL?"m":p.face==="E"?"e":"w";
-const faceTxt=p=>p.face==="E"?"East facing":"West facing";
+const plotCls=p=>p.no===MODEL?"m":p.face==="E"?"e":p.face==="N"?"n":"w";
+const faceWord=p=>p.face==="E"?"East":p.face==="W"?"West":"North";
+const faceTxt=p=>faceWord(p)+" facing";
+/* plot status from Ankura's sales layout (data/villa-types.json: status + label per plot) */
+const ST_PLOT={available:"Available",booked:"Booked",registered:"Registered",blocked:"Blocked"};
+let STATUS_ASOF="";
+const pStatus=p=>{const s=(PLOT_INFO[p.no]||{}).status; return ST_PLOT[s]?s:"available";};
+const pLabel=p=>(PLOT_INFO[p.no]||{}).label||"";
+const isOffPlot=p=>pStatus(p)==="blocked"&&p.no!==MODEL;
+const statusTxt=p=>ST_PLOT[pStatus(p)]+(pLabel(p)?" · "+pLabel(p):"");
+function pSmall(p){ const i=PLOT_INFO[p.no]||{}; if(isOffPlot(p)) return pLabel(p)||"Blocked"; if(i.type) return i.type==="custom"?"Custom":i.type+" "+p.face; return faceWord(p); }
 let q="", disc="all", regView="seq", currentList=[], route="";
 try{ const v=localStorage.getItem("woods.reg"); if(["seq","all"].includes(v)) regView=v; }catch(e){}
 let ptab="arch"; try{ const v=localStorage.getItem("woods.ptab"); if(v&&DISC[v]) ptab=v; }catch(e){}
@@ -670,13 +693,13 @@ const plotHref=no=>(PORTAL==="site"?VILLA_LINK:"")+"#plot-"+no;
 /* ---------- master plan ---------- */
 function mapSVG(sel){
   return `<svg viewBox="0 0 ${MAP_W} ${MAP_H}" preserveAspectRatio="none" aria-label="Master layout with ${PLOTS.length} plots">${
-    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" class="plot ${plotCls(p)}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}</svg>`;
+    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" class="plot st-${pStatus(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}</svg>`;
 }
 function masterCard(title,sub){
   return `<div class="card"><div class="card-h"><div><h2>${title}</h2><p>${sub}</p></div>
     <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
     <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/master-plan.png" alt="Master layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
-    <div class="legend"><span><i class="sw e"></i>East facing villa</span><span><i class="sw w"></i>West facing villa</span><span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div></div>`;
+    <div class="legend">${Object.keys(ST_PLOT).map(s=>`<span><i class="sw st-${s}"></i>${ST_PLOT[s]} · ${PLOTS.filter(p=>pStatus(p)===s).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div>${STATUS_ASOF?`<p class="asof">Plot status from Ankura's sales layout, as of ${esc(STATUS_ASOF)}.</p>`:""}</div>`;
 }
 function bindMapZoom(){
   document.querySelectorAll(".zbtn[data-z]").forEach(b=>b.onclick=()=>{
@@ -692,16 +715,16 @@ function centerMap(){
   requestAnimationFrame(()=>{ box.scrollLeft=(1390/MAP_W)*mz.clientWidth-box.clientWidth/2; box.scrollTop=(1050/MAP_H)*mz.clientHeight-box.clientHeight/2; });
 }
 function renderHome(){
-  const nE=PLOTS.filter(p=>p.face==="E").length, nW=PLOTS.length-nE;
+  const cnt=s=>PLOTS.filter(p=>pStatus(p)===s).length;
   const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
   $("main").innerHTML=`
   <div class="mp">
     ${masterCard("Master layout","Tap any plot to open its architectural, structural, MEP and landscape drawings for both the 1625 and 1215 villa types.")}
     <div class="side">
-      <div class="card"><div class="stat"><div><b>${PLOTS.length}</b><span>Plots</span></div><div><b>${nE}</b><span>East facing</span></div><div><b>${nW}</b><span>West facing</span></div></div></div>
+      <div class="card"><div class="stat stat4">${Object.keys(ST_PLOT).map(s=>`<div class="sc-${s}"><b>${cnt(s)}</b><span>${ST_PLOT[s]}</span></div>`).join("")}</div>${STATUS_ASOF?`<p class="asof">${PLOTS.length} plots · status as of ${esc(STATUS_ASOF)}</p>`:""}</div>
       <a class="feature card" href="#plot-${MODEL}"><span class="n">30</span><span><b>Plot 30 · model villa</b><span>East facing · full 1625 GFC, structural and landscape set</span></span></a>
       <div class="card"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
-        <div class="plotgrid">${order.map(p=>`<a class="pbtn ${plotCls(p)}" href="#plot-${p.no}"><b>${p.no}</b><small>${(PLOT_INFO[p.no]||{}).type?(PLOT_INFO[p.no].type==="custom"?"Custom":PLOT_INFO[p.no].type+(p.face==="E"?" E":" W")):(p.face==="E"?"East":"West")}</small></a>`).join("")}</div></div>
+        <div class="plotgrid">${order.map(p=>`<a class="pbtn s-${pStatus(p)}${p.no===MODEL?" m":""}" href="#plot-${p.no}" title="${esc(statusTxt(p))}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>
       <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${PLOTS.filter(p=>VTYPES.includes((PLOT_INFO[p.no]||{}).type)).length}/${PLOTS.length}</span><span><b>Villa types</b><span>Plots with a confirmed villa type. Tap to confirm or change.</span></span></a>
       ${alertsHTML(VILLA_ALERTS,"Check before you build",false)}
       <a class="feature card" href="${SITE_LINK}" style="background:var(--glass)"><span class="n" style="color:var(--c-mep);font-size:22px">SITE</span><span><b>Site portal</b><span>Site plans, levels, survey, external electrical and water supply</span></span></a>
@@ -729,9 +752,10 @@ function renderPlot(no){
   <div class="crumbs"><a href="#home">← Master layout</a><span>/</span><span>Plot ${p.no}</span></div>
   <div class="card plothead">
     <div>
-      <div class="ph-title"><h2>Plot ${p.no}</h2><span class="badge ${plotCls(p)}">${p.no===MODEL?"Model villa · GFC":faceTxt(p)}</span></div>
+      <div class="ph-title"><h2>Plot ${p.no}</h2><span class="badge ${plotCls(p)}">${p.no===MODEL?"Model villa · GFC":faceTxt(p)}</span><span class="badge st st-${pStatus(p)}">${esc(statusTxt(p))}</span></div>
       <div class="facts">
-        <div><span>Villa type</span><b>${confirmed?info.type+" sq.ft "+(p.face==="E"?"East":"West"):"1625 or 1215 · not confirmed"}</b></div>
+        <div><span>Status</span><b>${esc(statusTxt(p))}</b></div>
+        <div><span>Villa type</span><b>${isOffPlot(p)?"Not a villa plot yet":confirmed?vtLabel(info.type,p):"1625 or 1215 · not confirmed"}</b></div>
         <div><span>Facing</span><b>${faceTxt(p)}</b></div>
         <div><span>Plot area</span><b>${p.sqyd} sq.yd</b></div>
         <div><span>Plot area</span><b>${p.sqm} sq.m</b></div>
@@ -741,7 +765,7 @@ function renderPlot(no){
     </div>
     <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:260%"><img src="${FILE_ROOT}img/master-plan.png" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
   </div>
-  <div class="card vtype"><span class="lbl">Villa type</span>${confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":info.type+" sq.ft "+(p.face==="E"?"East":"West")+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}<a class="vlink" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} villa type</a></div>
+  <div class="card vtype"><span class="lbl">Villa type</span>${isOffPlot(p)?`<b style="font-size:17px">${esc(statusTxt(p))}</b><span class="conf">Not a villa plot yet</span>`:confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":vtLabel(info.type,p)+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}<a class="vlink" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} villa type</a></div>
   <div class="dtabs" role="tablist" aria-label="Drawings by discipline">${keys.map(k=>`<button type="button" class="dtab" role="tab" data-k="${k}" aria-selected="${k===ptab}" style="--dc:var(${DISC[k].c})">${DISC[k].name}<span class="n"></span></button>`).join("")}</div>
   <div id="ptab"></div>
   ${footerHTML()}`;
@@ -775,7 +799,7 @@ function renderRegister(){
   currentList=[]; let shown=0;
   groups.forEach(g=>{ if(!g.items.length) return; shown+=g.items.length; currentList.push(...g.items.filter(x=>!x.cad)); html+=groupHTML(g); });
   if(!shown) html+=`<div class="empty">No drawings match “${esc(q)}”.<br>Try a sheet code (AR-04), a word (plinth, water) or a villa type (1215).</div>`;
-  if(q){ const hits=PLOTS.filter(p=>("plot "+p.no).includes(q)||p.no===q.replace(/^plot\s*/,"")); if(hits.length) html=`<div class="card"><div class="card-h"><div><h2>Plots</h2></div></div><div class="plotgrid">${hits.map(p=>`<a class="pbtn ${plotCls(p)}" href="${plotHref(p.no)}"><b>${p.no}</b><small>${p.face==="E"?"East":"West"}</small></a>`).join("")}</div></div>`+html; }
+  if(q){ const hits=PLOTS.filter(p=>("plot "+p.no).includes(q)||p.no===q.replace(/^plot\s*/,"")); if(hits.length) html=`<div class="card"><div class="card-h"><div><h2>Plots</h2></div></div><div class="plotgrid">${hits.map(p=>`<a class="pbtn s-${pStatus(p)}${p.no===MODEL?" m":""}" href="${plotHref(p.no)}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>`+html; }
   $("main").innerHTML=html+footerHTML();
   $("chips").onclick=e=>{const b=e.target.closest(".chip"); if(!b) return; disc=b.dataset.d; renderRegister();};
   document.querySelectorAll("[data-rv]").forEach(b=>b.onclick=()=>{regView=b.dataset.rv; try{localStorage.setItem("woods.reg",regView)}catch(e){} renderRegister();});
@@ -963,9 +987,9 @@ const typesUrl=()=>(DL_ROOT||FILE_ROOT)+TYPES_FILE+"?t="+Date.now();
 const IS_ART=!!DL_ROOT;
 const ART_LINK="https://claude.ai/artifact/KXKWsYr7wFyjW5FZzxY1kg";
 let fileTypes=null, dbTypes=null, dbRef=null, canSave=false, saveState="", saveTimer=null, saving=false, saveAgain=false, focusPlot=null;
-function savedTypes(){ const o={}; Object.keys(PLOT_INFO).forEach(k=>{const r=PLOT_INFO[k]; if(VTYPES.includes(r.type)||r.note) o[k]={...(r.type?{type:r.type}:{}),...(r.note?{note:r.note}:{})};}); return o; }
+function savedTypes(){ const o={}; Object.keys(PLOT_INFO).forEach(k=>{const r=PLOT_INFO[k]; if(VTYPES.includes(r.type)||r.note||r.status||r.label) o[k]={...(r.type?{type:r.type}:{}),...(r.status?{status:r.status}:{}),...(r.label?{label:r.label}:{}),...(r.note?{note:r.note}:{})};}); return o; }
 function plotOrder(){ return PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0))); }
-function typesObj(){ const s=savedTypes(), o={}; plotOrder().forEach(p=>{ if(s[p.no]) o[p.no]=s[p.no]; }); return o; }
+function typesObj(){ const s=savedTypes(), o={}; if(STATUS_ASOF) o._asof=STATUS_ASOF; plotOrder().forEach(p=>{ if(s[p.no]) o[p.no]=s[p.no]; }); return o; }
 function setPlot(no,patch){ const r=PLOT_INFO[no]=PLOT_INFO[no]||{}; Object.keys(patch).forEach(k=>{ if(patch[k]) r[k]=patch[k]; else delete r[k]; }); }
 function statusText(){ return saveState==="saving"?"Saving…":saveState==="saved"?"Saved. Everyone using this version sees it now.":saveState==="error"?"Could not save. Check your connection and try again.":saveState==="denied"?"This account can view villa types but not change them.":""; }
 function showStatus(){ const el=$("tsave"); if(el){ el.textContent=statusText(); el.className="tsave "+saveState; } const tt=$("ttoast"); if(tt){ tt.textContent=statusText(); tt.className="ttoast tsave "+saveState; } }
@@ -983,7 +1007,8 @@ function renderTypes(){
   const nConf=plotOrder().filter(p=>VTYPES.includes((s[p.no]||{}).type)).length, nCus=plotOrder().filter(p=>(s[p.no]||{}).type==="custom").length;
   const dis=canSave?"":" disabled";
   const rows=plotOrder().map(p=>{const d=s[p.no]||{};
-    return `<tr class="${focusPlot===p.no?"foc":""}" id="tp-${p.no}"><td><a href="#plot-${p.no}"><b>${p.no}</b></a></td><td><span class="fc ${plotCls(p)}">${p.face==="E"?"East":"West"}</span></td><td class="num">${p.sqyd}</td>
+    return `<tr class="${focusPlot===p.no?"foc":""}" id="tp-${p.no}"><td><a href="#plot-${p.no}"><b>${p.no}</b></a></td><td><span class="fc ${plotCls(p)}">${faceWord(p)}</span></td>
+      <td><select data-s="${p.no}" class="sel-${pStatus(p)}" aria-label="Status of plot ${p.no}"${dis}>${Object.keys(ST_PLOT).map(k=>`<option value="${k}"${pStatus(p)===k?" selected":""}>${ST_PLOT[k]}</option>`).join("")}</select>${pLabel(p)||canSave?`<input type="text" class="lab" data-l="${p.no}" value="${esc(pLabel(p))}" placeholder="${canSave?"Label (e.g. Sales office)":""}" aria-label="Label for plot ${p.no}"${dis}>`:""}</td><td class="num">${p.sqyd}</td>
       <td><select data-p="${p.no}" class="${d.type==="custom"?"cus":""}" aria-label="Villa type for plot ${p.no}"${dis}><option value="">Not confirmed</option>${VTYPES.map(ty=>`<option value="${ty}"${d.type===ty?" selected":""}>${vtLabel(ty,p)}</option>`).join("")}</select></td>
       <td><input type="text" data-n="${p.no}" value="${esc(d.note||"")}" placeholder="${canSave?"Note (optional)":""}" aria-label="Note for plot ${p.no}"${dis}></td></tr>`;}).join("");
   const how = canSave
@@ -994,21 +1019,24 @@ function renderTypes(){
   $("main").innerHTML=`
   <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots confirmed${nCus?` (${nCus} custom)`:""}. Options: 1625, 1215 or <b>Client custom floor plan</b>. A confirmed plot shows only that villa's drawings; a custom plot shows none of the standard sets.</p></div></div>
     ${how}
-    ${canSave?`<div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button></div>`:""}
-    <div class="ttab"><table><thead><tr><th>Plot</th><th>Facing</th><th class="num">sq.yd</th><th>Villa type</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+    ${canSave?`<div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option><option value="N">North</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button></div>`:""}
+    <div class="ttab"><table><thead><tr><th>Plot</th><th>Facing</th><th>Status</th><th class="num">sq.yd</th><th>Villa type</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
   ${footerHTML()}<div class="ttoast" id="ttoast" role="status" aria-live="polite"></div>`;
   if(canSave){
     $("main").querySelectorAll("select[data-p]").forEach(el=>el.onchange=()=>{ el.classList.toggle("cus",el.value==="custom"); setPlot(el.dataset.p,{type:el.value}); queueSave(); });
     $("main").querySelectorAll("input[data-n]").forEach(el=>el.oninput=()=>{ setPlot(el.dataset.n,{note:el.value.trim()}); queueSave(); });
-    $("bulkGo").onclick=()=>{ const f=$("bulkFace").value, ty=$("bulkType").value; PLOTS.filter(p=>p.face===f&&!VTYPES.includes((PLOT_INFO[p.no]||{}).type)).forEach(p=>setPlot(p.no,{type:ty})); queueSave(); renderTypes(); };
+    $("main").querySelectorAll("select[data-s]").forEach(el=>el.onchange=()=>{ el.className="sel-"+el.value; setPlot(el.dataset.s,{status:el.value==="available"?"":el.value}); queueSave(); });
+    $("main").querySelectorAll("input[data-l]").forEach(el=>el.oninput=()=>{ setPlot(el.dataset.l,{label:el.value.trim()}); queueSave(); });
+    $("bulkGo").onclick=()=>{ const f=$("bulkFace").value, ty=$("bulkType").value; PLOTS.filter(p=>p.face===f&&!isOffPlot(p)&&!VTYPES.includes((PLOT_INFO[p.no]||{}).type)).forEach(p=>setPlot(p.no,{type:ty})); queueSave(); renderTypes(); };
   }
   if(focusPlot){ const r=$("tp-"+focusPlot); if(r) requestAnimationFrame(()=>{r.scrollIntoView({block:"center"}); const s2=r.querySelector("select"); if(s2&&!s2.disabled) s2.focus();}); focusPlot=null; }
   currentList=[];
 }
 $("main").addEventListener("click",e=>{const a=e.target.closest("a.vlink"); if(a) focusPlot=a.dataset.focus;});
 function applyTypes(o){
-  Object.keys(PLOT_INFO).forEach(k=>{ const r=PLOT_INFO[k]; delete r.type; delete r.note; });
-  Object.keys(o||{}).forEach(k=>{ if(!plotBy[k]) return; const v=o[k]||{}; PLOT_INFO[k]=Object.assign(PLOT_INFO[k]||{}, VTYPES.includes(v.type)?{type:v.type}:{}, v.note?{note:String(v.note)}:{}); });
+  Object.keys(PLOT_INFO).forEach(k=>{ const r=PLOT_INFO[k]; delete r.type; delete r.note; delete r.status; delete r.label; });
+  if(o&&typeof o._asof==="string") STATUS_ASOF=o._asof;
+  Object.keys(o||{}).forEach(k=>{ if(!plotBy[k]) return; const v=o[k]||{}; PLOT_INFO[k]=Object.assign(PLOT_INFO[k]||{}, VTYPES.includes(v.type)?{type:v.type}:{}, ST_PLOT[v.status]&&v.status!=="available"?{status:v.status}:{}, v.label?{label:String(v.label)}:{}, v.note?{note:String(v.note)}:{}); });
 }
 function refreshTypes(){
   const src=dbTypes||fileTypes; if(!src) return;
