@@ -1,4 +1,57 @@
-
 {
-  "30": {"type": "1625", "note": "Model villa. Villa type confirmed as 1625 sq.ft East."}
+  "12": {
+    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+  },
+  "16": {
+    "type": "1215",
+    "note": "Booked."
+  },
+  "19": {
+    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+  },
+  "20": {
+    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+  },
+  "23": {
+    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+  },
+  "24": {
+    "type": "1625",
+    "note": "Booked."
+  },
+  "26": {
+    "note": "Booked. 3BHK option, not final yet (mostly 3BHK)."
+  },
+  "30": {
+    "type": "1625",
+    "note": "Model villa. Villa type confirmed as 1625 sq.ft East."
+  },
+  "33": {
+    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+  },
+  "34": {
+    "type": "1625",
+    "note": "Booked."
+  },
+  "38": {
+    "type": "1215",
+    "note": "Booked."
+  },
+  "42": {
+    "type": "1625",
+    "note": "Booked."
+  },
+  "44": {
+    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+  },
+  "50": {
+    "type": "1215",
+    "note": "Booked."
+  }
 }
