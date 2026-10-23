@@ -322,7 +322,7 @@ section.grp{display:grid;gap:10px}
 const PORTAL=%%PORTAL%%;          // "villa" or "site" — which portal this file opens on
 const SITE_LINK=%%SITE_LINK%%, VILLA_LINK=%%VILLA_LINK%%, FILE_ROOT=%%FILE_ROOT%%, DL=%%DLJS%%;
 const UPDATED="23-10-2026";
-const MAP_W=1830, MAP_H=2220;
+const MAP_W=2338, MAP_H=1654;
 // plot no, sq.m, sq.yd, facing (E/W), hit box x0,y0,x1,y1 on the master plan image
 const PLOTS=%%PLOTS%%.map(a=>({no:a[0],sqm:a[1],sqyd:a[2],face:a[3],box:a.slice(4,8)}));
 const MODEL="30";
@@ -713,7 +713,7 @@ function mapSVG(sel){
 function masterCard(title,sub){
   return `<div class="card"><div class="card-h"><div><h2>${title}</h2><p>${sub}</p></div>
     <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
-    <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/master-plan.png" alt="Master layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
+    <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="Ankura Homes site layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
     <div class="mmode" role="group" aria-label="Colour plots by"><span>Colour by</span><button type="button" data-mm="type" aria-pressed="${mapMode==="type"}">Villa type</button><button type="button" data-mm="status" aria-pressed="${mapMode==="status"}">Status</button></div>
     <div class="legend">${mapMode==="type"?Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join(""):Object.keys(ST_PLOT).map(s=>`<span><i class="sw st-${s}"></i>${ST_PLOT[s]} · ${PLOTS.filter(p=>pStatus(p)===s).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div>${STATUS_ASOF?`<p class="asof">Plot status from Ankura's sales layout, as of ${esc(STATUS_ASOF)}.</p>`:""}</div>`;
 }
@@ -729,7 +729,7 @@ function bindMapZoom(){
 }
 function centerMap(){
   const box=$("mapbox"), mz=$("mapzoom"); if(!box||mapZoom<=1) return;
-  requestAnimationFrame(()=>{ box.scrollLeft=(1390/MAP_W)*mz.clientWidth-box.clientWidth/2; box.scrollTop=(1050/MAP_H)*mz.clientHeight-box.clientHeight/2; });
+  requestAnimationFrame(()=>{ box.scrollLeft=(1400/MAP_W)*mz.clientWidth-box.clientWidth/2; box.scrollTop=(800/MAP_H)*mz.clientHeight-box.clientHeight/2; });
 }
 function renderHome(){
   const cnt=s=>PLOTS.filter(p=>pStatus(p)===s).length;
@@ -752,7 +752,7 @@ function renderHome(){
 }
 function footerHTML(){
   return `<footer>Architect: also.design · Structural &amp; MEP: Jashritha Associates · Landscape: LumiScapes Landscape Architects · Updated ${UPDATED}.
-  Plot facing is read from the architect's key plan on the GFC sheets. Each plot shows both the 1625 and 1215 villa sets until its type is confirmed. Always check you are on the latest revision with the site engineer.</footer>`;
+  Layout image: Ankura Homes site layout. Plot facing is from the architect's key plan, with North-facing plots from Ankura's sales layout. Plots without a confirmed type show both the 1625 and 1215 villa sets. Always check you are on the latest revision with the site engineer.</footer>`;
 }
 
 /* ---------- plot page ---------- */
@@ -780,7 +780,7 @@ function renderPlot(no){
       ${info.note?`<div class="note" style="margin-top:10px">${esc(info.note)}</div>`:""}
       <div class="pnav">${prev?`<a href="#plot-${prev.no}">‹ Plot ${prev.no}</a>`:""}${next?`<a href="#plot-${next.no}">Plot ${next.no} ›</a>`:""}</div>
     </div>
-    <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:260%"><img src="${FILE_ROOT}img/master-plan.png" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
+    <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:260%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
   </div>
   <div class="card vtype"><span class="lbl">Villa type</span>${isOffPlot(p)?`<b style="font-size:17px">${esc(statusTxt(p))}</b><span class="conf">Not a villa plot yet</span>`:confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":vtLabel(info.type,p)+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}<a class="vlink" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} villa type</a></div>
   <div class="dtabs" role="tablist" aria-label="Drawings by discipline">${keys.map(k=>`<button type="button" class="dtab" role="tab" data-k="${k}" aria-selected="${k===ptab}" style="--dc:var(${DISC[k].c})">${DISC[k].name}<span class="n"></span></button>`).join("")}</div>

@@ -7,6 +7,6 @@ Ankura Homes, Keesaragutta.
 - `pdf/`, `thumb/` – issued drawing PDFs and sheet previews
 - `cad/`, `mep/` – DWG and Excel files
 - `data/villa-types.json` – confirmed villa type and note per plot (edit from the Villa types page)
-- `img/master-plan.png` – master layout, taken from the architect's key plan on the GFC sheets
+- `img/site-layout.jpg` – master layout background (Ankura Homes site layout); plot hit boxes in tools/plots.json are in its pixels
 
 Updated 23-10-2026.

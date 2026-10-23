@@ -6,7 +6,7 @@ A private Claude artifact mirrors it (built from the same template, downloads po
 ## How the site is built
 - `tools/app_template.html` is the single source. Edit it, then run `python3 tools/gen.py`.
   That writes `index.html` (villa portal), `site.html` (site portal) and `tools/artifact.html` (for the Claude artifact).
-- `tools/plots.json`: 53 plots from the architect's key plan (no, sq.m, sq.yd, facing E/W, hit box on `img/master-plan.png`).
+- `tools/plots.json`: 53 plots (no, sq.m, sq.yd, facing E/W/N, hit box in pixels of `img/site-layout.jpg`, the Ankura site layout rendered at 200 dpi). Areas are from the architect key plan.
 - Drawing data inside the template: `F` (PDF files), `S` (sheets, codes AR-/S16-/S12-/LA-/TP-/RD-), `CAD` (DWG/Excel downloads, codes CAD-/MEP-), `SITE_G` (site portal groups), `plotSet()` (which drawings each plot shows per villa type).
 - `PLOT_INFO` in the template: per-plot record. `type` "1625"/"1215" once confirmed (only Plot 30 confirmed = 1625 East), `note`, `extra` plot-specific drawings.
 - Files: `pdf/` + `thumb/` (sheet previews, `<pdfname>_p<page>.jpg`, made with pdftoppm -r 40), `cad/`, `mep/`.
