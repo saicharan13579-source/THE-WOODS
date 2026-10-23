@@ -190,7 +190,11 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .pub .steps{margin:0 0 10px;padding-left:20px;font-size:14px;line-height:1.5}
 .pub .portal-link{cursor:pointer}.pub .portal-link:disabled{opacity:.45;cursor:default}
 .pub textarea{width:100%;font-family:var(--f-mono);font-size:12px;border:1px solid var(--glass-line);border-radius:10px;padding:8px;background:var(--paper);color:var(--ink)}
-.pub .hint{margin:8px 0 0;font-size:13px;color:var(--muted)}
+.card .hint{margin:4px 0 10px;font-size:13px;color:var(--muted)}
+.tsave{margin:4px 0 10px;font-size:14px;font-weight:600;color:var(--muted)}
+.tsave.saved{color:var(--ok)}.tsave.saving{color:var(--warn)}.tsave.error,.tsave.denied{color:var(--bad)}
+.ttoast{display:none}.ttoast.saved,.ttoast.saving,.ttoast.error,.ttoast.denied{display:block;font-size:14px;font-weight:600;position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;margin:0;padding:10px 16px;border-radius:12px;background:var(--glass-strong);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);max-width:calc(100vw - 32px);text-align:center}
+.ttab select:disabled,.ttab input:disabled{opacity:1;background:transparent;border-color:transparent;color:var(--ink);-webkit-appearance:none;appearance:none;padding-left:0}
 
 /* lists */
 section.grp{display:grid;gap:10px}
@@ -312,8 +316,6 @@ const MODEL="30";
 //   extra: plot-specific drawings, e.g. {arch:["AR-xx"], str:["S16-xx"]} added on top of the typical set
 const TYPES_FILE="data/villa-types.json";
 const GH_REPO="saicharan13579-source/THE-WOODS";
-const GH_EDIT="https://github.com/"+GH_REPO+"/edit/main/"+TYPES_FILE;
-let typesLoaded=false;
 const PLOT_INFO={
   "30":{type:"1625",note:"Model villa. Villa type confirmed as 1625 sq.ft East."},
 };
@@ -953,59 +955,83 @@ stage.addEventListener("wheel",e=>{
   setZoom(zoom*(e.deltaY<0?1.25:0.8), e.clientX-rc.left, e.clientY-rc.top);
 },{passive:false});
 
-/* ---------- villa types (confirm page) ---------- */
+/* ---------- villa types (confirm page) ----------
+   Saving: the Claude version of the portal keeps confirmed types in its own database (db doc "villa/types"),
+   so the owner picks a type and it saves instantly. The GitHub site reads data/villa-types.json, which Claude
+   syncs from that database. */
 const typesUrl=()=>(DL_ROOT||FILE_ROOT)+TYPES_FILE+"?t="+Date.now();
-let draft=null, focusPlot=null;
+const IS_ART=!!DL_ROOT;
+const ART_LINK="https://claude.ai/artifact/KXKWsYr7wFyjW5FZzxY1kg";
+let fileTypes=null, dbTypes=null, dbRef=null, canSave=false, saveState="", saveTimer=null, saving=false, saveAgain=false, focusPlot=null;
 function savedTypes(){ const o={}; Object.keys(PLOT_INFO).forEach(k=>{const r=PLOT_INFO[k]; if(VTYPES.includes(r.type)||r.note) o[k]={...(r.type?{type:r.type}:{}),...(r.note?{note:r.note}:{})};}); return o; }
-function loadDraft(){ try{ const v=JSON.parse(localStorage.getItem("woods.typesDraft")||"null"); if(v&&typeof v==="object") return v; }catch(e){} return null; }
-function storeDraft(){ try{ draft?localStorage.setItem("woods.typesDraft",JSON.stringify(draft)):localStorage.removeItem("woods.typesDraft"); }catch(e){} }
 function plotOrder(){ return PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0))); }
-function draftJSON(d){ const keys=plotOrder().map(p=>p.no).filter(k=>d[k]&&(d[k].type||d[k].note)); const o={}; keys.forEach(k=>{o[k]={}; if(d[k].type) o[k].type=d[k].type; if(d[k].note) o[k].note=d[k].note;}); return JSON.stringify(o,null,2)+"\n"; }
-function changedCount(){ if(!draft) return 0; const s=savedTypes(); return plotOrder().filter(p=>{const a=s[p.no]||{}, b=draft[p.no]||{}; return (a.type||"")!==(b.type||"")||(a.note||"")!==(b.note||"");}).length; }
+function typesObj(){ const s=savedTypes(), o={}; plotOrder().forEach(p=>{ if(s[p.no]) o[p.no]=s[p.no]; }); return o; }
+function setPlot(no,patch){ const r=PLOT_INFO[no]=PLOT_INFO[no]||{}; Object.keys(patch).forEach(k=>{ if(patch[k]) r[k]=patch[k]; else delete r[k]; }); }
+function statusText(){ return saveState==="saving"?"Saving…":saveState==="saved"?"Saved. Everyone using this version sees it now.":saveState==="error"?"Could not save. Check your connection and try again.":saveState==="denied"?"This account can view villa types but not change them.":""; }
+function showStatus(){ const el=$("tsave"); if(el){ el.textContent=statusText(); el.className="tsave "+saveState; } const tt=$("ttoast"); if(tt){ tt.textContent=statusText(); tt.className="ttoast tsave "+saveState; } }
+function queueSave(){ if(!canSave) return; saveState="saving"; showStatus(); clearTimeout(saveTimer); saveTimer=setTimeout(doSave,700); }
+async function doSave(){
+  if(saving){ saveAgain=true; return; }
+  saving=true;
+  try{ await dbRef.set({plots:typesObj(),updatedAt:new Date().toISOString()}); saveState="saved"; }
+  catch(e){ if(e&&e.code==="invalid_argument"){ canSave=false; saveState="denied"; if(route==="types") renderTypes(); } else saveState="error"; }
+  saving=false; showStatus();
+  if(saveAgain){ saveAgain=false; doSave(); }
+}
 function renderTypes(){
-  if(!draft) draft=loadDraft()||JSON.parse(JSON.stringify(savedTypes()));
-  const s=savedTypes(), n=changedCount();
+  const s=savedTypes();
   const nConf=plotOrder().filter(p=>VTYPES.includes((s[p.no]||{}).type)).length, nCus=plotOrder().filter(p=>(s[p.no]||{}).type==="custom").length;
-  const rows=plotOrder().map(p=>{const d=draft[p.no]||{}, sv=s[p.no]||{}, ch=(sv.type||"")!==(d.type||"")||(sv.note||"")!==(d.note||"");
-    return `<tr class="${ch?"chg":""}${focusPlot===p.no?" foc":""}" id="tp-${p.no}"><td><a href="#plot-${p.no}"><b>${p.no}</b></a></td><td><span class="fc ${plotCls(p)}">${p.face==="E"?"East":"West"}</span></td><td class="num">${p.sqyd}</td>
-      <td><select data-p="${p.no}" class="${d.type==="custom"?"cus":""}" aria-label="Villa type for plot ${p.no}"><option value="">Not confirmed</option>${VTYPES.map(ty=>`<option value="${ty}"${d.type===ty?" selected":""}>${vtLabel(ty,p)}</option>`).join("")}</select></td>
-      <td><input type="text" data-n="${p.no}" value="${esc(d.note||"")}" placeholder="Note (optional)" aria-label="Note for plot ${p.no}"></td></tr>`;}).join("");
+  const dis=canSave?"":" disabled";
+  const rows=plotOrder().map(p=>{const d=s[p.no]||{};
+    return `<tr class="${focusPlot===p.no?"foc":""}" id="tp-${p.no}"><td><a href="#plot-${p.no}"><b>${p.no}</b></a></td><td><span class="fc ${plotCls(p)}">${p.face==="E"?"East":"West"}</span></td><td class="num">${p.sqyd}</td>
+      <td><select data-p="${p.no}" class="${d.type==="custom"?"cus":""}" aria-label="Villa type for plot ${p.no}"${dis}><option value="">Not confirmed</option>${VTYPES.map(ty=>`<option value="${ty}"${d.type===ty?" selected":""}>${vtLabel(ty,p)}</option>`).join("")}</select></td>
+      <td><input type="text" data-n="${p.no}" value="${esc(d.note||"")}" placeholder="${canSave?"Note (optional)":""}" aria-label="Note for plot ${p.no}"${dis}></td></tr>`;}).join("");
+  const how = canSave
+    ? `<p class="tsave ${saveState}" id="tsave" role="status">${statusText()||"Pick a type and it saves straight away. No other steps."}</p>`
+    : IS_ART
+      ? `<p class="hint">Only the portal owner can change villa types here. To change one, ask Vamsi or tell Claude.</p>`
+      : `<div class="tbar"><a class="portal-link" href="${ART_LINK}" target="_blank" rel="noopener">Change villa types</a></div><p class="hint">Opens the Claude version of this portal. Signed in as the owner, pick a type and it saves straight away. This site shows the change once Claude syncs it. You can also just tell Claude, e.g. “Plots 31 to 36: 1625, plot 12: custom”.</p>`;
   $("main").innerHTML=`
-  <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots confirmed${nCus?` (${nCus} custom)`:""}${typesLoaded?"":" · showing the built-in list (could not read the live file)"}. Pick 1625, 1215 or <b>Client custom floor plan</b> for each plot, then publish. A confirmed plot shows only that villa's drawings; a custom plot shows none of the standard sets.</p></div></div>
-    <div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button><button type="button" class="zbtn" id="tReset"${n?"":" disabled"}>Undo changes</button></div>
+  <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots confirmed${nCus?` (${nCus} custom)`:""}. Options: 1625, 1215 or <b>Client custom floor plan</b>. A confirmed plot shows only that villa's drawings; a custom plot shows none of the standard sets.</p></div></div>
+    ${how}
+    ${canSave?`<div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button></div>`:""}
     <div class="ttab"><table><thead><tr><th>Plot</th><th>Facing</th><th class="num">sq.yd</th><th>Villa type</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
-  <div class="card pub" id="pub">
-    <div class="card-h"><div><h2>${n?n+" change"+(n>1?"s":"")+" not published yet":"No unpublished changes"}</h2><p>Changes are kept on this device until published. Publishing needs the GitHub login that owns the portal, so the site team can view types but not change them.</p></div></div>
-    <ol class="steps"><li>Tap <b>Copy &amp; open GitHub</b>. The new list is copied and the villa-types file opens on GitHub.</li><li>In the GitHub editor, select all the text and paste over it.</li><li>Tap <b>Commit changes</b>. The portal shows the new types in about a minute.</li></ol>
-    <div class="tbar"><button type="button" class="portal-link" id="pubGo"${n?"":" disabled"}>Copy &amp; open GitHub</button><button type="button" class="zbtn" id="pubShow">Show the text</button></div>
-    <textarea id="pubTxt" readonly hidden rows="8"></textarea>
-    <p class="hint">Or just tell Claude, e.g. “Plots 31 to 36: 1625, plot 12: 1215”. Claude edits the same file.</p></div>
-  ${footerHTML()}`;
-  const upd=()=>{storeDraft(); const c=changedCount(); const h=$("pub").querySelector("h2"); h.textContent=c?c+" change"+(c>1?"s":"")+" not published yet":"No unpublished changes"; $("pubGo").disabled=!c; $("tReset").disabled=!c;};
-  const mark=no=>{const sv=s[no]||{}, d=draft[no]||{}; $("tp-"+no).classList.toggle("chg",(sv.type||"")!==(d.type||"")||(sv.note||"")!==(d.note||""));};
-  $("main").querySelectorAll("select[data-p]").forEach(el=>el.onchange=()=>{const k=el.dataset.p; el.classList.toggle("cus",el.value==="custom"); draft[k]={...(draft[k]||{}),type:el.value}; if(!el.value) delete draft[k].type; mark(k); upd();});
-  $("main").querySelectorAll("input[data-n]").forEach(el=>el.oninput=()=>{const k=el.dataset.n; draft[k]={...(draft[k]||{}),note:el.value.trim()}; if(!draft[k].note) delete draft[k].note; mark(k); upd();});
-  $("bulkGo").onclick=()=>{const f=$("bulkFace").value, ty=$("bulkType").value; PLOTS.filter(p=>p.face===f&&!(draft[p.no]||{}).type).forEach(p=>{draft[p.no]={...(draft[p.no]||{}),type:ty};}); storeDraft(); renderTypes();};
-  $("tReset").onclick=()=>{draft=null; storeDraft(); renderTypes();};
-  $("pubShow").onclick=()=>{const ta=$("pubTxt"); ta.value=draftJSON(draft); ta.hidden=!ta.hidden; if(!ta.hidden){ta.focus(); ta.select();}};
-  $("pubGo").onclick=async()=>{const txt=draftJSON(draft), ta=$("pubTxt"); ta.value=txt; let ok=false;
-    try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){ ta.hidden=false; ta.focus(); ta.select(); try{ ok=document.execCommand("copy"); }catch(_){} }
-    window.open(GH_EDIT,"_blank","noopener");
-    $("pubGo").textContent=ok?"Copied · paste it on GitHub":"Copy the text below, then paste on GitHub";};
-  if(focusPlot){ const r=$("tp-"+focusPlot); if(r) requestAnimationFrame(()=>{r.scrollIntoView({block:"center"}); const s2=r.querySelector("select"); if(s2) s2.focus();}); focusPlot=null; }
+  ${footerHTML()}<div class="ttoast" id="ttoast" role="status" aria-live="polite"></div>`;
+  if(canSave){
+    $("main").querySelectorAll("select[data-p]").forEach(el=>el.onchange=()=>{ el.classList.toggle("cus",el.value==="custom"); setPlot(el.dataset.p,{type:el.value}); queueSave(); });
+    $("main").querySelectorAll("input[data-n]").forEach(el=>el.oninput=()=>{ setPlot(el.dataset.n,{note:el.value.trim()}); queueSave(); });
+    $("bulkGo").onclick=()=>{ const f=$("bulkFace").value, ty=$("bulkType").value; PLOTS.filter(p=>p.face===f&&!VTYPES.includes((PLOT_INFO[p.no]||{}).type)).forEach(p=>setPlot(p.no,{type:ty})); queueSave(); renderTypes(); };
+  }
+  if(focusPlot){ const r=$("tp-"+focusPlot); if(r) requestAnimationFrame(()=>{r.scrollIntoView({block:"center"}); const s2=r.querySelector("select"); if(s2&&!s2.disabled) s2.focus();}); focusPlot=null; }
   currentList=[];
 }
 $("main").addEventListener("click",e=>{const a=e.target.closest("a.vlink"); if(a) focusPlot=a.dataset.focus;});
 function applyTypes(o){
   Object.keys(PLOT_INFO).forEach(k=>{ const r=PLOT_INFO[k]; delete r.type; delete r.note; });
   Object.keys(o||{}).forEach(k=>{ if(!plotBy[k]) return; const v=o[k]||{}; PLOT_INFO[k]=Object.assign(PLOT_INFO[k]||{}, VTYPES.includes(v.type)?{type:v.type}:{}, v.note?{note:String(v.note)}:{}); });
-  typesLoaded=true;
-  const d=loadDraft(); if(d&&!changedCountFor(d)){ draft=null; storeDraft(); }
 }
-function changedCountFor(d){ const s=savedTypes(); return plotOrder().filter(p=>{const a=s[p.no]||{}, b=d[p.no]||{}; return (a.type||"")!==(b.type||"")||(a.note||"")!==(b.note||"");}).length; }
+function refreshTypes(){
+  const src=dbTypes||fileTypes; if(!src) return;
+  applyTypes(src);
+  if(!$("viewer").hidden) return;
+  if(route==="types"){ const a=document.activeElement; if(a&&a.closest&&a.closest(".ttab")) return; }
+  render();
+}
+async function connectDb(){
+  if(!IS_ART||!window.claude||!window.claude.use) return;
+  try{
+    const db=await window.claude.use("db"); if(!db) return;
+    dbRef=db.doc("villa/types");
+    let ok=true; try{ const user=await window.claude.use("user"); if(user&&typeof user.can==="function"){ const c=await user.can("data.write"); if(c===false) ok=false; } }catch(e){}
+    canSave=ok;
+    dbRef.onSnapshot(snap=>{ if(snap.metadata&&snap.metadata.hasPendingWrites) return; const d=snap.exists?snap.data():null; if(d&&d.plots&&typeof d.plots==="object"){ dbTypes=d.plots; refreshTypes(); } else if(route==="types") renderTypes(); },()=>{});
+    if(route==="types") renderTypes();
+  }catch(e){}
+}
 
 /* boot */
 handleRoute();
-fetch(typesUrl(),{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(r.status)).then(o=>{ applyTypes(o); if($("viewer").hidden) render(); }).catch(()=>{});
+fetch(typesUrl(),{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(r.status)).then(o=>{ fileTypes=o; refreshTypes(); }).catch(()=>{});
+connectDb();
 })();
 </script>

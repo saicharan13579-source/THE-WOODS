@@ -28,6 +28,6 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
 - Structural: S16 now = 1625E set 05-10-2026 (SD-01/03 R02, SD-02 R01); S12 = 1215E R01 07-10; new S6W (1625W R01) and S2W (1215W R01). Old revisions kept as S16-0x-Rxx / S12-0x-R0 (Superseded). All structural DWGs in the 22-10 transfer were 0 bytes.
 
 ## Villa types
-- Confirmed villa types and plot notes live in `data/villa-types.json` (`{"31":{"type":"1215","note":"..."}}`). The page fetches it on load and merges it over PLOT_INFO.
-- type can be "1625", "1215" or "custom" (client custom floor plan: no standard sets shown; add its drawings via PLOT_INFO extra).
-- Vamsi can edit from the portal's "Villa types" page (copy JSON, opens the GitHub editor) or ask Claude, who edits the same file and pushes. No regenerate needed for type changes.
+- Saving happens in the Claude artifact: its db doc `villa/types` ({plots:{"31":{"type":"custom","note":"..."}}, updatedAt}) is authoritative there; the owner picks a type and it saves instantly.
+- The GitHub site is read-only for types: it reads `data/villa-types.json`. Sync = read the artifact db (ArtifactData get villa/types) -> write the json -> push. No regenerate needed.
+- type is "1625", "1215" or "custom" (client custom floor plan: no standard sets shown; add its drawings via PLOT_INFO extra).
