@@ -26,3 +26,7 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
   The other sheets in the 2026-10-22 transfer (elevations, sections, centre line, excavation, footing, framing, East and West) were 0-byte files. Add them when re-sent.
 - 21-10-2026 GFC site plan added as ST-01 (pdf 31 MB, too big for the artifact: F flag 1 makes the artifact read it from GitHub) + CAD-18 DWG. CAD-01 kept for spot levels.
 - Structural: S16 now = 1625E set 05-10-2026 (SD-01/03 R02, SD-02 R01); S12 = 1215E R01 07-10; new S6W (1625W R01) and S2W (1215W R01). Old revisions kept as S16-0x-Rxx / S12-0x-R0 (Superseded). All structural DWGs in the 22-10 transfer were 0 bytes.
+
+## Villa types
+- Confirmed villa types and plot notes live in `data/villa-types.json` (`{"31":{"type":"1215","note":"..."}}`). The page fetches it on load and merges it over PLOT_INFO.
+- Vamsi can edit from the portal's "Villa types" page (copy JSON, opens the GitHub editor) or ask Claude, who edits the same file and pushes. No regenerate needed for type changes.
