@@ -735,7 +735,7 @@ const VILLA_ALERTS=[
  ["bad","Do not use","Plot 30 landscape marking plan LA-01 and level plan LA-02 (05-10-2026) are superseded. Use LA-09 (14-10-2026) and LA-10 (13-10-2026)."],
  ["warn","Not GFC","All landscape sheets are stamped For Information & Approval. Material plan options 01 and 02 still need the client's choice."],
  ["warn","North facing","Plots 01–05, 08, 23 and 28 face North on Ankura's sales layout. Only East and West villa sets exist, so these plots show the East set as typical reference. Confirm North-facing drawings with the architect before setting out."],
- ["info","Plot status","Booked, registered and blocked plots follow Ankura's sales layout (21-10-2026). Blocked plots (model home, model plot, sales office, site office, 45, 46) show no villa drawings; Plot 30 stays the model villa with its GFC set."],
+ ["info","Plot status","Plot status follows Ankura's sales layout (21-10-2026). Registered plots are sold out. Booked plots are going ahead with the default villa of the confirmed size (1625 or 1215). Blocked plots (model home, model plot, sales office, site office, 45, 46) show no villa drawings; Plot 30 stays the model villa with its GFC set."],
  ["info","Villa type","Plots without a confirmed type show both the 1625 and 1215 sets; see the Villa types page for what is confirmed. 1625 East has a GFC set; 1625 West has a GFC floor plan; all four villa types (1625/1215, East/West) have structural sets."],
  ["bad","Do not use","Structural sheets 1625 East SD-01 to SD-03 (19/23-09-2026) and 1215 East SD-01, 02, 03, 05 (R0, 23-09-2026) are superseded. Use the current revisions dated 05-10 and 07-10-2026."]
 ];
@@ -828,11 +828,13 @@ const faceWord=p=>p.face==="E"?"East":p.face==="W"?"West":"North";
 const faceTxt=p=>faceWord(p)+" facing";
 /* plot status from Ankura's sales layout (data/villa-types.json: status + label per plot) */
 const ST_PLOT={available:"Available",booked:"Booked",registered:"Registered",blocked:"Blocked"};
+const ST_LONG={available:"Available",booked:"Booked · default villa (confirmed size)",registered:"Registered · sold out",blocked:"Blocked"};
+const ST_SUB={available:"open for sale",booked:"default villa",registered:"sold out",blocked:"not for sale"};
 let STATUS_ASOF="";
 const pStatus=p=>{const s=(PLOT_INFO[p.no]||{}).status; return ST_PLOT[s]?s:"available";};
 const pLabel=p=>(PLOT_INFO[p.no]||{}).label||"";
 const isOffPlot=p=>pStatus(p)==="blocked"&&p.no!==MODEL;
-const statusTxt=p=>ST_PLOT[pStatus(p)]+(pLabel(p)?" · "+pLabel(p):"");
+const statusTxt=p=>ST_LONG[pStatus(p)]+(pLabel(p)?" · "+pLabel(p):"");
 function pSmall(p){ const i=PLOT_INFO[p.no]||{}; if(isOffPlot(p)) return pLabel(p)||"Blocked"; if(i.type) return i.type==="custom"?"Custom":i.type+" "+p.face; return faceWord(p); }
 let q="", disc="all", regView="seq", currentList=[], route="";
 try{ const v=localStorage.getItem("woods.reg"); if(["seq","all","arch"].includes(v)) regView=v; }catch(e){}
@@ -894,7 +896,7 @@ function masterCard(title,sub){
     <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
     <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="Ankura Homes site layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
     <div class="mmode" role="group" aria-label="Colour plots by"><span>Colour by</span><button type="button" data-mm="type" aria-pressed="${mapMode==="type"}">Villa type</button><button type="button" data-mm="status" aria-pressed="${mapMode==="status"}">Status</button></div>
-    <div class="legend">${mapMode==="type"?Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join(""):Object.keys(ST_PLOT).map(s=>`<span><i class="sw st-${s}"></i>${ST_PLOT[s]} · ${PLOTS.filter(p=>pStatus(p)===s).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div>${STATUS_ASOF?`<p class="asof">Plot status from Ankura's sales layout, as of ${esc(STATUS_ASOF)}.</p>`:""}</div>`;
+    <div class="legend">${mapMode==="type"?Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join(""):Object.keys(ST_PLOT).map(s=>`<span><i class="sw st-${s}"></i>${ST_LONG[s]} · ${PLOTS.filter(p=>pStatus(p)===s).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div>${STATUS_ASOF?`<p class="asof">Plot status from Ankura's sales layout, as of ${esc(STATUS_ASOF)}.</p>`:""}</div>`;
 }
 function bindMapZoom(){
   document.querySelectorAll("[data-mm]").forEach(b=>b.onclick=()=>{ mapMode=b.dataset.mm; try{localStorage.setItem("woods.mapmode",mapMode)}catch(e){} const box=$("mapbox"), sx=box?box.scrollLeft:0, sy=box?box.scrollTop:0; render(); const nb=$("mapbox"); if(nb){nb.scrollLeft=sx; nb.scrollTop=sy;} });
@@ -922,13 +924,13 @@ function renderHome(){
       <h2 id="heroH">Every drawing for <em>The Woods</em>, ready on site.</h2>
       <p class="hero-lead">Open any plot for its current architectural, structural, MEP and landscape sheets, its site progress and its RFIs. Old revisions stay in the archive, out of the way.</p>
       <div class="hero-cta"><a class="btn btn-primary" href="#plot-${MODEL}">Open Plot ${MODEL}, the model villa</a><a class="btn btn-glass" href="#find">Find a plot</a><a class="btn btn-glass" href="${SITE_LINK}">Site portal</a></div>
-      <div class="hero-stats"><span><b>${PLOTS.filter(p=>pStatus(p)==="available").length}</b> available</span><span><b>${PLOTS.filter(p=>pStatus(p)==="booked").length+PLOTS.filter(p=>pStatus(p)==="registered").length}</b> sold</span><span><b>${nType}</b> villa types confirmed</span></div>
+      <div class="hero-stats"><span><b>${PLOTS.filter(p=>pStatus(p)==="available").length}</b> available</span><span><b>${PLOTS.filter(p=>pStatus(p)==="booked").length}</b> booked</span><span><b>${PLOTS.filter(p=>pStatus(p)==="registered").length}</b> sold out</span><span><b>${nType}</b> villa types confirmed</span></div>
     </div>
   </section>
   <div class="mp">
     ${masterCard("Master layout","Tap any plot to open its architectural, structural, MEP and landscape drawings for both the 1625 and 1215 villa types.")}
     <div class="side">
-      <div class="card"><div class="stat stat4">${Object.keys(ST_PLOT).map(s=>`<div class="sc-${s}"><b>${cnt(s)}</b><span>${ST_PLOT[s]}</span></div>`).join("")}</div>${STATUS_ASOF?`<p class="asof">${PLOTS.length} plots · status as of ${esc(STATUS_ASOF)}</p>`:""}</div>
+      <div class="card"><div class="stat stat4">${Object.keys(ST_PLOT).map(s=>`<div class="sc-${s}"><b>${cnt(s)}</b><span>${ST_PLOT[s]}<small style="display:block;opacity:.7;font-size:.82em">${ST_SUB[s]}</small></span></div>`).join("")}</div>${STATUS_ASOF?`<p class="asof">${PLOTS.length} plots · status as of ${esc(STATUS_ASOF)}</p>`:""}</div>
       <a class="feature card" href="#plot-${MODEL}"><span class="n">30</span><span><b>Plot 30 · model villa</b><span>East facing · full 1625 GFC, structural and landscape set</span></span></a>
       <div class="card" id="find"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
         <div class="plotgrid">${order.map(p=>`<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}" href="#plot-${p.no}" title="${esc(statusTxt(p))}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>
