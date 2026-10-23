@@ -8,7 +8,7 @@
 <title>The Woods Site Portal</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
 html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}
 /* Layout: two portals. Villa portal opens on the master plan (tap a plot → its drawings by discipline); Site portal lists whole-layout drawings. Glass panels over a fluid backdrop; dark sheet viewer. */
@@ -235,6 +235,8 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .rfi-all{display:grid;gap:6px;margin-bottom:12px}.rfi-row{display:grid;grid-template-columns:auto auto auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);text-decoration:none}
 @media (max-width:600px){.rfi-row{grid-template-columns:auto auto 1fr}.rfi-row span:nth-child(4),.rfi-row span:nth-child(5){grid-column:1/-1}}
 .rfi-n{color:var(--warn)}
+.ttab tr.siterow td{background:rgba(106,79,143,.08);font-weight:600}
+.ttab tr.siterow td{background:rgba(106,79,143,.08);border-bottom:2px solid var(--c-site)}
 .dlg{position:fixed;inset:0;z-index:60;background:rgba(10,16,13,.5);display:flex;align-items:center;justify-content:center;padding:16px}
 .dlg-in{width:min(560px,100%);max-height:90vh;overflow:auto;display:grid;gap:8px}.dlg h2{margin:0;font-size:20px}
 .fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}.fl select,.fl input{width:100%;min-width:0;box-sizing:border-box}.ufg{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}.ufg .fl{min-width:0}.fl select,.fl input{font:inherit;font-size:15px;height:42px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);color:var(--ink);padding:0 8px}.fl input[type=file]{height:auto;padding:8px}
@@ -308,6 +310,89 @@ section.grp{display:grid;gap:10px}
 .vfoot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px max(10px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));background:rgba(12,18,15,.86);border-top:1px solid #3a413d}
 .vgrp{display:flex;gap:6px;align-items:center}
 .zl{font-family:var(--f-mono);font-size:13px;min-width:46px;text-align:center;color:#c9d1cb}
+
+/* ===== Theme: evergreen drawing office =====
+   Evergreen #0E3328 header and map frame, stone #E8ECE6 page, white sheets, brass #B8862F accent.
+   Archivo (wide for the wordmark and headings, normal for text); Plex Mono only for drawing codes. */
+:root{
+  --ever:#0E3328; --ever-2:#16473A; --brass:#B8862F; --brass-soft:#F3E7CF; --stone:#E8ECE6; --ink:#15211C; --muted:#56635C; --line:#D5DCD3;
+  --forest:#0E3328; --forest-ink:#ffffff; --forest-soft:#E3ECE6;
+  --base:var(--stone); --glass:#ffffff; --glass-strong:#ffffff; --glass-edge:var(--line); --glass-line:var(--line); --paper:#ffffff;
+  --shadow:0 1px 2px rgba(14,51,40,.06),0 8px 24px -12px rgba(14,51,40,.18);
+  --f-ui:"Archivo","Arial Narrow",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ever:#0A2A21; --ever-2:#123C31; --brass:#D9A852; --brass-soft:#3A2F17; --stone:#0F1714; --ink:#EEF2EE; --muted:#A9B6AE; --line:#26342D;
+  --forest:#7FC4A0; --forest-ink:#0B1A14; --forest-soft:#17291F;
+  --base:var(--stone); --glass:#152019; --glass-strong:#152019; --glass-edge:var(--line); --glass-line:var(--line); --paper:#1A261F;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.6); }}
+:root[data-theme="dark"]{
+  --ever:#0A2A21; --ever-2:#123C31; --brass:#D9A852; --brass-soft:#3A2F17; --stone:#0F1714; --ink:#EEF2EE; --muted:#A9B6AE; --line:#26342D;
+  --forest:#7FC4A0; --forest-ink:#0B1A14; --forest-soft:#17291F;
+  --base:var(--stone); --glass:#152019; --glass-strong:#152019; --glass-edge:var(--line); --glass-line:var(--line); --paper:#1A261F; }
+body{background:var(--stone);font-family:var(--f-ui);color:var(--ink)}
+.fluid{display:none}
+/* header band */
+header.tb{background:var(--ever);border-bottom:3px solid var(--brass);box-shadow:0 6px 20px -10px rgba(14,51,40,.6);-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff}
+body::before{background:var(--ever)}
+.tb .wrap{padding-block:14px 12px}
+.eyebrow{font-family:var(--f-ui);text-transform:none;letter-spacing:.01em;font-size:13px;color:rgba(255,255,255,.72)}
+.proj h1{font-stretch:125%;font-weight:800;font-size:30px;letter-spacing:.04em}
+.proj h1 a,.proj h1 .w{color:#fff}
+.portal-tag{background:var(--brass);color:#1d1404;font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
+body.site-portal .portal-tag{background:#7FC4D0;color:#06262c}
+header.tb .portal-link{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+header.tb .portal-link:hover{background:rgba(255,255,255,.1)}
+header.tb .search{background:#fff;border-color:transparent;color:#15211C}
+header.tb .search input{color:#15211C}
+header.tb .views{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+header.tb .views button,header.tb .views a{color:#fff;font-weight:600}
+header.tb .views [aria-pressed="true"],header.tb .views [aria-current="page"]{background:#fff;color:var(--ever);box-shadow:inset 0 -3px 0 var(--brass)}
+:focus-visible{outline:3px solid var(--brass)}
+/* surfaces */
+.panel,.grp-h,footer,.empty,.lead,.card,.row,.cadrow{-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--glass)}
+.card,.panel{border-radius:14px}.row,.cadrow{border-radius:10px;border-left-width:4px}
+.row:hover{transform:none;border-color:var(--dc)}
+.lead{border-left:4px solid var(--brass)}
+footer{background:transparent;box-shadow:none;border:0;border-top:1px solid var(--line);border-radius:0}
+/* type */
+.card-h h2,.grp-h h3,.ph-title h2,.saside-h h2,.dlg h2{font-stretch:112%;font-weight:750;letter-spacing:.005em}
+.ph-title h2{font-stretch:118%;font-size:40px}
+h2.k,.stat span,.facts span,.vtype .lbl,.mmode span,.ttab th,.alert b.k{font-family:var(--f-ui);text-transform:none;letter-spacing:.01em;font-size:12.5px;font-weight:600}
+.badge,.conf,.pill,.fc{font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-weight:700;border-radius:999px}
+.grp-h .no{background:var(--ever);font-family:var(--f-ui);border-radius:999px}
+/* stats */
+.stat div{border-radius:12px;background:var(--paper)}
+.stat b{font-stretch:115%;font-size:28px;font-weight:800}
+/* master layout as the centrepiece */
+.mapbox{background:var(--ever);border:0;padding:8px;border-radius:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.mapzoom img{border-radius:8px}
+.zbtn{border-radius:10px;font-family:var(--f-ui)}
+.mmode button[aria-pressed="true"]{background:var(--ever);border-color:var(--ever)}
+.feature{border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.feature .n{font-stretch:115%;font-weight:800}
+a.feature[href^="#plot-"]{background:var(--ever);color:#fff;border-color:var(--ever)}
+a.feature[href^="#plot-"] .n{color:var(--brass)} a.feature[href^="#plot-"] b{color:#fff} a.feature[href^="#plot-"] span span{color:rgba(255,255,255,.75)}
+/* plot finder */
+.pbtn{border-radius:10px;border:1px solid var(--line);border-bottom-width:3px}
+.pbtn b{font-stretch:110%}
+.pbtn small{font-family:var(--f-ui);font-size:11px}
+/* tabs */
+.dtab{border-radius:12px;background:var(--paper);border:1px solid var(--line);border-bottom:3px solid var(--dc)}
+.dtab[aria-selected="true"]{box-shadow:0 6px 16px -8px var(--dc)}
+.vtype .seg button[aria-pressed="true"]{background:var(--ever)}
+/* buttons */
+.portal-link{border-radius:10px;font-family:var(--f-ui)}
+.pub .portal-link,.saside .portal-link,#rfiGo,#uGo,.card .tbar .portal-link{background:var(--ever);color:#fff;border-color:var(--ever)}
+.cadrow a{border-radius:9px}
+/* site panel */
+.saside{border:0;background:transparent;padding:0}
+.saside-h{background:var(--ever);color:#fff;border-radius:14px;padding:14px 16px;border-bottom:3px solid var(--brass)}
+.saside-h h2{color:#fff}.saside-h p{color:rgba(255,255,255,.75)}
+.pbar i{background:linear-gradient(90deg,var(--ever-2),var(--brass))}
+.tl-day{border-left-color:var(--brass)}
+/* viewer keeps its dark drawing-table look */
+#viewer{background:radial-gradient(120% 80% at 20% 0%,#16473A 0%,#0E2A22 55%,#08140F 100%)}
 </style>
 </head>
 <body>
@@ -914,15 +999,16 @@ function renderSite(){
   const groups=SITE_G.map(g=>({h:g.h,p:g.p,items:g.c.map(itemBy).filter(match)}));
   let html="";
   if(!q){
-    html+=`<p class="lead"><b>Site portal.</b> Drawings for the whole layout: GFC site plan, roads, levels, survey, streetscape, external electrical and water supply. They apply across all plots. For one villa's drawings, tap its plot on the layout below.</p>`;
+    html+=`<p class="lead"><b>Site portal.</b> Site works progress, photos and RFIs are in the panel on the right (below on phones). Drawings for the whole layout: GFC site plan, roads, levels, survey, streetscape, external electrical and water supply. They apply across all plots. For one villa's drawings, tap its plot on the layout below.</p>`;
     html+=`<div class="mp">${masterCard("Master layout","Tap a plot to open its villa drawings in the Villa portal.")}<div class="side">${alertsHTML(SITE_ALERTS,"Site notes",true)}
       <div class="card"><div class="stat"><div><b>${CAD.filter(c=>SITE_G.some(g=>g.c.includes(c.code))&&c.ext==="DWG").length}</b><span>DWG files</span></div><div><b>${CAD.filter(c=>SITE_G.some(g=>g.c.includes(c.code))&&c.ext==="Excel").length}</b><span>Excel files</span></div><div><b>${new Set(SITE_G.flatMap(g=>g.c).map(c=>byCode[c]).filter(Boolean).map(s=>s.f)).size}</b><span>PDF sets</span></div></div></div></div></div>`;
   }
   currentList=[]; let shown=0;
   groups.forEach((g,i)=>{ if(!g.items.length) return; shown+=g.items.length; currentList.push(...g.items.filter(x=>!x.cad)); html+=groupHTML({...g,no:String(i+1).padStart(2,"0")}); });
   if(!shown) html+=`<div class="empty">No site drawings match “${esc(q)}”.</div>`;
-  $("main").innerHTML=html+footerHTML();
-  bindMapZoom(); centerMap();
+  $("main").innerHTML=`<div class="pgrid"><div class="pmain">${html}</div><aside class="saside" id="siteAside" aria-label="Site works progress and RFIs"></aside></div>`+footerHTML();
+  bindMapZoom(); centerMap(); renderAside(SITE_P);
+  if(focusSite){ focusSite=false; requestAnimationFrame(()=>{ const a=$("siteAside"); if(a) a.scrollIntoView({block:"start"}); }); }
 }
 
 /* ---------- routing ---------- */
@@ -942,7 +1028,7 @@ function handleRoute(){
 function render(){
   const site=route==="site";
   document.body.classList.toggle("site-portal",site);
-  document.body.classList.toggle("wide",route.startsWith("plot-"));
+  document.body.classList.toggle("wide",route.startsWith("plot-")||route==="site");
   $("ptag").textContent=site?"Site portal":"Villa portal";
   $("otherportal").textContent=site?"← Villa portal":"Site portal →";
   $("otherportal").href=site?VILLA_LINK:SITE_LINK;
@@ -1177,17 +1263,21 @@ async function connectDb(){
    and rfi/<auto id> = {plot,sheet,rev,sheetTitle,q,photos,status:"open"|"answered"|"closed",at,by,replies:[{by,at,text}]}.
    The GitHub site cannot store anything, so it offers WhatsApp messages with the plot and drawing filled in. */
 const STAGES=[["setout","Setting out"],["excav","Excavation"],["pcc","PCC"],["footing","Footings & columns to plinth"],["plinth","Plinth beams"],["walls","Walls & openings"],["roof","Roof"],["services","Plumbing & electrical"],["finish","Finishes"],["land","Landscape & external works"]];
+const SITE_STAGES=[["clear","Site clearing & setting out"],["earth","Earthwork & levelling"],["roadbase","Roads · sub-base & WBM"],["roadtop","Roads · top layer & kerbs"],["swd","Storm water drains"],["sewer","Sewer lines & STP"],["water","Water mains, sump & OHT"],["ht","HT line & transformer yard"],["cable","Cabling & feeder pillars"],["light","Street lighting"],["wall","Compound wall & entrance gate"],["street","Streetscape & avenue planting"],["amen","Amenities (courts, pool, park)"]];
+const SITE_P={no:"SITE"};
+const stagesFor=no=>no==="SITE"?SITE_STAGES:STAGES;
+const pName=no=>no==="SITE"?"Site works":"Plot "+no;
 const SSTAT={"":"Not started",wip:"In progress",done:"Done"};
 const RST={open:"Open",answered:"Answered",closed:"Closed"};
 let DB=null, dbOn=false, canSite=false, assetsNs=null, userNs=null, myId=null, NAMES={}, PROG={}, RFIS=[], progTimers={}, progSaving={}, redrawTab=null, rfiCtx=null;
 const progStages=no=>IS_ART?(((PROG[no]||{}).stages)||{}):((((GHPROG||{}).plots||{})[no]||{}).stages||{});
-function progPct(no){ const s=progStages(no); return Math.round(STAGES.filter(([k])=>(s[k]||{}).st==="done").length*100/STAGES.length); }
-function progNow(no){ const s=progStages(no); const w=STAGES.find(([k])=>(s[k]||{}).st==="wip"); if(w) return w[1]+" · in progress"; const d=STAGES.filter(([k])=>(s[k]||{}).st==="done").pop(); return d?d[1]+" · done":"Not started"; }
+function progPct(no){ const s=progStages(no), L=stagesFor(no); return Math.round(L.filter(([k])=>(s[k]||{}).st==="done").length*100/L.length); }
+function progNow(no){ const s=progStages(no), L=stagesFor(no); const w=L.find(([k])=>(s[k]||{}).st==="wip"); if(w) return w[1]+" · in progress"; const d=L.filter(([k])=>(s[k]||{}).st==="done").pop(); return d?d[1]+" · done":"Not started"; }
 const openRfis=no=>RFIS.filter(r=>r.plot===no&&r.status==="open");
 const waLink=t=>"https://wa.me/?text="+encodeURIComponent(t);
-const waProg=p=>waLink("THE WOODS · Plot "+p.no+" · Site progress\nStage: \nStatus (started / done): \nDate: \nRemarks: \n(photos attached)");
+const waProg=p=>waLink("THE WOODS · "+pName(p.no)+" · Site progress\nStage: \nStatus (started / done): \nDate: \nRemarks: \n(photos attached)");
 const sheetLine=s=>s.code+(s.no?" ("+s.no+")":"")+" · "+s.title+" · "+(s.rev&&s.rev!=="—"?s.rev+" · ":"")+s.date;
-const waRfi=(p,s)=>waLink("THE WOODS · RFI · Plot "+(p?p.no:"__")+"\nDrawing: "+(s?sheetLine(s):"")+"\nQuestion: \n(photo attached if needed)");
+const waRfi=(p,s)=>waLink("THE WOODS · RFI · "+(p?pName(p.no):"Plot __")+"\nDrawing: "+(s?sheetLine(s):"")+"\nQuestion: \n(photo attached if needed)");
 const who=id=>id&&id===myId?"you":(id&&NAMES[id])||"Someone";
 const fmtD=v=>{ if(!v) return ""; const d=new Date(v); return isNaN(d)?String(v):d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); };
 const photoSrc=ph=>ph.path?FILE_ROOT+ph.path:(ph.url||("/_blob/"+ph.id));
@@ -1208,22 +1298,22 @@ function watchUpdates(no){
   updSub=DB.collection("updates").where("plot","==",no).onSnapshot(qs=>{ UPD[no]=qs.docs.map(d=>Object.assign({id:d.id},d.data())); const ids=UPD[no].map(u=>u.by); resolveNames(ids); refreshSiteViews(); },()=>{});
 }
 let focusSite=false;
-function renderAside(p){ const a=$("siteAside"); if(!a) return; a.innerHTML=`<div class="saside-h"><h2>Site updates · Plot ${p.no}</h2><p>Progress, photos and RFIs from site.</p></div>`+progTabHTML(p); bindProgTab(p); }
+function renderAside(p){ const a=$("siteAside"); if(!a) return; a.innerHTML=`<div class="saside-h"><h2>${p.no==="SITE"?"Site works progress":"Site updates · Plot "+p.no}</h2><p>${p.no==="SITE"?"Roads, services, compound wall, streetscape and amenities: progress, photos and RFIs.":"Progress, photos and RFIs from site."}</p></div>`+progTabHTML(p); bindProgTab(p); }
 function progTabHTML(p){
   const wa=`<div class="tbar"><a class="portal-link" href="${waProg(p)}" target="_blank" rel="noopener">Send progress on WhatsApp</a><a class="portal-link" href="${waRfi(p,null)}" target="_blank" rel="noopener">Raise RFI on WhatsApp</a></div>`;
   if(IS_ART&&!dbOn) return `<div class="note">Progress and RFIs are not available on this view. Use WhatsApp, or ask Vamsi to invite you as an Editor.</div>${wa}`;
   if(IS_ART) watchUpdates(p.no);
   const can=IS_ART&&canSite, ups=updList(p.no), s=Object.keys(progStages(p.no)).length?progStages(p.no):summarise(ups);
-  const rows=STAGES.map(([k,n])=>{ const v=s[k]||{}; const last=ups.filter(u=>u.stage===k&&(u.photos||[]).length).sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at)))[0];
+  const rows=stagesFor(p.no).map(([k,n])=>{ const v=s[k]||{}; const last=ups.filter(u=>u.stage===k&&(u.photos||[]).length).sort((a,b)=>String(b.date+b.at).localeCompare(String(a.date+a.at)))[0];
     const dates=[v.start?"Started "+fmtD(v.start):"",v.done?"Done "+fmtD(v.done):"",v.n?v.n+" update"+(v.n>1?"s":""):""].filter(Boolean).join(" · ");
     return `<div class="sti st-${v.st||"none"}"><div class="sti-h"><b>${n}</b><span class="pst pst-${v.st||"none"}">${SSTAT[v.st||""]}</span></div>${dates?`<div class="muted">${dates}</div>`:""}${last?`<div class="phs">${last.photos.slice(0,4).map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="" loading="lazy"></a>`).join("")}</div>`:""}</div>`; }).join("");
   const byDate={}; ups.forEach(u=>{ (byDate[u.date]=byDate[u.date]||[]).push(u); });
-  const tl=Object.keys(byDate).sort().reverse().map(d=>`<div class="tl-day"><h4>${fmtD(d)}</h4>${byDate[d].sort((a,b)=>String(b.at).localeCompare(String(a.at))).map(u=>`<div class="tl-it"><div><b>${esc((STAGES.find(x=>x[0]===u.stage)||[0,u.stage])[1])}</b> <span class="pst pst-${u.st||"none"}">${SSTAT[u.st||""]}</span>${u.by?` <span class="muted">· ${esc(who(u.by))}</span>`:""}</div>${u.note?`<p>${esc(u.note)}</p>`:""}${(u.photos||[]).length?`<div class="phs">${u.photos.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="Site photo" loading="lazy"></a>`).join("")}</div>`:""}</div>`).join("")}</div>`).join("");
+  const tl=Object.keys(byDate).sort().reverse().map(d=>`<div class="tl-day"><h4>${fmtD(d)}</h4>${byDate[d].sort((a,b)=>String(b.at).localeCompare(String(a.at))).map(u=>`<div class="tl-it"><div><b>${esc((stagesFor(p.no).find(x=>x[0]===u.stage)||[0,u.stage])[1])}</b> <span class="pst pst-${u.st||"none"}">${SSTAT[u.st||""]}</span>${u.by?` <span class="muted">· ${esc(who(u.by))}</span>`:""}</div>${u.note?`<p>${esc(u.note)}</p>`:""}${(u.photos||[]).length?`<div class="phs">${u.photos.map(x=>`<a href="${esc(photoSrc(x))}" target="_blank" rel="noopener"><img src="${esc(photoSrc(x))}" alt="Site photo" loading="lazy"></a>`).join("")}</div>`:""}</div>`).join("")}</div>`).join("");
   const form=can?`<div class="card upd"><h3>Add site update</h3>
       <div class="ufg"><label class="fl">Date<input type="date" id="uDate" value="${new Date().toISOString().slice(0,10)}"></label>
-      <label class="fl">Stage<select id="uStage">${STAGES.map(([k,n])=>`<option value="${k}"${((s[k]||{}).st==="wip")?" selected":""}>${n}</option>`).join("")}</select></label>
+      <label class="fl">Stage<select id="uStage">${stagesFor(p.no).map(([k,n])=>`<option value="${k}"${((s[k]||{}).st==="wip")?" selected":""}>${n}</option>`).join("")}</select></label>
       <label class="fl">Status<select id="uSt"><option value="wip">In progress</option><option value="done">Done</option></select></label></div>
-      <label class="fl">What was done<textarea id="uNote" rows="2" placeholder="e.g. Excavation for footings F1–F6 complete, PCC tomorrow"></textarea></label>
+      <label class="fl">What was done<textarea id="uNote" rows="2" placeholder="${p.no==="SITE"?"e.g. WBM laid on 30 ft road between plots 14–17":"e.g. Excavation for footings F1–F6 complete, PCC tomorrow"}"></textarea></label>
       ${assetsNs?`<label class="fl">Photos<input type="file" id="uPh" accept="image/*" multiple></label>`:""}
       <div class="tbar"><button type="button" class="portal-link" id="uGo">Save update</button><span class="tsave" id="psave"></span></div></div>`:"";
   const rl=rfiList(p.no), list=rl.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at))), num={};
@@ -1241,9 +1331,9 @@ function progTabHTML(p){
       <div class="pbar"><i style="width:${progPct(p.no)}%"></i></div>${syncNote}
       <div class="stl">${rows}</div></div>
     ${form}
-    <div class="card" id="pTl"><div class="card-h"><div><h2>Updates by date</h2><p>Every site visit is kept: newest first, with its photos.</p></div></div>${tl||`<p class="muted">No updates for Plot ${p.no} yet.</p>`}</div>
-    <div class="card" id="pRfi"><div class="card-h"><div><h2>RFIs &amp; clarifications · ${rl.filter(r=>r.status==="open").length} open</h2><p>Ask about any drawing for this plot. The architect's team answers here.</p></div>${can?`<button type="button" class="portal-link" data-newrfi="${p.no}">Raise RFI</button>`:""}</div>
-      ${rfis||`<p class="muted">No RFIs raised for Plot ${p.no} yet.</p>`}</div>
+    <div class="card" id="pTl"><div class="card-h"><div><h2>Updates by date</h2><p>Every site visit is kept: newest first, with its photos.</p></div></div>${tl||`<p class="muted">No updates for ${pName(p.no)} yet.</p>`}</div>
+    <div class="card" id="pRfi"><div class="card-h"><div><h2>RFIs &amp; clarifications · ${rl.filter(r=>r.status==="open").length} open</h2><p>${p.no==="SITE"?"Ask about roads, levels, services or any site drawing.":"Ask about any drawing for this plot."} The architect's team answers here.</p></div>${can?`<button type="button" class="portal-link" data-newrfi="${p.no}">Raise RFI</button>`:""}</div>
+      ${rfis||`<p class="muted">No RFIs raised for ${pName(p.no)} yet.</p>`}</div>
     ${wa}`;
 }
 function bindProgTab(p){
@@ -1273,11 +1363,11 @@ function alertMsg(t){ const el=$("ttoast")||document.body.appendChild(Object.ass
 /* RFI dialog */
 function openRfiDlg(plotNo,code){
   const dlg=$("rfiDlg"); rfiCtx={plot:plotNo||"",code:code||""};
-  const ps=$("rfiPlot"); ps.innerHTML=`<option value="">Choose plot</option>`+plotOrder().map(p=>`<option value="${p.no}"${p.no===rfiCtx.plot?" selected":""}>Plot ${p.no}</option>`).join("");
+  const ps=$("rfiPlot"); ps.innerHTML=`<option value="">Choose plot</option><option value="SITE"${rfiCtx.plot==="SITE"?" selected":""}>Site works (roads, services, common areas)</option>`+plotOrder().map(p=>`<option value="${p.no}"${p.no===rfiCtx.plot?" selected":""}>Plot ${p.no}</option>`).join("");
   fillRfiSheets(); $("rfiQ").value=""; $("rfiPh").value=""; $("rfiMsg").textContent="";
   $("rfiPhRow").hidden=!assetsNs; dlg.hidden=false; setTimeout(()=>$("rfiQ").focus(),50);
 }
-function fillRfiSheets(){ const no=$("rfiPlot").value, p=plotBy[no]; const list=p?plotSheets(p):[];
+function fillRfiSheets(){ const no=$("rfiPlot").value, p=no==="SITE"?SITE_P:plotBy[no]; const list=no==="SITE"?[].concat(...SITE_G.map(g=>g.c.map(c=>byCode[c]).filter(Boolean))):p?plotSheets(p):[];
   $("rfiSheet").innerHTML=`<option value="">General / site query</option>`+list.map(s=>`<option value="${s.code}"${s.code===rfiCtx.code?" selected":""}>${esc(s.code)} · ${esc(s.title)}${s.rev&&s.rev!=="—"?" · "+esc(s.rev):""}</option>`).join("")+(rfiCtx.code&&!list.some(s=>s.code===rfiCtx.code)&&byCode[rfiCtx.code]?`<option value="${rfiCtx.code}" selected>${esc(rfiCtx.code)} · ${esc(byCode[rfiCtx.code].title)}</option>`:"");
   $("rfiWa").href=waRfi(p,byCode[$("rfiSheet").value]||null); }
 async function submitRfi(){
@@ -1286,24 +1376,26 @@ async function submitRfi(){
   const btn=$("rfiGo"); btn.disabled=true; msg.textContent="Sending…";
   try{ const s=byCode[code]; const photos=assetsNs&&$("rfiPh").files.length?await uploadPhotos([...$("rfiPh").files]):[];
     await DB.collection("rfi").add({plot:no,sheet:code||"",rev:s&&s.rev!=="—"?s.rev:"",sheetTitle:s?s.title:"General / site query",q,photos,status:"open",at:new Date().toISOString(),by:myId||"",replies:[]});
-    $("rfiDlg").hidden=true; if(!$("viewer").hidden) closeViewer(false); focusSite=true; go("plot-"+no);
+    $("rfiDlg").hidden=true; if(!$("viewer").hidden) closeViewer(false); focusSite=true; go(no==="SITE"?"site":"plot-"+no);
   }catch(e){ msg.textContent=e&&e.code==="invalid_argument"?"This account cannot raise RFIs here. Use WhatsApp instead.":"Not sent. Check your connection and try again."; }
   btn.disabled=false;
 }
 $("rfiPlot").onchange=()=>{ rfiCtx.code=""; fillRfiSheets(); };
-$("rfiSheet").onchange=()=>{ const p=plotBy[$("rfiPlot").value]; $("rfiWa").href=waRfi(p,byCode[$("rfiSheet").value]||null); };
+$("rfiSheet").onchange=()=>{ const v=$("rfiPlot").value, p=v==="SITE"?SITE_P:plotBy[v]; $("rfiWa").href=waRfi(p,byCode[$("rfiSheet").value]||null); };
 $("rfiCancel").onclick=()=>{ $("rfiDlg").hidden=true; };
 $("rfiGo").onclick=submitRfi;
-$("vrfi").onclick=()=>{ const no=route.startsWith("plot-")?route.slice(5):""; if(dbOn&&canSite){ openRfiDlg(no,cur&&cur.code); } else { window.open(waRfi(plotBy[no],cur),"_blank","noopener"); } };
+$("vrfi").onclick=()=>{ const no=route.startsWith("plot-")?route.slice(5):route==="site"?"SITE":""; if(dbOn&&canSite){ openRfiDlg(no,cur&&cur.code); } else { window.open(waRfi(no==="SITE"?SITE_P:plotBy[no],cur),"_blank","noopener"); } };
 /* all-plots overview */
 function renderProgress(){
-  const rows=plotOrder().map(p=>{ const o=openRfis(p.no).length, rec=PROG[p.no];
+  const sOpen=openRfis("SITE").length, srec=PROG.SITE;
+  const siteRow=`<tr class="siterow"><td><a href="#site" data-prog="1"><b>Site works</b></a></td><td><span class="pill vtp-none">Roads, services, common areas</span></td><td>${esc(progNow("SITE"))}</td><td><div class="pbar sm"><i style="width:${progPct("SITE")}%"></i></div><span class="muted">${progPct("SITE")}%</span></td><td class="num">${sOpen?`<b class="rfi-n">${sOpen}</b>`:"0"}</td><td>${srec&&srec.updatedAt?fmtD(srec.updatedAt):""}</td></tr>`;
+  const rows=siteRow+plotOrder().map(p=>{ const o=openRfis(p.no).length, rec=PROG[p.no];
     return `<tr><td><a href="#plot-${p.no}" data-prog="1"><b>${p.no}</b></a></td><td><span class="pill ${colCls(p).replace("vt-","vtp-").replace("st-","vtp-")}">${esc(isOffPlot(p)?statusTxt(p):((PLOT_INFO[p.no]||{}).type==="custom"?"Custom":(PLOT_INFO[p.no]||{}).type?vtLabel(PLOT_INFO[p.no].type,p):"Not confirmed"))}</span></td>
       <td>${esc(progNow(p.no))}</td><td><div class="pbar sm"><i style="width:${progPct(p.no)}%"></i></div><span class="muted">${progPct(p.no)}%</span></td><td class="num">${o?`<b class="rfi-n">${o}</b>`:"0"}</td><td>${rec&&rec.updatedAt?fmtD(rec.updatedAt):""}</td></tr>`; }).join("");
   const open=RFIS.filter(r=>r.status==="open").sort((a,b)=>String(b.at).localeCompare(String(a.at)));
   $("main").innerHTML= (!IS_ART&&!GHPROG) ? `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>Progress and RFIs are recorded in the Claude version of this portal by site engineers Vamsi has invited.</p></div></div><div class="tbar"><a class="portal-link" href="${ART_LINK}" target="_blank" rel="noopener">Open the Claude version</a></div><p class="hint">No login? Open a plot, go to its Site tab and send progress or an RFI on WhatsApp.</p></div>${footerHTML()}`
    : `<div class="card"><div class="card-h"><div><h2>Site progress &amp; RFIs</h2><p>${(dbOn||GHPROG)?`${!IS_ART&&GHPROG.syncedAt?"As of "+fmtD(GHPROG.syncedAt)+" · ":""}${PLOTS.filter(p=>progPct(p.no)>0).length} plots started · ${open.length} open RFIs. Tap a plot to update its progress or answer its RFIs.`:"Progress and RFIs are not available on this view."}</p></div></div>
-      ${open.length?`<div class="rfi-all">${open.map(r=>`<a class="rfi-row" href="#plot-${esc(r.plot)}" data-prog="1"><b>Plot ${esc(r.plot)}</b><span class="pill rp-${r.status}">${RST[r.status]}</span><span>${esc(r.sheet||"General")}</span><span class="muted">${esc((r.q||"").slice(0,90))}</span><span class="muted">${fmtD(r.at)}</span></a>`).join("")}</div>`:""}
+      ${open.length?`<div class="rfi-all">${open.map(r=>`<a class="rfi-row" href="${r.plot==="SITE"?"#site":"#plot-"+esc(r.plot)}" data-prog="1"><b>${esc(pName(r.plot))}</b><span class="pill rp-${r.status}">${RST[r.status]}</span><span>${esc(r.sheet||"General")}</span><span class="muted">${esc((r.q||"").slice(0,90))}</span><span class="muted">${fmtD(r.at)}</span></a>`).join("")}</div>`:""}
       <div class="ttab"><table><thead><tr><th>Plot</th><th>Villa</th><th>Now</th><th>Progress</th><th class="num">Open RFIs</th><th>Updated</th></tr></thead><tbody>${rows}</tbody></table></div></div>${footerHTML()}`;
   $("main").querySelectorAll("[data-prog]").forEach(a=>a.addEventListener("click",()=>{ focusSite=true; }));
   currentList=[];
@@ -1312,7 +1404,7 @@ function refreshSiteViews(){
   if(!$("rfiDlg").hidden||!$("viewer").hidden) return;
   const a=document.activeElement; if(a&&a.closest&&a.closest("#siteAside")&&(a.tagName==="TEXTAREA"&&a.value.trim()||a.tagName==="INPUT"&&a.type==="text")) return;
   if(route==="progress") renderProgress();
-  else if(route.startsWith("plot-")&&$("pSum")&&plotBy[route.slice(5)]){ const p=plotBy[route.slice(5)], tmp=document.createElement("div"); tmp.innerHTML=progTabHTML(p);
+  else if((route==="site"||route.startsWith("plot-")&&plotBy[route.slice(5)])&&$("pSum")){ const p=route==="site"?SITE_P:plotBy[route.slice(5)], tmp=document.createElement("div"); tmp.innerHTML=progTabHTML(p);
     const typingRfi=a&&a.closest&&a.closest("#pRfi")&&a.tagName==="TEXTAREA"&&a.value.trim();
     ["pSum","pTl","pRfi"].forEach(id=>{ if(id==="pRfi"&&typingRfi) return; const o=$(id), n=tmp.querySelector("#"+id); if(o&&n) o.replaceWith(n); });
     if(!$("uGo")&&tmp.querySelector(".upd")) { redrawTab&&redrawTab(false); return; }
