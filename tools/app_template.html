@@ -270,6 +270,25 @@ section.grp{display:grid;gap:10px}
 .grp-h .no{font-family:var(--f-mono);font-weight:600;font-size:14px;background:var(--forest);color:var(--forest-ink);padding:2px 8px;border-radius:8px}
 .grp-h h3{margin:0;font-size:20px;font-weight:700;text-wrap:balance}
 .grp-h p{margin:0;color:var(--muted);font-size:14px;flex-basis:100%}
+.rg-bar{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;min-width:0;max-width:100%}.rg-bar .chips{max-width:100%;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+.rg-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px}
+.rg-tools select{font:inherit;padding:8px 12px;border-radius:999px;border:1px solid var(--glass-edge);background:var(--glass);color:var(--ink)}
+.rg-old{display:flex;gap:6px;align-items:center;cursor:pointer;color:var(--ink)}
+.rg-n{margin-left:auto;color:var(--muted)}
+.rg{padding:6px 0;overflow:hidden}
+.rg-head,.rg-r{display:grid;grid-template-columns:96px minmax(0,1fr) 110px 100px 140px 80px;gap:12px;align-items:center;padding:10px 18px}
+.rg-head{padding-top:8px;padding-bottom:8px;border-bottom:1px solid var(--glass-edge)}
+.rg-h{font:inherit;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:none;border:0;padding:0;text-align:left;cursor:pointer}
+span.rg-h{cursor:default}.rg-h.on{color:var(--ink);font-weight:600}
+.rg-r{border-top:1px solid rgba(15,30,46,.06);border-left:4px solid var(--dc);font-size:14px}
+.rg-r[data-sheet]{cursor:pointer}.rg-r[data-sheet]:hover,.rg-r[data-sheet]:focus-visible{background:rgba(36,89,200,.06);outline:none}
+.rg-code{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13px}
+.rg-t{color:var(--ink);font-weight:500}.rg-t small{color:var(--muted);font-weight:400;margin-left:4px}
+.rg-v,.rg-d{color:var(--muted);font-variant-numeric:tabular-nums}
+.rg-s .pill{white-space:nowrap}
+.rg-dl{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid var(--glass-edge);background:var(--glass);font-size:12px;font-weight:600;text-decoration:none;color:var(--acc,#2459C8)}
+@media (max-width:720px){.rg-head{display:none}.rg-r{grid-template-columns:auto 1fr auto;grid-template-areas:"code st f" "t t t" "v d d";gap:4px 10px;padding:12px 14px}
+.rg-code{grid-area:code}.rg-s{grid-area:st}.rg-f{grid-area:f;justify-self:end}.rg-t{grid-area:t}.rg-v{grid-area:v;font-size:13px}.rg-d{grid-area:d;font-size:13px}.rg-n{margin-left:0}}
 .rows{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
 @media (max-width:420px){.rows{grid-template-columns:1fr}}
 .row{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:stretch;background:var(--glass);border:1px solid var(--glass-edge);border-left:5px solid var(--dc);border-radius:14px;box-shadow:var(--shadow);padding:8px;cursor:pointer;text-align:left;width:100%;min-width:0;transition:transform .15s ease}
@@ -1080,24 +1099,46 @@ function archiveGroups(){
     return {h:c+" · "+now.title, p:"Current: "+[now.no,now.rev&&now.rev!=="—"?now.rev:"",now.date].filter(Boolean).join(" · ")+". Replaced revisions:",
       items:cur[c].map(o=>{ const it=itemBy(o); return Object.assign({},it,{sub:"Rev "+(it.rev&&it.rev!=="—"?it.rev:"—")+", issued "+it.date+". Replaced on "+SUP[o][1]+" by "+c+"."}); }).filter(match)}; });
 }
+let regSort="code", regDir=1, regVilla="all", regOld=false;
+try{ const v=JSON.parse(localStorage.getItem("woods.reg2")||"{}"); if(v.s) regSort=v.s; if(v.d) regDir=v.d; if(v.v) regVilla=v.v; }catch(e){}
+const REG_V=[["all","All villas"],["1625E","1625 East"],["1625W","1625 West"],["1215E","1215 East"],["1215W","1215 West"],["2175","2175 3BHK"],["site","Site & general"]];
+const CADSRC={}; Object.keys(CADMAP).forEach(k=>{ if(!CADSRC[CADMAP[k]]) CADSRC[CADMAP[k]]=k; });
+function villaOf(it){ let v=it.villa; if(!v&&it.cad){ const src=CADSRC[it.code]&&byCode[CADSRC[it.code]]; v=src?src.villa:(/1625/.test(it.code+it.file)?"1625":/1215/.test(it.code+it.file)?"1215":/2175/.test(it.file)?"2175":"site"); } return v||"site"; }
+const villaTxt=v=>v==="site"?"Site":v.replace(/^(\d{4})([EW])$/,(m,a,b)=>a+" "+(b==="E"?"East":"West"));
+function villaHit(it){ if(regVilla==="all") return true; const v=villaOf(it); if(regVilla==="2175") return v.startsWith("2175"); if(regVilla==="site") return !/^\d{4}/.test(v); return v===regVilla||v===regVilla.slice(0,4); }
+const dKey=d=>{ const m=/(\d{1,2})-(\d{1,2})-(\d{4})/.exec(d||""); return m?+(m[3]+m[2].padStart(2,"0")+m[1].padStart(2,"0")):0; };
+const codeKey=c=>c.replace(/\d+/g,n=>n.padStart(4,"0"));
 function renderRegister(){
-  const groups = q
-    ? [...ALL.map(g=>({h:g.h,p:"",items:g.c.map(itemBy).filter(notOld).filter(match)})),{h:"Revision archive (old revisions)",p:"",items:Object.keys(SUP).map(itemBy).filter(match)},...SITE_G.map(g=>({h:"Site · "+g.h,p:"",items:g.c.map(itemBy).filter(match)}))]
-    : regView==="seq" ? SEQ.map((g,i)=>({no:String(i+1).padStart(2,"0"),h:g.h,p:g.p,items:g.c.map(itemBy).filter(match)}))
-    : regView==="arch" ? archiveGroups()
-    : ALL.map(g=>({h:g.h,p:g.p,items:g.c.map(itemBy).filter(notOld).filter(match)}));
+  const seen={}, pool=[];
+  const add=it=>{ if(it&&!seen[it.code]){ seen[it.code]=1; pool.push(it); } };
+  if(regOld) Object.keys(SUP).forEach(c=>add(itemBy(c)));
+  else { ALL.forEach(g=>g.c.forEach(c=>{ const it=itemBy(c); if(notOld(it)) add(it); })); if(q) SITE_G.forEach(g=>g.c.forEach(c=>{ const it=itemBy(c); if(notOld(it)) add(it); })); }
+  const list=pool.filter(it=>!(it.cad&&CADSRC[it.code]&&!regOld)).filter(match).filter(villaHit);
+  const cmp={code:(a,b)=>codeKey(a.code).localeCompare(codeKey(b.code)),title:(a,b)=>a.title.localeCompare(b.title),villa:(a,b)=>villaOf(a).localeCompare(villaOf(b))||codeKey(a.code).localeCompare(codeKey(b.code)),date:(a,b)=>dKey(a.date)-dKey(b.date)||codeKey(a.code).localeCompare(codeKey(b.code))}[regSort]||((a,b)=>0);
+  list.sort((a,b)=>cmp(a,b)*regDir);
   const chipsDef=[["all","All teams",null]].concat(["arch","str","mep","land","3d"].map(k=>[k,DISC[k].name,DISC[k].c]));
-  let html=`<div class="chips" id="chips">${chipsDef.map(([k,n,c])=>`<button type="button" class="chip" data-d="${k}" aria-pressed="${disc===k}" style="${c?`--dc:var(${c})`:""}">${c?"<i></i>":""}${esc(n)}</button>`).join("")}</div>`;
-  if(!q) html+=`<div class="views" style="width:max-content;max-width:100%"><button type="button" data-rv="seq" aria-pressed="${regView==="seq"}">Plot 30 sequence</button><button type="button" data-rv="all" aria-pressed="${regView==="all"}">All villa drawings</button><button type="button" data-rv="arch" aria-pressed="${regView==="arch"}">Revision archive</button></div>`;
-  if(!q&&regView==="arch") html+=`<p class="lead"><b>Revision archive.</b> Old revisions kept for record, each under the drawing that replaced it, with the date it was replaced. Do not build from these.</p>`;
-  if(!q&&regView==="seq") html+=`<p class="lead">Plot 30 · 1625 sq.ft East facing model villa. Sheets in the order work happens on site. Site-level drawings are in the <a href="${SITE_LINK}">Site portal</a>.</p>`;
-  currentList=[]; let shown=0;
-  groups.forEach(g=>{ if(!g.items.length) return; shown+=g.items.length; currentList.push(...g.items.filter(x=>!x.cad)); html+=groupHTML(g); });
-  if(!shown) html+=`<div class="empty">No drawings match “${esc(q)}”.<br>Try a sheet code (AR-04), a word (plinth, water) or a villa type (1215).</div>`;
+  const hd=(k,n)=>`<button type="button" class="rg-h${regSort===k?" on":""}" data-sort="${k}" aria-sort="${regSort===k?(regDir>0?"ascending":"descending"):"none"}">${n}${regSort===k?(regDir>0?" ↑":" ↓"):""}</button>`;
+  let html=`<div class="rg-bar"><div class="chips" id="chips">${chipsDef.map(([k,n,c])=>`<button type="button" class="chip" data-d="${k}" aria-pressed="${disc===k}" style="${c?`--dc:var(${c})`:""}">${c?"<i></i>":""}${esc(n)}</button>`).join("")}</div>
+    <div class="rg-tools"><select id="rgVilla" aria-label="Villa type">${REG_V.map(([k,n])=>`<option value="${k}"${regVilla===k?" selected":""}>${n}</option>`).join("")}</select>
+    <label class="rg-old"><input type="checkbox" id="rgOld"${regOld?" checked":""}> Old revisions</label><span class="rg-n">${list.length} drawing${list.length===1?"":"s"}</span></div></div>`;
+  if(regOld) html+=`<p class="lead"><b>Old revisions.</b> Kept for record only. Do not build from these.</p>`;
   if(q){ const hits=PLOTS.filter(p=>("plot "+p.no).includes(q)||p.no===q.replace(/^plot\s*/,"")); if(hits.length) html=`<div class="card"><div class="card-h"><div><h2>Plots</h2></div></div><div class="plotgrid">${hits.map(p=>`<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}" href="${plotHref(p.no)}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>`+html; }
+  if(list.length){
+    html+=`<div class="rg card"><div class="rg-head">${hd("code","Code")}${hd("title","Drawing")}${hd("villa","Villa")}${hd("date","Date")}<span class="rg-h">Status</span><span class="rg-h">File</span></div>`+list.map(it=>{
+      const cc=it.cad?it:(CADMAP[it.code]&&cadByCode[CADMAP[it.code]]);
+      const dl=cc?`<a class="rg-dl" href="${cadUrl(cc)}" target="_blank" rel="noopener"${DL}>${cc.ext}</a>`:"";
+      const st=regOld&&SUP[it.code]?`<span class="pill st-super">Replaced ${esc(SUP[it.code][1])} by ${SUP[it.code][0]}</span>`:`<span class="pill st-${it.st}">${it.cad?it.ext:ST[it.st]}</span>`;
+      return `<div class="rg-r${it.cad?" rg-cad":""}"${it.cad?"":` data-sheet="${it.code}" tabindex="0" role="button"`} style="--dc:var(${DISC[it.disc].c})"><span class="rg-code">${it.code}</span><span class="rg-t">${esc(it.title)}${it.no?` <small>${esc(it.no)}${it.rev&&it.rev!=="—"?" "+esc(it.rev):""}</small>`:""}</span><span class="rg-v">${villaTxt(villaOf(it))}</span><span class="rg-d">${esc(it.date)}</span><span class="rg-s">${st}</span><span class="rg-f">${dl}</span></div>`;
+    }).join("")+`</div>`;
+  } else html+=`<div class="empty">No drawings match${q?` “${esc(q)}”`:" these filters"}.<br>Try another team or villa, or a word like plinth or water.</div>`;
+  currentList=list.filter(x=>!x.cad);
   $("main").innerHTML=html+footerHTML();
+  const save=()=>{ try{localStorage.setItem("woods.reg2",JSON.stringify({s:regSort,d:regDir,v:regVilla}))}catch(e){} };
   $("chips").onclick=e=>{const b=e.target.closest(".chip"); if(!b) return; disc=b.dataset.d; renderRegister();};
-  document.querySelectorAll("[data-rv]").forEach(b=>b.onclick=()=>{regView=b.dataset.rv; try{localStorage.setItem("woods.reg",regView)}catch(e){} renderRegister();});
+  $("rgVilla").onchange=e=>{ regVilla=e.target.value; save(); renderRegister(); };
+  $("rgOld").onchange=e=>{ regOld=e.target.checked; renderRegister(); };
+  document.querySelectorAll("[data-sort]").forEach(b=>b.onclick=()=>{ const k=b.dataset.sort; if(regSort===k) regDir=-regDir; else { regSort=k; regDir=k==="date"?-1:1; } save(); renderRegister(); });
+  document.querySelectorAll("[data-sheet]").forEach(r=>{ r.onclick=e=>{ if(e.target.closest("a")) return; openSheet(r.dataset.sheet,true); }; r.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openSheet(r.dataset.sheet,true); } }; });
 }
 
 /* ---------- site portal ---------- */
@@ -1236,7 +1277,7 @@ $("zout").onclick=()=>setZoom(zoom/1.6);
 $("zfit").onclick=()=>{zoom=1;draw();};
 $("zrot").onclick=()=>{rot=(rot+90)%360; zoom=1; draw();};
 $("vclose").onclick=()=>closeViewer(false);
-$("vold").onclick=()=>{ regView="arch"; try{localStorage.setItem("woods.reg",regView)}catch(e){} closeViewer(true); go("register"); };
+$("vold").onclick=()=>{ regOld=true; closeViewer(true); go("register"); };
 $("vprev").onclick=()=>{const i=currentList.indexOf(cur); if(i>0) swap(currentList[i-1]);};
 $("vnext").onclick=()=>{const i=currentList.indexOf(cur); if(i<currentList.length-1) swap(currentList[i+1]);};
 $("pprev").onclick=()=>{if(curPage>cur.page){curPage--;zoom=1;showSheet();}};
