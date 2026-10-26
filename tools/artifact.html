@@ -1306,7 +1306,7 @@ async function doSave(){
 }
 function renderTypes(){
   const s=savedTypes();
-  const nConf=plotOrder().filter(p=>VTYPES.includes((s[p.no]||{}).type)).length, nCus=plotOrder().filter(p=>(s[p.no]||{}).type==="custom").length;
+  const nConf=plotOrder().filter(p=>{const t=(s[p.no]||{}).type; return TYPES.includes(t)||t==="2175";}).length, nCus=plotOrder().filter(p=>(s[p.no]||{}).type==="custom").length;
   const dis=canSave?"":" disabled";
   const rows=plotOrder().map(p=>{const d=s[p.no]||{};
     return `<tr class="${focusPlot===p.no?"foc":""}" id="tp-${p.no}"><td><a href="#plot-${p.no}"><b>${p.no}</b></a></td><td><span class="fc ${plotCls(p)}">${faceWord(p)}</span></td>
@@ -1319,7 +1319,7 @@ function renderTypes(){
       ? `<p class="hint">Only the portal owner can change villa types here. To change one, ask Vamsi or tell Claude.</p>`
       : `<div class="tbar"><a class="portal-link" href="${ART_LINK}" target="_blank" rel="noopener">Change villa types</a></div><p class="hint">Opens the Claude version of this portal. Signed in as the owner, pick a type and it saves straight away. This site shows the change once Claude syncs it. You can also just tell Claude, e.g. “Plots 31 to 36: 1625, plot 12: custom”.</p>`;
   $("main").innerHTML=`
-  <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots confirmed${nCus?` (${nCus} custom)`:""}. Options: 1625, 1215 or <b>Client custom floor plan</b>. A confirmed plot shows only that villa's drawings; a custom plot shows none of the standard sets.</p></div></div>
+  <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots have a confirmed villa size${nCus?`, ${nCus} client custom`:""}. Options: 1625, 1215, 2175 3BHK or <b>Client custom floor plan</b>. A confirmed plot shows only that villa's drawings; a custom plot shows none of the standard sets.</p></div></div>
     ${how}
     ${canSave?`<div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option><option value="N">North</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button><p class="bulkPlots" id="bulkPlots" aria-live="polite"></p></div>`:""}
     <div class="ttab"><table><thead><tr><th>Plot</th><th>Facing</th><th>Status</th><th class="num">sq.yd</th><th>Villa type</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
