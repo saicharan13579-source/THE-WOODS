@@ -189,6 +189,7 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .tbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 10px}
 .tbar .zbtn{font-size:14px;font-weight:600}
 .tbar button:disabled{opacity:.45;cursor:default}
+.bulkPlots{flex-basis:100%;margin:2px 0 0;font-size:14px;line-height:1.6;color:var(--muted)}.bulkPlots b{color:var(--ink);font-weight:600}.bulkPlots a{color:var(--acc,#2459C8);font-weight:600;text-decoration:none;font-variant-numeric:tabular-nums}
 .tfill{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}
 .tfill select,.ttab select,.ttab input{font:inherit;font-size:15px;height:40px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);color:var(--ink);padding:0 8px;min-width:0}
 .ttab{overflow-x:auto;border-radius:12px;border:1px solid var(--glass-line);background:var(--paper)}
@@ -1311,7 +1312,7 @@ function renderTypes(){
   $("main").innerHTML=`
   <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots confirmed${nCus?` (${nCus} custom)`:""}. Options: 1625, 1215 or <b>Client custom floor plan</b>. A confirmed plot shows only that villa's drawings; a custom plot shows none of the standard sets.</p></div></div>
     ${how}
-    ${canSave?`<div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option><option value="N">North</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button></div>`:""}
+    ${canSave?`<div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option><option value="N">North</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button><p class="bulkPlots" id="bulkPlots" aria-live="polite"></p></div>`:""}
     <div class="ttab"><table><thead><tr><th>Plot</th><th>Facing</th><th>Status</th><th class="num">sq.yd</th><th>Villa type</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
   ${footerHTML()}<div class="ttoast" id="ttoast" role="status" aria-live="polite"></div>`;
   if(canSave){
@@ -1319,7 +1320,11 @@ function renderTypes(){
     $("main").querySelectorAll("input[data-n]").forEach(el=>el.oninput=()=>{ setPlot(el.dataset.n,{note:el.value.trim()}); queueSave(); });
     $("main").querySelectorAll("select[data-s]").forEach(el=>el.onchange=()=>{ el.className="sel-"+el.value; setPlot(el.dataset.s,{status:el.value==="available"?"":el.value}); queueSave(); });
     $("main").querySelectorAll("input[data-l]").forEach(el=>el.oninput=()=>{ setPlot(el.dataset.l,{label:el.value.trim()}); queueSave(); });
-    $("bulkGo").onclick=()=>{ const f=$("bulkFace").value, ty=$("bulkType").value; PLOTS.filter(p=>p.face===f&&!isOffPlot(p)&&!VTYPES.includes((PLOT_INFO[p.no]||{}).type)).forEach(p=>setPlot(p.no,{type:ty})); queueSave(); renderTypes(); };
+    const bulkList=()=>PLOTS.filter(p=>p.face===$("bulkFace").value&&!isOffPlot(p)&&!VTYPES.includes((PLOT_INFO[p.no]||{}).type)).sort((x,y)=>parseInt(x.no)-parseInt(y.no)||x.no.localeCompare(y.no));
+    const showBulk=()=>{ const l=bulkList(), f=$("bulkFace").selectedOptions[0].text; $("bulkPlots").innerHTML=l.length?`<b>${l.length} unconfirmed ${f} plots:</b> ${l.map(p=>`<a href="#types" data-tp="${p.no}">${p.no}</a>`).join(", ")}`:`No unconfirmed ${f} plots left.`; $("bulkGo").disabled=!l.length; };
+    $("bulkFace").onchange=showBulk; showBulk();
+    $("bulkPlots").onclick=e=>{ const a=e.target.closest("[data-tp]"); if(!a) return; e.preventDefault(); const r=$("tp-"+a.dataset.tp); if(r){ r.scrollIntoView({block:"center",behavior:"smooth"}); const s2=r.querySelector("select"); if(s2) s2.focus(); } };
+    $("bulkGo").onclick=()=>{ const ty=$("bulkType").value, l=bulkList(); l.forEach(p=>setPlot(p.no,{type:ty})); queueSave(); renderTypes(); };
   }
   if(focusPlot){ const r=$("tp-"+focusPlot); if(r) requestAnimationFrame(()=>{r.scrollIntoView({block:"center"}); const s2=r.querySelector("select"); if(s2&&!s2.disabled) s2.focus();}); focusPlot=null; }
   currentList=[];
