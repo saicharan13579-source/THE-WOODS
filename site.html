@@ -377,7 +377,8 @@ header.tb .views{background:rgba(255,255,255,.55);border:1px solid var(--glass-e
 .btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;text-decoration:none;font-weight:500}
 .btn-primary{background:var(--acc);color:#fff;box-shadow:0 8px 24px rgba(36,89,200,.3)}
 .btn-glass{background:rgba(255,255,255,.75);color:var(--ink);border:1px solid rgba(255,255,255,.9)}
-.hero-stats{display:flex;flex-wrap:wrap;gap:18px;color:var(--ink2);font-size:14px}.hero-stats b{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--ink);margin-right:4px}
+.hero-stats .hs-br{flex-basis:100%;height:0}
+.hero-stats{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--ink2);font-size:14px}.hero-stats b{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--ink);margin-right:4px}
 .hero-card{min-width:0;box-sizing:border-box;max-width:min(640px,calc(100% - 48px))}.chip{white-space:normal;max-width:100%;box-sizing:border-box}
 @media (max-width:700px){.hero{min-height:0;border-radius:28px}.hero-card{margin:12px;padding:20px;border-radius:24px;max-width:calc(100% - 24px)}.hero-card h2{font-size:38px}.chip{letter-spacing:.1em;font-size:11px}.btn{min-height:44px;padding:0 18px}}
 /* type */
@@ -994,7 +995,8 @@ function centerMap(){
 function renderHome(){
   const cnt=s=>PLOTS.filter(p=>pStatus(p)===s).length;
   const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
-  const nType=PLOTS.filter(p=>VTYPES.includes((PLOT_INFO[p.no]||{}).type)).length;
+  const tyOf=p=>(PLOT_INFO[p.no]||{}).type, nCnt=st=>PLOTS.filter(p=>pStatus(p)===st).length;
+  const nType=PLOTS.filter(p=>{const t=tyOf(p); return TYPES.includes(t)||t==="2175";}).length, nCus=PLOTS.filter(p=>tyOf(p)==="custom").length;
   $("main").innerHTML=`
   <section class="hero" aria-labelledby="heroH">
     <img class="hero-bg" src="${FILE_ROOT}img/hero-render.jpg" alt="Aerial render of The Woods villas and landscape">
@@ -1003,7 +1005,7 @@ function renderHome(){
       <h2 id="heroH">Every drawing for <em>The Woods</em>, ready on site.</h2>
       <p class="hero-lead">Open any plot for its current architectural, structural, MEP and landscape sheets, its site progress and its RFIs. Old revisions stay in the archive, out of the way.</p>
       <div class="hero-cta"><a class="btn btn-primary" href="#plot-${MODEL}">Open Plot ${MODEL}, the model villa</a><a class="btn btn-glass" href="#find">Find a plot</a><a class="btn btn-glass" href="${SITE_LINK}">Site portal</a></div>
-      <div class="hero-stats"><span><b>${PLOTS.filter(p=>pStatus(p)==="available").length}</b> available</span><span><b>${PLOTS.filter(p=>pStatus(p)==="booked").length}</b> booked</span><span><b>${PLOTS.filter(p=>pStatus(p)==="registered").length}</b> sold out</span><span><b>${nType}</b> villa types confirmed</span></div>
+      <div class="hero-stats"><span><b>${nCnt("available")}</b> available</span><span><b>${nCnt("booked")}</b> booked</span><span><b>${nCnt("registered")}</b> sold out</span><span><b>${nCnt("blocked")}</b> blocked</span><i class="hs-br" aria-hidden="true"></i><span><b>${nType}</b> villa sizes confirmed</span>${nCus?`<span><b>${nCus}</b> client custom</span>`:""}</div>
     </div>
   </section>
   <div class="mp">
@@ -1013,7 +1015,7 @@ function renderHome(){
       <a class="feature card" href="#plot-${MODEL}"><span class="n">30</span><span><b>Plot 30 · model villa</b><span>East facing · full 1625 GFC, structural and landscape set</span></span></a>
       <div class="card" id="find"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
         <div class="plotgrid">${order.map(p=>`<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}" href="#plot-${p.no}" title="${esc(statusTxt(p))}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>
-      <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${PLOTS.filter(p=>VTYPES.includes((PLOT_INFO[p.no]||{}).type)).length}/${PLOTS.length}</span><span><b>Villa types</b><span>Plots with a confirmed villa type. Tap to confirm or change.</span></span></a>
+      <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${nType}/${PLOTS.length}</span><span><b>Villa types</b><span>${nType} plots with a confirmed size (1625 / 1215 / 2175 3BHK)${nCus?`, ${nCus} client custom`:""}. Tap to confirm or change.</span></span></a>
       <a class="feature card" href="#progress" style="background:var(--glass)"><span class="n" style="font-size:22px;color:var(--c-site)">${(dbOn||GHPROG)?PLOTS.filter(p=>progPct(p.no)>0).length:"·"}</span><span><b>Site progress &amp; RFIs</b><span>${(dbOn||GHPROG)?RFIS.filter(r=>r.status==="open").length+" open RFIs. ":""}Each villa's Site tab: stages, dates, photos and RFIs.</span></span></a>
       ${alertsHTML(VILLA_ALERTS,"Check before you build",false)}
       <a class="feature card" href="${SITE_LINK}" style="background:var(--glass)"><span class="n" style="color:var(--c-mep);font-size:22px">SITE</span><span><b>Site portal</b><span>Site plans, levels, survey, external electrical and water supply</span></span></a>
