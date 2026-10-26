@@ -1,85 +1,85 @@
 {
-  "_asof": "21-10-2026, 4:51 pm",
   "12": {
-    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later.",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "type": "custom"
   },
   "16": {
-    "type": "1215",
+    "note": "Booked.",
     "status": "booked",
-    "note": "Booked."
+    "type": "1215"
   },
   "19": {
-    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later.",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "type": "custom"
   },
   "20": {
-    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later.",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "type": "custom"
   },
   "21": {
-    "status": "blocked",
-    "label": "Model home"
+    "label": "Model home",
+    "status": "blocked"
   },
   "22": {
-    "status": "blocked",
-    "label": "Model plot"
+    "label": "Model plot",
+    "status": "blocked"
   },
   "23": {
-    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later.",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "type": "custom"
   },
   "24": {
-    "type": "1625",
+    "note": "Booked.",
     "status": "booked",
-    "note": "Booked."
+    "type": "1625"
   },
   "26": {
+    "note": "Booked. 3BHK option (2175 sq.ft villa).",
     "status": "booked",
-    "note": "Booked. 3BHK option, not final yet (mostly 3BHK)."
+    "type": "2175"
   },
   "28": {
-    "status": "blocked",
-    "label": "Site office"
+    "label": "Site office",
+    "status": "blocked"
   },
   "29": {
-    "status": "blocked",
-    "label": "Sales office"
+    "label": "Sales office",
+    "status": "blocked"
   },
   "30": {
-    "type": "1625",
-    "status": "blocked",
     "label": "Model villa (GFC)",
-    "note": "Model villa. Villa type confirmed as 1625 sq.ft East."
+    "note": "Model villa. Villa type confirmed as 1625 sq.ft East.",
+    "status": "blocked",
+    "type": "1625"
   },
   "33": {
-    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later.",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "type": "custom"
   },
   "34": {
-    "type": "1625",
+    "note": "Booked.",
     "status": "booked",
-    "note": "Booked."
+    "type": "1625"
   },
   "38": {
-    "type": "1215",
+    "note": "Booked.",
     "status": "booked",
-    "note": "Booked."
+    "type": "1215"
   },
   "42": {
-    "type": "1625",
+    "note": "Booked.",
     "status": "booked",
-    "note": "Booked."
+    "type": "1625"
   },
   "44": {
-    "type": "custom",
+    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later.",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "type": "custom"
   },
   "45": {
     "status": "blocked"
@@ -88,8 +88,9 @@
     "status": "blocked"
   },
   "50": {
-    "type": "1215",
+    "note": "Booked.",
     "status": "booked",
-    "note": "Booked."
-  }
+    "type": "1215"
+  },
+  "_asof": "21-10-2026, 4:51 pm"
 }
