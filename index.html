@@ -906,13 +906,13 @@ const faceWord=p=>p.face==="E"?"East":p.face==="W"?"West":"North";
 const faceTxt=p=>faceWord(p)+" facing";
 /* plot status from Ankura's sales layout (data/villa-types.json: status + label per plot) */
 const ST_PLOT={available:"Available",booked:"Booked",registered:"Registered",blocked:"Blocked"};
-const ST_LONG={available:"Available",booked:"Booked · default villa (confirmed size)",registered:"Registered · sold out",blocked:"Blocked"};
+const ST_LONG={available:"Available",booked:"Booked · default villa (1625 / 1215 / 2175 3BHK)",registered:"Registered · sold out",blocked:"Blocked"};
 const ST_SUB={available:"open for sale",booked:"default villa",registered:"sold out",blocked:"not for sale"};
 let STATUS_ASOF="";
 const pStatus=p=>{const s=(PLOT_INFO[p.no]||{}).status; return ST_PLOT[s]?s:"available";};
 const pLabel=p=>(PLOT_INFO[p.no]||{}).label||"";
 const isOffPlot=p=>pStatus(p)==="blocked"&&p.no!==MODEL;
-const statusTxt=p=>ST_LONG[pStatus(p)]+(pLabel(p)?" · "+pLabel(p):"");
+const statusTxt=p=>{ const t=(PLOT_INFO[p.no]||{}).type; if(pStatus(p)==="booked") return "Booked · "+(TYPES.includes(t)||t==="2175"?t+" sq.ft "+(t==="2175"?"3BHK ":"")+"villa":t==="custom"?"client custom floor plan":"villa type to confirm")+(pLabel(p)?" · "+pLabel(p):""); return ST_LONG[pStatus(p)]+(pLabel(p)?" · "+pLabel(p):""); };
 function pSmall(p){ const i=PLOT_INFO[p.no]||{}; if(isOffPlot(p)) return pLabel(p)||"Blocked"; if(i.type) return i.type==="custom"?"Custom":i.type==="2175"?"3BHK "+p.face:i.type+" "+p.face; return faceWord(p); }
 let q="", disc="all", regView="seq", currentList=[], route="";
 try{ const v=localStorage.getItem("woods.reg"); if(["seq","all","arch"].includes(v)) regView=v; }catch(e){}
