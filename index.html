@@ -921,7 +921,7 @@ let ptab="arch"; try{ const v=localStorage.getItem("woods.ptab"); if(v&&DISC[v])
 const pickType={}; let lastType="1625"; try{ const v=localStorage.getItem("woods.vtype"); if(TYPES.includes(v)) lastType=v; }catch(e){}
 let mapZoom=window.innerWidth<700?1.25:1;
 /* master layout colouring: "type" (standard villa green / client custom purple) or "status" (sales layout) */
-let mapMode="type"; try{ const v=localStorage.getItem("woods.mapmode"); if(v==="type"||v==="status") mapMode=v; }catch(e){}
+const mapMode="type";
 const VT_KEY={std:"Standard villa (1625 / 1215 / 2175 3BHK)",custom:"Client custom floor plan",none:"Type not confirmed",blocked:"Blocked · not a villa plot"};
 function vtKey(p){ if(isOffPlot(p)) return "blocked"; const t=(PLOT_INFO[p.no]||{}).type; return t==="custom"?"custom":TYPES.includes(t)||t==="2175"?"std":"none"; }
 const colCls=p=>mapMode==="type"?"vt-"+vtKey(p):"st-"+pStatus(p);
@@ -975,8 +975,8 @@ function masterCard(title,sub){
   return `<div class="card"><div class="card-h"><div><h2>${title}</h2><p>${sub}</p></div>
     <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
     <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="Ankura Homes site layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
-    <div class="mmode" role="group" aria-label="Colour plots by"><span>Colour by</span><button type="button" data-mm="type" aria-pressed="${mapMode==="type"}">Villa type</button><button type="button" data-mm="status" aria-pressed="${mapMode==="status"}">Status</button></div>
-    <div class="legend">${mapMode==="type"?Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join(""):Object.keys(ST_PLOT).map(s=>`<span><i class="sw st-${s}"></i>${ST_LONG[s]} · ${PLOTS.filter(p=>pStatus(p)===s).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div>${STATUS_ASOF?`<p class="asof">Plot status from Ankura's sales layout, as of ${esc(STATUS_ASOF)}.</p>`:""}</div>`;
+
+    <div class="legend">${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div></div>`;
 }
 function bindMapZoom(){
   document.querySelectorAll("[data-mm]").forEach(b=>b.onclick=()=>{ mapMode=b.dataset.mm; try{localStorage.setItem("woods.mapmode",mapMode)}catch(e){} const box=$("mapbox"), sx=box?box.scrollLeft:0, sy=box?box.scrollTop:0; render(); const nb=$("mapbox"); if(nb){nb.scrollLeft=sx; nb.scrollTop=sy;} });
