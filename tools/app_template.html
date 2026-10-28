@@ -615,6 +615,14 @@ const F={
   PB1:["2026-10-24_Model_Villa_30_Budget.pdf",403],
   PSP:["2026-10-24_Villa_Specifications.pdf",259],
   PB2:["External_Electrical_Plumbing_Budget.pdf",84],
+  CL2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Center_Line_Drawing.pdf",1043],
+  EX2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Excavation_Layout.pdf",1113],
+  FT2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Footing_Layout.pdf",1468],
+  FR2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Framing_Details.pdf",1059],
+  EL2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Building_Elevations.pdf",3418],
+  SE2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Building_Sections.pdf",1881],
+  FP2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Floor_Plan.pdf",3218],
+  BW2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Block_Work_Details.pdf",1537],
   FPE3:["2026-10-23_GFC_Ankura-The_Woods-1625_East_Villa_Floor_Plan.pdf",2798]
 };
 const DISC={
@@ -652,6 +660,20 @@ const S=[
  ["PM-03","PB1",1,"Plot 30 · model villa budget","Engineering cost ₹52,31,630 for 2,080 sq.ft built-up (₹2,515 per sq.ft) · 20 activity heads","","—","24-10-2026","Ankura Homes","pm","1625E","plan"],
  ["PM-04","PSP",1,"Villa specifications","Common for the complete project · structure, roof, walls, plaster, waterproofing, painting, flooring, doors, windows, kitchen, plumbing, electrical and external development","","—","24-10-2026","Ankura Homes","pm","all","plan"],
  ["PM-05","PB2",1,"External electrical & plumbing budget (tentative)","Electrical ₹2,47,78,521 + plumbing ₹36,63,578 = ₹2,84,42,099; with GST 18% ₹3,35,61,677","","—","Oct 2026","Ankura Homes","pm","site","plan"],
+ ["BE-01","CL2E",1,"1215 East · centre line drawing","Grid lines with centre-to-centre dims","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-02","CL2E",2,"1215 East · centre line · marking from plot boundary","Grid tied to the plot boundary (drawn on a typical East plot; check against the actual plot)","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-03","EX2E",1,"1215 East · excavation layout · pit sizes","Excavation pits with working offset from the footing edge","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-04","EX2E",2,"1215 East · excavation · marking from plot boundary","Excavation marking tied to the plot boundary (typical East plot)","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-05","FT2E",1,"1215 East · footing layout · footing & PCC","Footing line and PCC line, external marking","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-06","FT2E",2,"1215 East · footing layout · column marking","Column positions within each footing, internal marking","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-07","FT2E",3,"1215 East · footing · marking from plot boundary","Footing grid tied to the plot boundary (typical East plot)","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-08","FR2E",1,"1215 East · plinth framing layout","Plinth beam framing on grid","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-09","FR2E",2,"1215 East · roof framing layout","Roof beam framing on grid","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-10","EL2E",1,"1215 East · building elevations 1/2","North and south elevations with levels","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-11","EL2E",2,"1215 East · building elevations 2/2","East and west elevations with levels","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-12","SE2E",1,"1215 East · building sections A, B, C","Plinth, lawn, road, backyard and roof levels","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-13","FP2E",1,"1215 East villa · floor plan","GFC floor plan and floor plan with roof above · built-up area 1215 sq.ft, verandah 326 sq.ft","","—","28-10-2026",ARC,"arch","1215E","gfc"],
+ ["BE-14","BW2E",1,"1215 East · block work details","Block work layout and details · new sheet type, first issued for the 1215 East set","","—","28-10-2026",ARC,"arch","1215E","gfc"],
  ["AE-01","CLE",1,"1625 East · centre line drawing","Grid lines 1–9 / A–E with centre-to-centre dims","","—","21-10-2026",ARC,"arch","1625E","gfc"],
  ["AE-02","CLE",2,"1625 East · centre line · marking from plot boundary","Grid tied to the plot boundary and the road (drawn on a typical East plot; check against the actual plot)","","—","21-10-2026",ARC,"arch","1625E","gfc"],
  ["AE-03","EXE",1,"1625 East · excavation layout · pit sizes","Excavation pits with working offset from the footing edge","","—","21-10-2026",ARC,"arch","1625E","gfc"],
@@ -745,7 +767,7 @@ const S=[
  ["SS-06","SMK",1,"Streetscape marking plan","Setting-out of planting strips and kerbs along the roads","LLA-TW-LC-01","—","22-10-2026",LLA,"land","site","approval"],
  ["TP-01","AFP",1,"1625 East villa · floor plan (old)","Replaced by the GFC floor plan AE-13","","—","18-09-2026",ARC,"arch","1625E","super"],
  ["TP-02","AFP",2,"1625 West villa · floor plan (old)","Replaced by the GFC floor plan AW-01","","—","18-09-2026",ARC,"arch","1625W","super"],
- ["TP-03","AFP",3,"1215 East villa · floor plan","Typology floor plan with roof above","","—","18-09-2026",ARC,"arch","1215E","ref"],
+ ["TP-03","AFP",3,"1215 East villa · floor plan (old)","Typology floor plan · replaced by the GFC floor plan BE-13 (28-10-2026)","","—","18-09-2026",ARC,"arch","1215E","super"],
  ["TP-04","AFP",4,"1215 West villa · floor plan","Typology floor plan with roof above","","—","18-09-2026",ARC,"arch","1215W","ref"],
  ["TP-05","A21",1,"2175 East villa · floor plan","Typology floor plan with roof above","","—","13-10-2026",ARC,"arch","2175E","ref"],
  ["TP-06","A21",2,"2175 West villa · floor plan","Typology floor plan with roof above","","—","13-10-2026",ARC,"arch","2175W","ref"],
@@ -755,7 +777,7 @@ const S=[
  ["RD-02","STR",1,"Streetscape renders","Streetscape, junction options 01/02, bird's eye · 6 pages","","—","15-10-2026",LLA,"3d","site","ref",0,6]
 ].map(a=>({code:a[0],f:a[1],page:a[2],title:a[3],sub:a[4],no:a[5],rev:a[6],date:a[7],by:a[8],disc:a[9],villa:a[10],st:a[11],rot:a[12]||0,pages:a[13]||1}));
 const byCode=Object.fromEntries(S.map(s=>[s.code,s]));
-const CADMAP={"S16-01":"CAD-34","S16-03":"CAD-34","S16-05":"CAD-34","S12-01":"CAD-35","S12-03":"CAD-35","S12-05":"CAD-35","S6W-01":"CAD-36","S6W-03":"CAD-36","S6W-05":"CAD-36","S2W-01":"CAD-37","S2W-03":"CAD-37","S2W-05":"CAD-37","LA-24":"CAD-38","LA-26":"CAD-38","LA-25":"CAD-39","LA-27":"CAD-39","TP-05":"CAD-33","TP-06":"CAD-33","AE-01":"CAD-26","AE-02":"CAD-26","AE-03":"CAD-27","AE-04":"CAD-27","AE-05":"CAD-28","AE-06":"CAD-28","AE-07":"CAD-28","AE-08":"CAD-29","AE-09":"CAD-29","AE-10":"CAD-30","AE-11":"CAD-30","AE-12":"CAD-31","AE-13":"CAD-32","AR-01":"CAD-05","AR-02":"CAD-06","AR-03":"CAD-06","AR-04":"CAD-07","AR-05":"CAD-07","AR-06":"CAD-07","AR-07":"CAD-08","AR-08":"CAD-08","AR-09":"CAD-09","AR-10":"CAD-10","AR-11":"CAD-10","AR-12":"CAD-11","AR-13":"CAD-12","AR-14":"CAD-14","AR-15":"CAD-15","AW-01":"CAD-16","AW-02":"CAD-19","AW-03":"CAD-19","AW-04":"CAD-20","AW-05":"CAD-20","AW-06":"CAD-21","AW-07":"CAD-21","AW-08":"CAD-21","AW-09":"CAD-22","AW-10":"CAD-22","AW-11":"CAD-23","AW-12":"CAD-23","AW-13":"CAD-24","AW-14":"CAD-25","ST-01":"CAD-18"};
+const CADMAP={"BE-01":"CAD-40","BE-02":"CAD-40","BE-03":"CAD-41","BE-04":"CAD-41","BE-05":"CAD-42","BE-06":"CAD-42","BE-07":"CAD-42","BE-08":"CAD-43","BE-09":"CAD-43","BE-10":"CAD-44","BE-11":"CAD-44","BE-12":"CAD-45","BE-13":"CAD-46","BE-14":"CAD-47","S16-01":"CAD-34","S16-03":"CAD-34","S16-05":"CAD-34","S12-01":"CAD-35","S12-03":"CAD-35","S12-05":"CAD-35","S6W-01":"CAD-36","S6W-03":"CAD-36","S6W-05":"CAD-36","S2W-01":"CAD-37","S2W-03":"CAD-37","S2W-05":"CAD-37","LA-24":"CAD-38","LA-26":"CAD-38","LA-25":"CAD-39","LA-27":"CAD-39","TP-05":"CAD-33","TP-06":"CAD-33","AE-01":"CAD-26","AE-02":"CAD-26","AE-03":"CAD-27","AE-04":"CAD-27","AE-05":"CAD-28","AE-06":"CAD-28","AE-07":"CAD-28","AE-08":"CAD-29","AE-09":"CAD-29","AE-10":"CAD-30","AE-11":"CAD-30","AE-12":"CAD-31","AE-13":"CAD-32","AR-01":"CAD-05","AR-02":"CAD-06","AR-03":"CAD-06","AR-04":"CAD-07","AR-05":"CAD-07","AR-06":"CAD-07","AR-07":"CAD-08","AR-08":"CAD-08","AR-09":"CAD-09","AR-10":"CAD-10","AR-11":"CAD-10","AR-12":"CAD-11","AR-13":"CAD-12","AR-14":"CAD-14","AR-15":"CAD-15","AW-01":"CAD-16","AW-02":"CAD-19","AW-03":"CAD-19","AW-04":"CAD-20","AW-05":"CAD-20","AW-06":"CAD-21","AW-07":"CAD-21","AW-08":"CAD-21","AW-09":"CAD-22","AW-10":"CAD-22","AW-11":"CAD-23","AW-12":"CAD-23","AW-13":"CAD-24","AW-14":"CAD-25","ST-01":"CAD-18"};
 const CAD=[
  ["CAD-01","2026-09-26_Ankura-The_Woods_Site_Plan_with_Levels.dwg","Site plan with levels","Whole layout · no PDF issued · kept for its spot levels; where it differs from ST-01, follow ST-01","26-09-2026","site",944,"cad",ARC],
  ["CAD-02","2026-09-22_Ankura-The_Woods_Site_Plan_with_existing_trees.dwg","Site plan with existing trees","Tree survey on layout · no PDF issued","22-09-2026","site",544,"cad",ARC],
@@ -794,6 +816,15 @@ const CAD=[
  ["CAD-37","JA_1215_West_Marking_Plinth_Roof_Beam_Layout_R1.dwg","1215 West · structural marking, plinth & roof beam layout","CAD of SD-01, SD-03, SD-05 (S2W-01, S2W-03, S2W-05)","07-10-2026","str",1201,"cad",JA],
  ["CAD-38","260825_LLA_East_Facing_1625_1215_Landscape_Conceptual.dwg","East facing 1625 & 1215 · landscape conceptual (Aug)","CAD of the 25-08-2026 conceptual plans LA-24, LA-26 · the current LA-20 / LA-22 layouts have changed since; no newer DWG issued","25-08-2026","land",1058,"cad",LLA],
  ["CAD-39","260826_LLA_West_Facing_1625_1215_Landscape_Conceptual.dwg","West facing 1625 & 1215 · landscape conceptual (Aug)","CAD of the 26-08-2026 conceptual plans LA-25, LA-27 · the current LA-21 / LA-23 layouts have changed since; no newer DWG issued","26-08-2026","land",994,"cad",LLA],
+ ["CAD-40","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Center_Line_Drawing.dwg","1215 East centre line drawing","CAD of BE-01, BE-02","28-10-2026","arch",771,"cad",ARC],
+ ["CAD-41","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Excavation_Layout.dwg","1215 East excavation layout","CAD of BE-03, BE-04","28-10-2026","arch",976,"cad",ARC],
+ ["CAD-42","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Footing_Layout.dwg","1215 East footing layout","CAD of BE-05 to BE-07","28-10-2026","arch",963,"cad",ARC],
+ ["CAD-43","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Framing_Details.dwg","1215 East framing layout","CAD of BE-08, BE-09","28-10-2026","arch",1034,"cad",ARC],
+ ["CAD-44","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Building_Elevations.dwg","1215 East building elevations","CAD of BE-10, BE-11","28-10-2026","arch",1098,"cad",ARC],
+ ["CAD-45","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Building_Sections.dwg","1215 East building sections","CAD of BE-12","28-10-2026","arch",1118,"cad",ARC],
+ ["CAD-46","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Floor_Plan.dwg","1215 East villa floor plan","CAD of BE-13","28-10-2026","arch",1131,"cad",ARC],
+ ["CAD-47","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Block_Work_Details.dwg","1215 East block work details","CAD of BE-14","28-10-2026","arch",1030,"cad",ARC],
+ ["MDL-1215E","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_3D.skp","1215 East villa · SketchUp 3D model (GFC)","Issued with the 1215 East GFC set · open on a computer with SketchUp · for visualising, not for measurement","28-10-2026","3d",32394,"model",ARC],
  ["CAD-25","2026-10-23_GFC_Ankura-The_Woods-1625_West_Villa_Floor_Plan.dwg","1625 West villa floor plan","CAD of AW-14","23-10-2026","arch",1219,"cad",ARC],
  ["CAD-17","2026-10-21_GFC_Ankura-The_Woods-Opening_Schedule_West_set.dwg","Opening schedule (West set)","CAD of AR-15 as sent in the West set · slightly different file from CAD-15","21-10-2026","arch",558,"cad",ARC],
  ["CAD-18","2026-10-21_GFC_Ankura-The_Woods-Site_Plan.dwg","Site plan · GFC","CAD of ST-01","21-10-2026","site",1721,"cad",ARC],
@@ -810,7 +841,7 @@ const CAD=[
 const cadByCode=Object.fromEntries(CAD.map(c=>[c.code,c]));
 const itemBy=c=>byCode[c]||cadByCode[c];
 /* superseded sheets: old code -> [current code, date replaced]. Old sheets are kept only in the Revision archive. */
-const SUP={"AR-09":["AE-13","21-10-2026"],"AR-13":["AR-15","21-10-2026"],"TP-01":["AE-13","08-10-2026"],
+const SUP={"TP-03":["BE-13","28-10-2026"],"AR-09":["AE-13","21-10-2026"],"AR-13":["AR-15","21-10-2026"],"TP-01":["AE-13","08-10-2026"],
  "AR-01":["AE-01","21-10-2026"],"AR-02":["AE-03","21-10-2026"],"AR-03":["AE-04","21-10-2026"],"AR-04":["AE-05","21-10-2026"],"AR-05":["AE-06","21-10-2026"],"AR-06":["AE-07","21-10-2026"],"AR-07":["AE-08","21-10-2026"],"AR-08":["AE-09","21-10-2026"],"AR-10":["AE-10","22-10-2026"],"AR-11":["AE-11","22-10-2026"],"AR-12":["AE-12","21-10-2026"],"AR-14":["AE-13","23-10-2026"],
  "CAD-05":["CAD-26","21-10-2026"],"CAD-06":["CAD-27","21-10-2026"],"CAD-07":["CAD-28","21-10-2026"],"CAD-08":["CAD-29","21-10-2026"],"CAD-10":["CAD-30","22-10-2026"],"CAD-11":["CAD-31","21-10-2026"],"CAD-14":["CAD-32","23-10-2026"],"TP-02":["AW-14","21-10-2026"],"AW-01":["AW-14","23-10-2026"],"CAD-16":["CAD-25","23-10-2026"],
  "LA-01":["LA-09","14-10-2026"],"LA-24":["LA-20","20-09-2026"],"LA-25":["LA-21","20-09-2026"],"LA-26":["LA-22","22-10-2026"],"LA-27":["LA-23","22-10-2026"],"LA-02":["LA-10","13-10-2026"],
@@ -847,6 +878,7 @@ const SEQ=[
 const ALL=[
  {h:"1625 East villa · architectural GFC set",p:"Issued 21-10-2026 by the architect; elevations 22-10-2026 and floor plan re-issued 23-10-2026. Replaces the 08-10-2026 Plot 30 sheets.",c:["AE-01","AE-02","AE-03","AE-04","AE-05","AE-06","AE-07","AE-08","AE-09","AE-13","AE-10","AE-11","AE-12","AR-15"]},
  {h:"1625 West villa · architectural GFC set",p:"Issued 21-10-2026 by the architect; elevations 22-10-2026 and floor plan re-issued 23-10-2026.",c:["AW-02","AW-03","AW-04","AW-05","AW-06","AW-07","AW-08","AW-09","AW-10","AW-14","AW-11","AW-12","AW-13","AR-15","AW-01"]},
+ {h:"1215 East villa · architectural GFC set",p:"Issued 28-10-2026 by the architect, with block work details and a SketchUp model.",c:["BE-01","BE-02","BE-03","BE-04","BE-05","BE-06","BE-07","BE-08","BE-09","BE-13","BE-14","BE-10","BE-11","BE-12","AR-15","MDL-1215E"]},
  {h:"Structure · 1625 East villa",p:"Jashritha Associates · SD-01 to SD-06 · SD-01, SD-03 at R02 and SD-02 at R01 (05-10-2026).",c:S.filter(s=>s.f==="S6E").map(s=>s.code)},
  {h:"Structure · 1625 West villa",p:"Jashritha Associates · SD-01 to SD-06 · R01 (07-10-2026).",c:S.filter(s=>s.f==="S6W").map(s=>s.code)},
  {h:"Structure · 1215 East villa",p:"Jashritha Associates · SD-01 to SD-06 · R01 (07-10-2026).",c:S.filter(s=>s.f==="S2E").map(s=>s.code)},
@@ -854,7 +886,7 @@ const ALL=[
  {h:"Landscape · Plot 30 model villa",p:"LumiScapes · For Information & Approval. Dimensions in feet, levels in metres.",c:["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","LA-01","LA-02"]},
  {h:"Landscape · typical villa conceptual plans",p:"LumiScapes · final conceptual plans for each villa type and facing. For Information & Approval. Layout intent only; no marking or levels issued for these yet.",c:["LA-20","LA-21","LA-22","LA-23"]},
  {h:"Villa typology floor plans",p:"All villa types. Reference only, except where a GFC sheet exists.",c:S.filter(s=>s.code.startsWith("TP-")).map(s=>s.code)},
- {h:"3D views & models",p:"Landscape renders of the model villas and the architect's SketchUp models of the 1625 and 1215 villas (21-10-2026). Design intent, not for measurement.",c:["RD-01","MDL-1625","MDL-1215"]},
+ {h:"3D views & models",p:"Landscape renders of the model villas and the architect's SketchUp models of the 1625 and 1215 villas (21-10-2026) and the 1215 East GFC model (28-10-2026). Design intent, not for measurement.",c:["RD-01","MDL-1625","MDL-1215","MDL-1215E"]},
  {h:"Plan, budget & specifications",p:"Ankura Homes, 24-10-2026 · Plot 30 schedules and budget, villa specifications, and the external works budget.",c:["PM-01","PM-02","PM-03","PM-04","PM-05"]},
  {h:"Villa CAD files (DWG)",p:"DWG of the 1625 East (Plot 30) and 1625 West GFC sheets, for the office, surveyor and consultants.",c:CAD.filter(c=>c.dir==="cad"&&c.disc==="arch").map(c=>c.code)}
 ];
@@ -905,7 +937,7 @@ function plotSet(p,type){
     };
   } else if(e){
     set={
-      arch:{items:T(["TP-03","MDL-1215"]),note:["warn","Only the 1215 East typology floor plan (18-09-2026) has been issued. No 1215 GFC set yet."]},
+      arch:{items:T(["BE-01","BE-02","BE-03","BE-04","BE-05","BE-06","BE-07","BE-08","BE-09","BE-13","BE-14","BE-10","BE-11","BE-12","AR-15","MDL-1215E"]),note:["","1215 East villa GFC set by the architect (28-10-2026), with block work details and a SketchUp model. The marking-from-plot-boundary sheets (BE-02, BE-04, BE-07) are drawn on a typical East plot; check offsets against Plot "+p.no+"'s actual boundary before setting out, and confirm footing sizes against structural SD-02 before PCC. Each sheet has a DWG download. The old typology plan TP-03 is in Drawing register → Revision archive."]},
       str:{items:T(["S12-01","S12-02","S12-03","S12-04","S12-05","S12-06"],"typical").concat(T(["S12-01-R0","S12-02-R0","S12-03-R0","S12-05-R0"])),note:["","1215 East villa structural set by Jashritha Associates, R01 (07-10-2026); SD-04 and SD-06 unchanged from R0. Older revisions are in Drawing register → Revision archive."]},
       mep:{items:T(["CAD-03"]),note:siteNote},
       land:{items:T(["LA-22","LA-03","LA-04","LA-05"]),note:["","Typical 1215 East landscape conceptual plan (LA-22, 22-10-2026). No marking, levels or details for the 1215 villa yet. The model villa material options are for reference."]}
