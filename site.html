@@ -1417,7 +1417,7 @@ function savedTypes(){ const o={}; Object.keys(PLOT_INFO).forEach(k=>{const r=PL
 function plotOrder(){ return PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0))); }
 function typesObj(){ const s=savedTypes(), o={}; if(STATUS_ASOF) o._asof=STATUS_ASOF; plotOrder().forEach(p=>{ if(s[p.no]) o[p.no]=s[p.no]; }); return o; }
 function setPlot(no,patch){ const r=PLOT_INFO[no]=PLOT_INFO[no]||{}; Object.keys(patch).forEach(k=>{ if(patch[k]) r[k]=patch[k]; else delete r[k]; }); }
-function statusText(){ return saveState==="saving"?"Saving…":saveState==="saved"?(IS_ART?"Saved. Everyone using this version sees it now.":"Saved. Everyone opening the website sees it within about a minute."):saveState==="error"?"Could not save. Check your connection and try again.":saveState==="denied"?"This account can view villa types but not change them.":""; }
+function statusText(){ return saveState==="saving"?"Saving…":saveState==="saved"?(IS_ART?"Saved. Everyone using this version sees it now.":"Saved. Everyone opening the website sees it within about a minute."):saveState==="error"?"Could not save. Check your connection and try again.":saveState==="denied"?(IS_ART?"This account can view villa types but not change them.":"GitHub refused the save. The token may have expired or lost Contents write permission; set up editing again."):""; }
 function showStatus(){ const el=$("tsave"); if(el){ el.textContent=statusText(); el.className="tsave "+saveState; } const tt=$("ttoast"); if(tt){ tt.textContent=statusText(); tt.className="ttoast tsave "+saveState; } }
 /* ---------- website editing with a PIN (GitHub version) ----------
    data/edit-key.json holds a GitHub access token encrypted with the PIN (PBKDF2 + AES-GCM, in the browser).
@@ -1449,7 +1449,10 @@ async function pinDialog(){
       if(k){ try{ ghToken=await openToken(k,pin); }catch(x){ throw new Error("Wrong PIN."); } await ghGet("data/villa-types.json"); }
       else{ const tok=d.querySelector("#pinT").value.trim(); if(pin.length<6) throw new Error("Use a PIN of at least 6 characters."); if(pin!==d.querySelector("#pinB").value) throw new Error("The two PINs do not match.");
         ghToken=tok; try{ await ghGet("data/villa-types.json"); }catch(x){ ghToken=null; throw new Error("GitHub did not accept this token for "+GH_REPO+". Check it has Contents read and write on this repository."); }
-        const sealed=await sealToken(tok,pin); await ghPut("data/edit-key.json",JSON.stringify(sealed,null,2)+"\n","Set up villa types editing (encrypted key)"); ghKey=sealed; }
+        const sealed=await sealToken(tok,pin);
+        try{ await ghPut("data/edit-key.json",JSON.stringify(sealed,null,2)+"\n","Set up villa types editing (encrypted key)"); }
+        catch(x){ ghToken=null; throw new Error(/40[34]/.test(x.message)?"This token can read the repository but is not allowed to save to it. On GitHub, open the token → Edit: set Repository access to Only select repositories → THE-WOODS, and Permissions → Contents → Read and write. Save, then try again (you can reuse the same token).":"Could not save the editing key ("+x.message+"). Try again."); }
+        ghKey=sealed; }
       canSave=true; saveState=""; close(); renderTypes();
     }catch(x){ if(!k) ghToken=null; else if(String(x.message).startsWith("GitHub")){ ghToken=null; x=new Error("The saved key no longer works on GitHub (token expired or removed). Ask the owner to set up editing again."); }
       err.textContent=x.message||"Could not unlock."; go.disabled=false; go.textContent=k?"Unlock":"Set up editing"; }
@@ -1462,7 +1465,7 @@ async function doSave(){
   try{ if(IS_ART) await dbRef.set({plots:typesObj(),updatedAt:new Date().toISOString()});
     else { const o=typesObj(); await ghPut("data/villa-types.json",JSON.stringify(o,null,2)+"\n","Villa types updated on the website"); fileTypes=o; }
     saveState="saved"; }
-  catch(e){ if(e&&e.code==="invalid_argument"){ canSave=false; saveState="denied"; if(route==="types") renderTypes(); } else saveState="error"; }
+  catch(e){ if(e&&e.code==="invalid_argument"||/GitHub 40[134]/.test(e&&e.message)){ canSave=false; saveState="denied"; if(route==="types") renderTypes(); } else saveState="error"; }
   saving=false; showStatus();
   if(saveAgain){ saveAgain=false; doSave(); }
 }
