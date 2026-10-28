@@ -7,7 +7,7 @@
   "16": {
     "note": "Booked.",
     "status": "booked",
-    "type": "1215"
+    "type": "1625"
   },
   "19": {
     "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later.",
@@ -90,7 +90,7 @@
   "50": {
     "note": "Booked.",
     "status": "booked",
-    "type": "1215"
+    "type": "1625"
   },
   "_asof": "21-10-2026, 4:51 pm"
 }
