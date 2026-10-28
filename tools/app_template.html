@@ -259,6 +259,11 @@ body.wide .wrap{max-width:1720px}
 .tl-it{padding:8px 10px;border:1px solid var(--glass-line);border-radius:10px;background:var(--paper);margin-bottom:6px}.tl-it p{margin:4px 0;white-space:pre-wrap}
 .tl-it .phs img{width:84px;height:84px}
 .pst{font-size:13px}.pst-none{color:var(--muted)}
+.pindlg{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:rgba(15,30,46,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.pin-in{width:min(440px,100%);padding:22px;display:grid;gap:10px;background:var(--base,#EEF3F8)}.pin-in h3{margin:0;font-family:var(--serif);font-weight:400;font-size:26px}.pin-in p{margin:0;font-size:14px;color:var(--muted);line-height:1.5}
+.pin-in input{font:inherit;font-size:16px;padding:12px 14px;border-radius:14px;border:1px solid var(--glass-edge);background:#fff;color:var(--ink)}
+.pin-err{color:var(--bad)!important;font-weight:600;min-height:1em}.pin-b{display:flex;gap:8px;justify-content:flex-end}
+.pin-on{font-size:14px;font-weight:600;color:var(--ok)}
 .tsave{margin:4px 0 10px;font-size:14px;font-weight:600;color:var(--muted)}
 .tsave.saved{color:var(--ok)}.tsave.saving{color:var(--warn)}.tsave.error,.tsave.denied{color:var(--bad)}
 .ttoast{display:none}.ttoast.saved,.ttoast.saving,.ttoast.error,.ttoast.denied{display:block;font-size:14px;font-weight:600;position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;margin:0;padding:10px 16px;border-radius:12px;background:var(--glass-strong);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);max-width:calc(100vw - 32px);text-align:center}
@@ -1402,13 +1407,51 @@ function savedTypes(){ const o={}; Object.keys(PLOT_INFO).forEach(k=>{const r=PL
 function plotOrder(){ return PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0))); }
 function typesObj(){ const s=savedTypes(), o={}; if(STATUS_ASOF) o._asof=STATUS_ASOF; plotOrder().forEach(p=>{ if(s[p.no]) o[p.no]=s[p.no]; }); return o; }
 function setPlot(no,patch){ const r=PLOT_INFO[no]=PLOT_INFO[no]||{}; Object.keys(patch).forEach(k=>{ if(patch[k]) r[k]=patch[k]; else delete r[k]; }); }
-function statusText(){ return saveState==="saving"?"Saving…":saveState==="saved"?"Saved. Everyone using this version sees it now.":saveState==="error"?"Could not save. Check your connection and try again.":saveState==="denied"?"This account can view villa types but not change them.":""; }
+function statusText(){ return saveState==="saving"?"Saving…":saveState==="saved"?(IS_ART?"Saved. Everyone using this version sees it now.":"Saved. Everyone opening the website sees it within about a minute."):saveState==="error"?"Could not save. Check your connection and try again.":saveState==="denied"?"This account can view villa types but not change them.":""; }
 function showStatus(){ const el=$("tsave"); if(el){ el.textContent=statusText(); el.className="tsave "+saveState; } const tt=$("ttoast"); if(tt){ tt.textContent=statusText(); tt.className="ttoast tsave "+saveState; } }
+/* ---------- website editing with a PIN (GitHub version) ----------
+   data/edit-key.json holds a GitHub access token encrypted with the PIN (PBKDF2 + AES-GCM, in the browser).
+   Unlocking decrypts it in memory only; saves commit data/villa-types.json through the GitHub API. */
+const GH_API="https://api.github.com/repos/"+GH_REPO+"/contents/";
+let ghToken=null, ghKey=undefined;
+const b64e=u8=>btoa(String.fromCharCode(...u8)), b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const utf8b64=t=>{ const u=new TextEncoder().encode(t); let s2=""; for(let i=0;i<u.length;i+=0x8000) s2+=String.fromCharCode(...u.subarray(i,i+0x8000)); return btoa(s2); };
+async function pinKey(pin,salt){ const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pin),"PBKDF2",false,["deriveKey"]); return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:600000,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]); }
+async function sealToken(tok,pin){ const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12)); const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},await pinKey(pin,salt),new TextEncoder().encode(tok)); return {v:1,kdf:"PBKDF2-SHA256-600000",salt:b64e(salt),iv:b64e(iv),ct:b64e(new Uint8Array(ct))}; }
+async function openToken(k,pin){ const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64d(k.iv)},await pinKey(pin,b64d(k.salt)),b64d(k.ct)); return new TextDecoder().decode(pt); }
+const ghH=()=>({Authorization:"Bearer "+ghToken,Accept:"application/vnd.github+json"});
+async function ghGet(path){ const r=await fetch(GH_API+path+"?ref=main&t="+Date.now(),{headers:ghH(),cache:"no-store"}); if(r.status===404) return null; if(!r.ok) throw new Error("GitHub "+r.status); return r.json(); }
+async function ghPut(path,text,msg){ const cur=await ghGet(path); const body={message:msg,content:utf8b64(text),branch:"main"}; if(cur&&cur.sha) body.sha=cur.sha; const r=await fetch(GH_API+path,{method:"PUT",headers:Object.assign({"Content-Type":"application/json"},ghH()),body:JSON.stringify(body)}); if(!r.ok) throw new Error("GitHub "+r.status); return r.json(); }
+async function loadEditKey(){ if(ghKey!==undefined) return ghKey; try{ const r=await fetch(FILE_ROOT+"data/edit-key.json?t="+Date.now(),{cache:"no-store"}); ghKey=r.ok?await r.json():null; }catch(e){ ghKey=null; } return ghKey; }
+function lockEdit(){ ghToken=null; canSave=false; saveState=""; if(route==="types") renderTypes(); }
+async function pinDialog(){
+  const k=await loadEditKey();
+  const d=document.createElement("div"); d.className="pindlg"; d.setAttribute("role","dialog"); d.setAttribute("aria-modal","true");
+  d.innerHTML=`<form class="pin-in card">${k?`<h3>Unlock villa types</h3><p>Enter the editing PIN.</p><input type="password" id="pinA" autocomplete="current-password" placeholder="PIN" required>`
+   :`<h3>Set up website editing</h3><p>One-time setup. Paste a GitHub fine-grained access token for <b>${GH_REPO}</b> only, with <b>Contents: Read and write</b> (github.com → Settings → Developer settings → Fine-grained tokens). Then choose a PIN of at least 6 characters. The token is stored only in encrypted form, locked by the PIN.</p>
+     <input type="password" id="pinT" autocomplete="off" placeholder="GitHub token (github_pat_…)" required><input type="password" id="pinA" autocomplete="new-password" placeholder="New PIN (6+ characters)" minlength="6" required><input type="password" id="pinB" autocomplete="new-password" placeholder="Repeat PIN" minlength="6" required>`}
+   <p class="pin-err" id="pinE" role="alert"></p><div class="pin-b"><button type="button" class="zbtn" id="pinX">Cancel</button><button type="submit" class="btn btn-primary" id="pinGo">${k?"Unlock":"Set up editing"}</button></div></form>`;
+  document.body.appendChild(d); const f=d.querySelector("form"); setTimeout(()=>d.querySelector("input").focus(),30);
+  const close=()=>d.remove(); d.querySelector("#pinX").onclick=close; d.onkeydown=e=>{ if(e.key==="Escape") close(); };
+  f.onsubmit=async e=>{ e.preventDefault(); const err=d.querySelector("#pinE"), go=d.querySelector("#pinGo"); err.textContent=""; go.disabled=true; go.textContent="Checking…";
+    try{
+      const pin=d.querySelector("#pinA").value;
+      if(k){ try{ ghToken=await openToken(k,pin); }catch(x){ throw new Error("Wrong PIN."); } await ghGet("data/villa-types.json"); }
+      else{ const tok=d.querySelector("#pinT").value.trim(); if(pin.length<6) throw new Error("Use a PIN of at least 6 characters."); if(pin!==d.querySelector("#pinB").value) throw new Error("The two PINs do not match.");
+        ghToken=tok; try{ await ghGet("data/villa-types.json"); }catch(x){ ghToken=null; throw new Error("GitHub did not accept this token for "+GH_REPO+". Check it has Contents read and write on this repository."); }
+        const sealed=await sealToken(tok,pin); await ghPut("data/edit-key.json",JSON.stringify(sealed,null,2)+"\n","Set up villa types editing (encrypted key)"); ghKey=sealed; }
+      canSave=true; saveState=""; close(); renderTypes();
+    }catch(x){ if(!k) ghToken=null; else if(String(x.message).startsWith("GitHub")){ ghToken=null; x=new Error("The saved key no longer works on GitHub (token expired or removed). Ask the owner to set up editing again."); }
+      err.textContent=x.message||"Could not unlock."; go.disabled=false; go.textContent=k?"Unlock":"Set up editing"; }
+  };
+}
 function queueSave(){ if(!canSave) return; saveState="saving"; showStatus(); clearTimeout(saveTimer); saveTimer=setTimeout(doSave,700); }
 async function doSave(){
   if(saving){ saveAgain=true; return; }
   saving=true;
-  try{ await dbRef.set({plots:typesObj(),updatedAt:new Date().toISOString()}); saveState="saved"; }
+  try{ if(IS_ART) await dbRef.set({plots:typesObj(),updatedAt:new Date().toISOString()});
+    else { const o=typesObj(); await ghPut("data/villa-types.json",JSON.stringify(o,null,2)+"\n","Villa types updated on the website"); fileTypes=o; }
+    saveState="saved"; }
   catch(e){ if(e&&e.code==="invalid_argument"){ canSave=false; saveState="denied"; if(route==="types") renderTypes(); } else saveState="error"; }
   saving=false; showStatus();
   if(saveAgain){ saveAgain=false; doSave(); }
@@ -1423,16 +1466,18 @@ function renderTypes(){
       <td><select data-p="${p.no}" class="${d.type==="custom"?"cus":""}" aria-label="Villa type for plot ${p.no}"${dis}><option value="">Not confirmed</option>${VTYPES.map(ty=>`<option value="${ty}"${d.type===ty?" selected":""}>${vtLabel(ty,p)}</option>`).join("")}</select></td>
       <td><input type="text" data-n="${p.no}" value="${esc(d.note||"")}" placeholder="${canSave?"Note (optional)":""}" aria-label="Note for plot ${p.no}"${dis}></td></tr>`;}).join("");
   const how = canSave
-    ? `<p class="tsave ${saveState}" id="tsave" role="status">${statusText()||"Pick a type and it saves straight away. No other steps."}</p>`
+    ? `${!IS_ART?`<div class="tbar"><span class="pin-on">Editing unlocked</span><button type="button" class="zbtn" id="pinLock">Lock</button></div>`:""}<p class="tsave ${saveState}" id="tsave" role="status">${statusText()||"Pick a type and it saves straight away. No other steps."}</p>`
     : IS_ART
       ? `<p class="hint">Only the portal owner can change villa types here. To change one, ask Vamsi or tell Claude.</p>`
-      : `<div class="tbar"><a class="portal-link" href="${ART_LINK}" target="_blank" rel="noopener">Change villa types</a></div><p class="hint">Opens the Claude version of this portal. Signed in as the owner, pick a type and it saves straight away. This site shows the change once Claude syncs it. You can also just tell Claude, e.g. “Plots 31 to 36: 1625, plot 12: custom”.</p>`;
+      : `<div class="tbar"><button type="button" class="btn btn-primary" id="pinOpen">Edit with PIN</button></div><p class="hint">Enter the editing PIN to change plot status, villa type, labels and notes right here. Changes save straight to the website for everyone.</p>`;
   $("main").innerHTML=`
   <div class="card"><div class="card-h"><div><h2>Villa types</h2><p>${nConf} of ${PLOTS.length} plots have a confirmed villa size${nCus?`, ${nCus} client custom`:""}. Options: 1625, 1215, 2175 3BHK or <b>Client custom floor plan</b>. A confirmed plot shows only that villa's drawings; a custom plot shows none of the standard sets.</p></div></div>
     ${how}
     ${canSave?`<div class="tbar"><label class="tfill">Set all unconfirmed <select id="bulkFace"><option value="E">East</option><option value="W">West</option><option value="N">North</option></select> plots to <select id="bulkType">${TYPES.map(ty=>`<option>${ty}</option>`).join("")}</select></label><button type="button" class="zbtn" id="bulkGo">Apply</button><p class="bulkPlots" id="bulkPlots" aria-live="polite"></p></div>`:""}
     <div class="ttab"><table><thead><tr><th>Plot</th><th>Facing</th><th>Status</th><th class="num">sq.yd</th><th>Villa type</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
   ${footerHTML()}<div class="ttoast" id="ttoast" role="status" aria-live="polite"></div>`;
+  if($("pinOpen")) $("pinOpen").onclick=pinDialog;
+  if($("pinLock")) $("pinLock").onclick=lockEdit;
   if(canSave){
     $("main").querySelectorAll("select[data-p]").forEach(el=>el.onchange=()=>{ el.classList.toggle("cus",el.value==="custom"); setPlot(el.dataset.p,{type:el.value}); queueSave(); });
     $("main").querySelectorAll("input[data-n]").forEach(el=>el.oninput=()=>{ setPlot(el.dataset.n,{note:el.value.trim()}); queueSave(); });
