@@ -58,8 +58,7 @@
   },
   "33": {
     "type": "1215",
-    "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "status": "registered"
   },
   "34": {
     "type": "1625",
