@@ -99,6 +99,8 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 
 /* master plan */
 .sidx{padding:16px 18px}.sidx h2{margin:0 0 8px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.sidx ol{list-style:none;margin:0;padding:0}.sidx li a{display:flex;justify-content:space-between;gap:10px;padding:10px 2px;border-top:1px solid var(--line,rgba(15,30,46,.08));color:var(--ink);text-decoration:none;font-weight:500}.sidx li:first-child a{border-top:0}.sidx li a b{font-variant-numeric:tabular-nums;color:var(--acc,#2459C8);font-weight:600}.sidx li a:hover span{color:var(--acc,#2459C8)}
+.combo{pointer-events:none}.combo .c1{fill:none;stroke:#fff;stroke-width:10}.combo .c2{fill:none;stroke:#7a5ce0;stroke-width:6}.combo .t2{font-size:22px!important}.combo text{font:700 30px Inter,system-ui,sans-serif;fill:#fff;paint-order:stroke;stroke:#1d2b3e;stroke-width:6px}
+.sw.combo-sw{background:transparent;border:2px solid #7a5ce0;box-shadow:0 0 0 2px #fff inset}
 .mp{display:grid;gap:14px;grid-template-columns:1fr}
 @media (min-width:980px){.mp{grid-template-columns:minmax(0,1.75fr) minmax(320px,1fr);align-items:start}.mp .mapbox{max-height:none}}
 .card{padding:14px;min-width:0}
@@ -985,7 +987,7 @@ const pStatus=p=>{const s=(PLOT_INFO[p.no]||{}).status; return ST_PLOT[s]?s:"ava
 const pLabel=p=>(PLOT_INFO[p.no]||{}).label||"";
 const isOffPlot=p=>pStatus(p)==="blocked"&&p.no!==MODEL;
 const statusTxt=p=>{ const t=(PLOT_INFO[p.no]||{}).type; if(pStatus(p)==="booked") return "Booked · "+(TYPES.includes(t)||t==="2175"?t+" sq.ft "+(t==="2175"?"3BHK ":"")+"villa":t==="custom"?"client custom floor plan":"villa type to confirm")+(pLabel(p)?" · "+pLabel(p):""); return ST_LONG[pStatus(p)]+(pLabel(p)?" · "+pLabel(p):""); };
-function pSmall(p){ const i=PLOT_INFO[p.no]||{}; if(isOffPlot(p)) return pLabel(p)||"Blocked"; if(i.type) return i.type==="custom"?"Custom":i.type==="2175"?"3BHK "+p.face:i.type+" "+p.face; return faceWord(p); }
+function pSmall(p){ const i=PLOT_INFO[p.no]||{}; if(isOffPlot(p)) return pLabel(p)||"Blocked"; if(i.type) return i.type==="custom"?(comboOf(p.no)?"Custom "+comboOf(p.no).join("&"):"Custom"):i.type==="2175"?"3BHK "+p.face:i.type+" "+p.face; return faceWord(p); }
 let q="", disc="all", regView="seq", currentList=[], route="";
 try{ const v=localStorage.getItem("woods.reg"); if(["seq","all","arch"].includes(v)) regView=v; }catch(e){}
 let ptab="arch"; try{ const v=localStorage.getItem("woods.ptab"); if(v&&DISC[v]) ptab=v; }catch(e){}
@@ -1038,16 +1040,23 @@ function match(s){
 const plotHref=no=>(PORTAL==="site"?VILLA_LINK:"")+"#plot-"+no;
 
 /* ---------- master plan ---------- */
+/* plots built as one villa (combined plots) */
+const COMBINED=[["19","20"]];
+const comboOf=no=>COMBINED.find(c=>c.includes(no));
+const villaCount=list=>{ const nos=list.map(p=>p.no); return nos.length-COMBINED.filter(c=>c.every(n=>nos.includes(n))).reduce((a,c)=>a+c.length-1,0); };
+function comboSVG(){ return COMBINED.map(c=>{ const bs=c.map(n=>plotBy[n]&&plotBy[n].box).filter(Boolean); if(bs.length<2) return "";
+  const x0=Math.min(...bs.map(b=>b[0])), y0=Math.min(...bs.map(b=>b[1])), x1=Math.max(...bs.map(b=>b[2])), y1=Math.max(...bs.map(b=>b[3]));
+  return `<g class="combo" aria-hidden="true"><rect x="${x0-4}" y="${y0-4}" width="${x1-x0+8}" height="${y1-y0+8}" rx="10" class="c1"></rect><rect x="${x0+3}" y="${y0+3}" width="${x1-x0-6}" height="${y1-y0-6}" rx="8" class="c2"></rect><text x="${(x0+x1)/2}" y="${(y0+y1)/2-16}" text-anchor="middle" dominant-baseline="middle">${c.join(" & ")}</text><text class="t2" x="${(x0+x1)/2}" y="${(y0+y1)/2+18}" text-anchor="middle" dominant-baseline="middle">one villa</text></g>`; }).join(""); }
 function mapSVG(sel){
   return `<svg viewBox="0 0 ${MAP_W} ${MAP_H}" preserveAspectRatio="none" aria-label="Master layout with ${PLOTS.length} plots">${
-    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" class="plot ${colCls(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}</svg>`;
+    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" class="plot ${colCls(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}${comboSVG()}</svg>`;
 }
 function masterCard(title,sub){
   return `<div class="card"><div class="card-h"><div><h2>${title}</h2><p>${sub}</p></div>
     <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
     <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="Ankura Homes site layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
 
-    <div class="legend">${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span></div></div>`;
+    <div class="legend">${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${k==="custom"?villaCount(PLOTS.filter(p=>vtKey(p)===k))+" villas":PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span>${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one combined villa</span>`:""}</div></div>`;
 }
 function bindMapZoom(){
   document.querySelectorAll("[data-mm]").forEach(b=>b.onclick=()=>{ mapMode=b.dataset.mm; try{localStorage.setItem("woods.mapmode",mapMode)}catch(e){} const box=$("mapbox"), sx=box?box.scrollLeft:0, sy=box?box.scrollTop:0; render(); const nb=$("mapbox"); if(nb){nb.scrollLeft=sx; nb.scrollTop=sy;} });
@@ -1067,7 +1076,7 @@ function renderHome(){
   const cnt=s=>PLOTS.filter(p=>pStatus(p)===s).length;
   const order=PLOTS.slice().sort((a,b)=>(parseFloat(a.no)+(a.no==="12A"?.5:0))-(parseFloat(b.no)+(b.no==="12A"?.5:0)));
   const tyOf=p=>(PLOT_INFO[p.no]||{}).type, nCnt=st=>PLOTS.filter(p=>pStatus(p)===st).length;
-  const nType=PLOTS.filter(p=>{const t=tyOf(p); return TYPES.includes(t)||t==="2175";}).length, nCus=PLOTS.filter(p=>tyOf(p)==="custom").length;
+  const nType=PLOTS.filter(p=>{const t=tyOf(p); return TYPES.includes(t)||t==="2175";}).length, nCus=villaCount(PLOTS.filter(p=>tyOf(p)==="custom"));
   $("main").innerHTML=`
   <section class="hero" aria-labelledby="heroH">
     <img class="hero-bg" src="${FILE_ROOT}img/hero-render.jpg" alt="Aerial render of The Woods villas and landscape">
@@ -1120,6 +1129,7 @@ function renderPlot(no){
       <div class="facts">
         <div><span>Status</span><b>${esc(statusTxt(p))}</b></div>
         <div><span>Villa type</span><b>${isOffPlot(p)?"Not a villa plot yet":confirmed?vtLabel(info.type,p):"1625 or 1215 · not confirmed"}</b></div>
+        ${comboOf(p.no)?`<div><span>Combined villa</span><b>Plots ${comboOf(p.no).map(n=>n===p.no?n:`<a href="#plot-${n}">${n}</a>`).join(" & ")} · one villa</b></div>`:""}
         <div><span>Facing</span><b>${faceTxt(p)}</b></div>
         <div><span>Plot area</span><b>${p.sqyd} sq.yd</b></div>
         <div><span>Plot area</span><b>${p.sqm} sq.m</b></div>
@@ -1467,7 +1477,7 @@ async function doSave(){
 }
 function renderTypes(){
   const s=savedTypes();
-  const nConf=plotOrder().filter(p=>{const t=(s[p.no]||{}).type; return TYPES.includes(t)||t==="2175";}).length, nCus=plotOrder().filter(p=>(s[p.no]||{}).type==="custom").length;
+  const nConf=plotOrder().filter(p=>{const t=(s[p.no]||{}).type; return TYPES.includes(t)||t==="2175";}).length, nCus=villaCount(plotOrder().filter(p=>(s[p.no]||{}).type==="custom"));
   const dis=canSave?"":" disabled";
   const rows=plotOrder().map(p=>{const d=s[p.no]||{};
     return `<tr class="${focusPlot===p.no?"foc":""}" id="tp-${p.no}"><td><a href="#plot-${p.no}"><b>${p.no}</b></a></td><td><span class="fc ${plotCls(p)}">${faceWord(p)}</span></td>
