@@ -2,7 +2,7 @@
   "12": {
     "type": "custom",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "note": "Registered · one client (plots 12, 19 & 20 (combined villa), 23, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "16": {
     "type": "1625",
@@ -12,12 +12,12 @@
   "19": {
     "type": "custom",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "note": "Registered · one client (plots 12, 19 & 20 (combined villa), 23, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "20": {
     "type": "custom",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "note": "Registered · one client (plots 12, 19 & 20 (combined villa), 23, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "21": {
     "status": "blocked",
@@ -30,7 +30,7 @@
   "23": {
     "type": "custom",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "note": "Registered · one client (plots 12, 19 & 20 (combined villa), 23, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "24": {
     "type": "1625",
@@ -79,7 +79,7 @@
   "44": {
     "type": "custom",
     "status": "registered",
-    "note": "Registered · one client (plots 12, 19, 20, 23, 33, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
+    "note": "Registered · one client (plots 12, 19 & 20 (combined villa), 23, 44). Client custom floor plan for now; may switch to standard 1625 or 1215 later."
   },
   "45": {
     "status": "blocked"
