@@ -452,6 +452,43 @@ a.feature[href^="#plot-"] .n,a.feature[href^="#plot-"] b{color:#fff} a.feature[h
 .mmode button:first-of-type{border-radius:999px 0 0 999px}.mmode button:last-of-type{border-radius:0 999px 999px 0}
 .mapbox{border-radius:32px}.mapzoom img{border-radius:24px}.locmap{border-radius:20px}
 .thumb,.phs img,.rfi-sheet img,.rfi-th img,.rfi-snap img{border-radius:12px}
+
+/* ===== Responsive: any screen size and ratio ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+img,svg,video,canvas{max-width:100%}
+.tb-top>*,.searchrow>*{min-width:0}
+.brand-sub{overflow-wrap:anywhere}
+/* small phones */
+@media (max-width:380px){
+  .tb .wrap.tb-shell{padding:10px 12px;border-radius:24px}
+  .proj h1{font-size:28px;gap:6px}
+  .brand-sub{font-size:10px;letter-spacing:.12em}
+  header.tb .portal-link{padding:9px 14px;font-size:14px}
+  .hero-card{margin:12px;padding:22px}
+  .hero-card h2{font-size:34px}
+}
+/* short screens: phones in landscape, small laptops with browser bars */
+@media (max-height:560px) and (orientation:landscape){
+  header.tb{position:static}
+  .hero{min-height:0}
+  .hero-card{margin:14px;padding:22px;gap:12px}
+  .hero-card h2{font-size:clamp(30px,5vw,44px)}
+  .hero-lead{font-size:15px}
+  .saside{position:static!important;max-height:none!important}
+  .mapbox{max-height:none}
+  #viewer .vbar{padding-block:4px}
+}
+/* tall portrait monitors and tablets */
+@media (orientation:portrait) and (min-width:700px){
+  .hero{min-height:min(600px,46vh)}
+}
+/* large and ultra-wide screens: use more of the width */
+@media (min-width:1600px){.wrap{max-width:1480px}body.wide .wrap{max-width:1880px}}
+/* 2K / 4K screens: scale the whole page so text and buttons stay a comfortable size */
+@media (min-width:2200px){body{zoom:1.25}}
+@media (min-width:2900px){body{zoom:1.55}}
+@media (min-width:3500px){body{zoom:1.9}}
+@media print{header.tb{position:static}.saside{position:static;max-height:none}}
 </style>
 <div class="fluid" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
