@@ -101,6 +101,11 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 .sidx{padding:16px 18px}.sidx h2{margin:0 0 8px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.sidx ol{list-style:none;margin:0;padding:0}.sidx li a{display:flex;justify-content:space-between;gap:10px;padding:10px 2px;border-top:1px solid var(--line,rgba(15,30,46,.08));color:var(--ink);text-decoration:none;font-weight:500}.sidx li:first-child a{border-top:0}.sidx li a b{font-variant-numeric:tabular-nums;color:var(--acc,#2459C8);font-weight:600}.sidx li a:hover span{color:var(--acc,#2459C8)}
 .combo{pointer-events:none}.combo .c1{fill:none;stroke:#fff;stroke-width:10}.combo .c2{fill:none;stroke:#7a5ce0;stroke-width:6}.combo .t2{font-size:22px!important}.combo text{font:700 30px Inter,system-ui,sans-serif;fill:#fff;paint-order:stroke;stroke:#1d2b3e;stroke-width:6px}
 .hold{pointer-events:none}.hold .h1{fill:none;stroke:#d92d3a;stroke-width:7;stroke-dasharray:18 10}.hold .h2{fill:#d92d3a}.hold text{font:800 17px Inter,system-ui,sans-serif;fill:#fff;letter-spacing:.04em}
+.plot.ex-wip{--pc:#1fbf8f}.plot.ex-ns{--pc:#7f93ad}.plot.ex-hold{--pc:#e84a5a}.plot.ex-await{--pc:#8a6ce8}.plot.ex-stop{--pc:#e8a020}.plot.ex-done{--pc:#2fa4e7}.plot.ex-na{--pc:#9fb2c9}
+.plot[class*=" ex-"] rect{fill-opacity:.5}.plot.ex-na rect{fill-opacity:.04}
+.mtag.t-sold rect{fill:#3342b5}.mtag.t-book rect{fill:#1d86c4}.sw.tag-sold{background:#3342b5;border-color:#3342b5}.sw.tag-book{background:#1d86c4;border-color:#1d86c4}.sw.ex-na-sw{color:#9fb2c9;background:#eef2f8}
+@media (min-width:1000px){#xmap>.card{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);column-gap:22px;align-items:start}#xmap>.card>.card-h{grid-column:1/-1}#xmap>.card>.mapbox{grid-row:2/span 2}#xmap>.card>.legend{grid-column:2;margin-top:0;display:grid;gap:8px}#xmap>.card>.upd-note{grid-column:2}}
+.map-link{margin:12px 0 0;font-size:14px;color:var(--muted)}
 .mtag{pointer-events:none}.mtag text{font:800 16px Inter,system-ui,sans-serif;fill:#fff;letter-spacing:.04em}.mtag.t-ok rect{fill:#13a36f}.mtag.t-wip rect{fill:#0a8fa3}
 .sw.tag-ok{background:#13a36f;border-color:#13a36f}.sw.tag-wip{background:#0a8fa3;border-color:#0a8fa3}
 .upd-note{border:1px solid var(--glass-line);background:var(--paper);border-radius:14px;padding:12px 16px;margin:12px 0 0;font-size:.92rem;line-height:1.45}.upd-note h3{margin:0 0 6px;font-size:15px}.upd-note ol{margin:0;padding-left:20px;display:grid;gap:6px}.upd-note li b.u-ok{color:#0f8a5e}.upd-note li b.u-wip{color:#0a7d8f}.upd-note li b.u-hold{color:var(--bad)}
@@ -1204,16 +1209,18 @@ const holdPlots=()=>PLOTS.filter(p=>(PLOT_INFO[p.no]||{}).type==="1625"&&p.no!==
 function holdSVG(){ return holdPlots().map(p=>{ const [x0,y0,x1,y1]=p.box, cx=(x0+x1)/2, w=Math.min(x1-x0-10,118);
   return `<g class="hold" aria-hidden="true"><rect x="${x0+5}" y="${y0+5}" width="${x1-x0-10}" height="${y1-y0-10}" rx="6" class="h1"></rect><rect x="${cx-w/2}" y="${y1-38}" width="${w}" height="28" rx="6" class="h2"></rect><text x="${cx}" y="${y1-23}" text-anchor="middle" dominant-baseline="middle">ON HOLD</text></g>`; }).join(""); }
 /* status tags drawn on the master layout (latest site updates) */
-function tagSVG(box,txt,cls){ const [x0,y0,x1,y1]=box, cx=(x0+x1)/2, w=Math.min(x1-x0-10,Math.max(118,txt.length*11+20)); return `<g class="mtag ${cls}" aria-hidden="true"><rect x="${cx-w/2}" y="${y1-38}" width="${w}" height="28" rx="6"></rect><text x="${cx}" y="${y1-23}" text-anchor="middle" dominant-baseline="middle">${txt}</text></g>`; }
+function tagSVG(box,txt,cls){ const [x0,y0,x1,y1]=box, cx=(x0+x1)/2, w=Math.min(x1-x0-10,Math.max(118,txt.length*11+20)); return `<g class="mtag ${cls}" aria-hidden="true"><rect x="${cx-w/2}" y="${y1-38}" width="${w}" height="28" rx="6"></rect><text x="${cx}" y="${y1-23}" text-anchor="middle" dominant-baseline="middle"${txt.length>12?' style="font-size:12.5px;letter-spacing:0"':""}>${txt}</text></g>`; }
 function updSVG(){
   let o="";
   const m=plotBy[MODEL]; if(m&&m.box) o+=tagSVG(m.box,"WORK STARTED","t-wip");
   COMBINED.forEach(c=>{ const I=PLOT_INFO[c[0]]||{}; if(!Object.values(I.extra||{}).some(a=>a&&a.length)) return; const bs=c.map(n=>plotBy[n]&&plotBy[n].box).filter(Boolean); if(bs.length<2) return; o+=tagSVG([Math.min(...bs.map(b=>b[0])),Math.min(...bs.map(b=>b[1])),Math.max(...bs.map(b=>b[2])),Math.max(...bs.map(b=>b[3]))],"DRAWINGS ISSUED","t-ok"); });
   return o; }
-function mapSVG(sel){
+function saleSVG(){ const done=new Set(); let o=""; PLOTS.forEach(p=>{ const st=pStatus(p); if(st!=="booked"&&st!=="registered"||done.has(p.no)||!p.box) return; const cb=comboOf(p.no); let box=p.box; if(cb){ cb.forEach(n=>done.add(n)); const bs=cb.map(n=>plotBy[n]&&plotBy[n].box).filter(Boolean); box=[Math.min(...bs.map(b=>b[0])),Math.min(...bs.map(b=>b[1])),Math.max(...bs.map(b=>b[2])),Math.max(...bs.map(b=>b[3]))]; } o+=tagSVG(box,st==="registered"?"SOLD":"BOOKED",st==="registered"?"t-sold":"t-book"); }); return o; }
+function mapSVG(sel,mode){
   return `<svg viewBox="0 0 ${MAP_W} ${MAP_H}" preserveAspectRatio="none" aria-label="Master layout with ${PLOTS.length} plots">${
-    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" data-st="${pStatus(p)}" data-vt="${vtKey(p)}" data-ty="${(PLOT_INFO[p.no]||{}).type||""}" data-ex="${execOf(p)}" data-tm=" ${(exRec(p.no).team||[]).join(" ")} " class="plot ${colCls(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}${comboSVG()}${holdSVG()}${updSVG()}</svg>`;
+    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" data-st="${pStatus(p)}" data-vt="${vtKey(p)}" data-ty="${(PLOT_INFO[p.no]||{}).type||""}" data-ex="${execOf(p)}" data-tm=" ${(exRec(p.no).team||[]).join(" ")} " class="plot ${mode==="exec"?"ex-"+execOf(p):colCls(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}${comboSVG()}${mode==="exec"?holdSVG()+updSVG():mode==="sales"?saleSVG():""}</svg>`;
 }
+function execLegendHTML(){ const sc=execScope(); return `<div class="legend">${EXS.filter(([k])=>sc.some(p=>execOf(p)===k)||!["stop","done"].includes(k)).map(([k,l,,col])=>`<span><i class="sw" style="color:${col};background:${col}"></i>${l} · ${villaCount(sc.filter(p=>execOf(p)===k))}</span>`).join("")}<span><i class="sw ex-na-sw"></i>Not in construction (unsold or blocked)</span><span><i class="sw tag-wip"></i>WORK STARTED · Plot ${MODEL}</span><span><i class="sw tag-ok"></i>DRAWINGS ISSUED · work can proceed</span><span><i class="sw hold-sw"></i>ON HOLD · 1625 revised GFC awaited</span>${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one combined villa</span>`:""}</div>`; }
 function mapNotesHTML(){
   const hp=holdPlots(), pl=n=>`<a href="${plotHref(n)}">${n}</a>`, v19=Object.values((PLOT_INFO["19"]||{}).extra||{}).some(a=>a&&a.length);
   const items=[
@@ -1223,12 +1230,13 @@ function mapNotesHTML(){
   ].filter(Boolean);
   return items.length?`<div class="upd-note"><h3>Latest site updates · 05-11-2026</h3><ol>${items.join("")}</ol></div>`:"";
 }
-function masterCard(title,sub){
+function masterCard(title,sub,mode){ mode=mode||"sales";
   return `<div class="card"><div class="card-h"><div><h2>${title}</h2><p>${sub}</p></div>
     <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
-    <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="Ankura Homes site layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
+    <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="Ankura Homes site layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG(null,mode)}</div></div>
 
-    <div class="legend">${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${k==="custom"?villaCount(PLOTS.filter(p=>vtKey(p)===k))+" villas":PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span><span><i class="sw tag-wip"></i>Work started on site · Plot ${MODEL}</span>${PLOTS.some(p=>p.no==="19")&&Object.values((PLOT_INFO["19"]||{}).extra||{}).some(a=>a&&a.length)?`<span><i class="sw tag-ok"></i>Drawings issued, work can proceed · Villa 19 &amp; 20</span>`:""}${holdPlots().length?`<span><i class="sw hold-sw"></i>1625 drawings on hold · plots ${holdPlots().map(p=>p.no).join(", ")}</span>`:""}${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one combined villa</span>`:""}</div>${mapNotesHTML()}</div>`;
+    ${mode==="exec"?execLegendHTML():`<div class="legend">${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${k==="custom"?villaCount(PLOTS.filter(p=>vtKey(p)===k))+" villas":PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}<span><i class="sw tag-sold"></i>SOLD · registered · ${PLOTS.filter(p=>pStatus(p)==="registered").length} plots</span><span><i class="sw tag-book"></i>BOOKED · default villa · ${PLOTS.filter(p=>pStatus(p)==="booked").length} plots</span><span><i class="sw st-available"></i>No tag · available for sale · ${PLOTS.filter(p=>pStatus(p)==="available").length}</span><span><i class="sw m"></i>Plot ${MODEL} · model villa</span>${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one combined villa</span>`:""}</div>`}
+    ${mode==="exec"?mapNotesHTML():`<p class="map-link">Villa types and sales status only. Construction work on site, drawings on hold and contractors are on the <a href="#overview">Site execution master layout →</a></p>`}</div>`;
 }
 function bindMapZoom(){
   document.querySelectorAll("[data-mm]").forEach(b=>b.onclick=()=>{ mapMode=b.dataset.mm; try{localStorage.setItem("woods.mapmode",mapMode)}catch(e){} const box=$("mapbox"), sx=box?box.scrollLeft:0, sy=box?box.scrollTop:0; render(); const nb=$("mapbox"); if(nb){nb.scrollLeft=sx; nb.scrollTop=sy;} });
@@ -1288,7 +1296,7 @@ function bandHTML(){
       ${card("ex:await","Awaiting client plan",cnt("await"),"Custom floor plans",EXL.await[3])}
       ${card("tm:any","Contractors &amp; vendors",nTeam,nTeam?`working on ${nAsg} plot${nAsg===1?"":"s"}`:"None recorded yet","#ffd166")}
     </div>
-    ${home?"":`<p class="band-foot">${openR} open RFI${openR===1?"":"s"} · ${EXEC.updatedAt?`execution record updated ${esc(fmtD(EXEC.updatedAt))}`:"execution record not updated yet"} · tap a number to see those plots on the master layout</p>`}
+    ${home?"":`<p class="band-foot">${openR} open RFI${openR===1?"":"s"} · ${EXEC.updatedAt?`execution record updated ${esc(fmtD(EXEC.updatedAt))}`:"execution record not updated yet"} · tap a number to highlight those plots on the construction master layout below</p>`}
   </section>`;
 }
 function applyBand(){
@@ -1299,9 +1307,9 @@ function applyBand(){
 }
 function bindBand(){
   const bl=document.querySelector(".band[data-ov]");
-  if(bl){ const open=()=>go("overview"); bl.addEventListener("click",open); bl.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); open(); } }); return; }
+  if(bl){ bandSel=""; applyBand(); const open=()=>go("overview"); bl.addEventListener("click",open); bl.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); open(); } }); return; }
   document.querySelectorAll(".band [data-band]").forEach(el=>el.addEventListener("click",()=>{ bandSel=(bandSel===el.dataset.band)?"":el.dataset.band;
-    if(route==="overview"){ if(!bandSel) return; go("home"); requestAnimationFrame(()=>{ applyBand(); const mb=$("mapbox"); if(mb) mb.scrollIntoView({behavior:"smooth",block:"center"}); }); return; }
+
     applyBand(); if(bandSel){ const mb=$("mapbox"); if(mb) mb.scrollIntoView({behavior:"smooth",block:"center"}); } }));
   applyBand();
 }
@@ -1322,7 +1330,7 @@ function renderHome(){
   </section>
   ${bandHTML()}
   <div class="mp">
-    ${masterCard("Master layout","Tap any plot to open its architectural, structural, MEP and landscape drawings for both the 1625 and 1215 villa types.")}
+    ${masterCard("Master layout · villa types &amp; sales","Which plots have a confirmed villa type, which are sold or booked and which are still available. Tap any plot to open its drawings.","sales")}
     <div class="side">
       <a class="feature card" href="#plot-${MODEL}"><span class="n">30</span><span><b>Plot 30 · model villa</b><span>East facing · full 1625 GFC, structural and landscape set</span></span></a>
       <div class="card" id="find"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
@@ -1529,7 +1537,7 @@ function renderOverview(){
     : ed?`<div class="xbar-ed"><span class="pin-on">Editing site execution</span><input type="text" id="xBy" placeholder="Your name" aria-label="Your name" value="${esc(localStorage.getItem("woods.editor")||"")}"><button type="button" class="btn btn-primary" id="xSave">Save changes</button><button type="button" class="zbtn" id="xCancel">Cancel</button><span class="tsave ${exState}" role="status">${esc(exMsg)}</span></div>`
     : `<div class="xbar-ed"><button type="button" class="btn btn-primary" id="xEdit">${canSave?"Edit site execution":"Edit with PIN"}</button><span class="tsave ${exState}" role="status">${esc(exMsg)}</span></div>`;
   $("main").innerHTML=`${bandHTML()}
-  ${hold1625.length?`<div class="hold-note"><b>1625 villa drawings on hold (05-11-2026).</b> Plot ${MODEL} model villa continues on the current set, with all walls revised to 9″ (block work R1, <a href="#AE-15">AE-15</a>). The column layout of the other 1625 villas has been revised; revised GFC drawings will be released after SMEP coordination. Plots on hold: ${links(hold1625)}.</div>`:""}
+  <div id="xmap">${masterCard("Construction master layout","Construction status of every villa: work started, ready to start, drawings on hold or awaiting the client plan. Tap a number above, or a contractor below, to highlight plots here.","exec")}</div>
   <div class="ov-grid">
     <div class="card ov wide" id="xvillas"><h2>Villa-by-villa execution</h2><p class="sub">Every sold or booked plot: execution status, current work stage, who is working on it, dates and labour on site.${ed?" Leave status on Auto to follow drawings and villa type.":""}</p>
       ${tools}
@@ -1549,7 +1557,7 @@ function renderOverview(){
     <div class="card ov"><h2>Latest issued</h2><ul class="ovl">${latest.map(x=>`<li><a href="#${x.code}"><b>${x.code}</b> ${esc(x.title)}</a><span>${esc(x.date)}</span></li>`).join("")}</ul></div>
     <div class="card ov"><h2>Plan, budget &amp; specifications</h2>${itemsHTML(["PM-04","PM-02","PM-01","PM-03","PM-05"].map(itemBy).filter(Boolean))}</div>
   </div>${footerHTML()}`;
-  bindBand(); currentList=["PM-04","PM-02","PM-01","PM-03","PM-05"].map(itemBy).filter(Boolean);
+  bindMapZoom(); bindBand(); currentList=["PM-04","PM-02","PM-01","PM-03","PM-05"].map(itemBy).filter(Boolean);
   bindExec();
 }
 function execOfAuto(no){ const I=PLOT_INFO[no]||{}, t=I.type; if(t==="1625"&&no!==MODEL) return "hold"; if(t==="custom") return Object.values(I.extra||{}).some(a=>a&&a.length)?"ns":"await"; return "ns"; }
@@ -1557,7 +1565,7 @@ function exSetPlot(no,k,v){ const P=exDraft.plots=exDraft.plots||{}; const r=P[n
 function bindExec(){
   const m=$("main");
   if($("xEdit")) $("xEdit").onclick=()=>{ const start=()=>{ exDraft=JSON.parse(JSON.stringify(EXEC)); exDraft.team=exDraft.team||[]; exDraft.plots=exDraft.plots||{}; exDraft.site=exDraft.site||{}; exEdit=true; exState=""; exMsg=""; renderOverview(); }; if(canSave) start(); else pinDialog(start); };
-  m.querySelectorAll("#xteam [data-band]").forEach(b=>b.onclick=()=>{ bandSel=b.dataset.band; go("home"); requestAnimationFrame(()=>{ applyBand(); const mb=$("mapbox"); if(mb) mb.scrollIntoView({behavior:"smooth",block:"center"}); }); });
+  m.querySelectorAll("#xteam [data-band]").forEach(b=>b.onclick=()=>{ bandSel=b.dataset.band; applyBand(); const mb=$("mapbox"); if(mb) mb.scrollIntoView({behavior:"smooth",block:"center"}); });
   if(!exEdit) return;
   $("xCancel").onclick=()=>{ exDraft=null; exEdit=false; exState=""; exMsg=""; renderOverview(); };
   m.querySelectorAll("[data-x]").forEach(el=>{ const f=()=>exSetPlot(el.dataset.no,el.dataset.x,el.multiple?[...el.selectedOptions].map(o=>o.value):el.value.trim()); el.onchange=f; if(el.tagName==="INPUT") el.oninput=f; });
