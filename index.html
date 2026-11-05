@@ -543,6 +543,47 @@ img,svg,video,canvas{max-width:100%}
 @media (max-width:1100px){.searchrow .search{flex:1 1 100%}}
 
 
+
+/* ===== usability pass (06-11-2026) ===== */
+.hero.hero-slim{min-height:260px!important;border-radius:32px}
+.hero-slim .hero-card{margin:18px;padding:22px 26px;gap:12px;max-width:600px}
+.hero-slim .hero-card h2{font-size:clamp(26px,3.2vw,40px)}
+.hero-slim .hero-lead{font-size:15.5px}
+.band.band-strip{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;padding:18px 24px;border-radius:26px}
+.band-strip .bs-l{display:grid;gap:2px}.band-strip .bs-l b{font-size:22px;font-weight:700;color:#fff}.band-strip .bs-l b small{font-size:.65em;opacity:.75}
+.band-strip .bs-c{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;flex:1 1 380px}
+.band-strip .bs-c li{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.12);color:#fff;font-size:14px}.band-strip .bs-c i{width:9px;height:9px;border-radius:50%}.band-strip .bs-c b{font-weight:700}
+.band-strip .band-go{margin-left:auto}
+.xst.plan{color:var(--muted);font-style:italic}
+.xlog li{display:grid!important;gap:2px;grid-template-columns:1fr!important}.xlog li>span:last-child{font-size:12.5px;color:var(--muted)}.xlog li>span{white-space:normal!important;min-width:0;overflow-wrap:anywhere}
+.xsd summary{cursor:pointer;font-size:14px;color:var(--muted);padding:8px 10px;border-radius:10px;background:var(--paper)}.xsd[open] summary{margin-bottom:8px}
+.xsum{display:grid;gap:10px}.xsum-h{display:flex;justify-content:space-between;align-items:center;gap:10px}.xsum-h b{font-size:20px}
+.xsum dl{margin:0;display:grid;gap:6px}.xsum dl div{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:14px}.xsum dt{color:var(--muted)}.xsum dd{margin:0}
+.xsum-links{display:flex;flex-wrap:wrap;gap:6px 16px}.xsum-more{font-size:14px;font-weight:600}
+.psite-mini{display:none}
+.views .ls{display:none}
+@media (max-width:1279px){.psite-mini{display:grid}.saside>.xsum{display:none}}
+.vlink-s{display:inline-block;margin-top:4px;font-size:12.5px;font-weight:600}
+.nmore summary{cursor:pointer;list-style:none}.nmore summary::-webkit-details-marker{display:none}.nmore .nm{font-weight:700;color:var(--acc);white-space:nowrap}.nmore[open] .nm{display:none}
+.pbtn{position:relative}.pbtn .sd,.pg-leg .sd{width:8px;height:8px;border-radius:50%;display:inline-block}.pbtn .sd{position:absolute;top:5px;right:6px}
+.sd-booked{background:#1d86c4}.sd-registered{background:#3342b5}
+.pbtn.hold{outline:2px dashed #d92d3a;outline-offset:-3px}
+.pg-leg{font-size:12.5px;margin-top:8px}.pg-leg .sd{margin-right:5px}
+.legend.lg2{margin-top:8px}.lg-h{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:84px}
+@media (max-width:700px){
+  header.tb{position:static}
+  .tb .wrap.tb-shell{grid-template-columns:minmax(0,1fr)}.searchrow{min-width:0}.views{min-width:0;max-width:100%}
+  .brand-sub{display:none}
+  .proj h1{font-size:26px}
+  .tb .wrap.tb-shell{gap:8px;padding:10px 12px}
+  .views{flex:1 1 100%;flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none}.views::-webkit-scrollbar{display:none}
+  .views{overflow:visible}.views button,.views a{flex:1 1 0!important;padding:0 6px!important;height:38px;font-size:14px}.views .lf{display:none}.views .ls{display:inline}
+  .search input{font-size:15px}
+  .dtabs{flex-wrap:wrap;overflow:visible}.dtab{flex:1 1 30%;padding:9px 8px;font-size:14px}
+  .hero.hero-slim{min-height:0!important}.hero-slim .hero-card{margin:12px;padding:18px}
+  .band.band-strip{padding:16px}
+  .lg-h{width:100%}
+}
 /* ===== site execution ===== */
 .ov-grid>*,.card.ov>*{min-width:0}.ovl li>span:first-child{white-space:normal;min-width:0}.ovscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 @media (max-width:700px){.xt{min-width:860px}}
@@ -1148,8 +1189,8 @@ const faceWord=p=>p.face==="E"?"East":p.face==="W"?"West":"North";
 const faceTxt=p=>faceWord(p)+" facing";
 /* plot status from Ankura's sales layout (data/villa-types.json: status + label per plot) */
 const ST_PLOT={available:"Available",booked:"Booked",registered:"Registered",blocked:"Blocked"};
-const ST_LONG={available:"Available",booked:"Booked · default villa (1625 / 1215 / 2175 3BHK)",registered:"Registered · sold out",blocked:"Blocked"};
-const ST_SUB={available:"open for sale",booked:"default villa",registered:"sold out",blocked:"not for sale"};
+const ST_LONG={available:"Available",booked:"Booked · default villa (1625 / 1215 / 2175 3BHK)",registered:"Sold · registered",blocked:"Blocked"};
+const ST_SUB={available:"open for sale",booked:"default villa",registered:"sold",blocked:"not for sale"};
 let STATUS_ASOF="";
 const pStatus=p=>{const s=(PLOT_INFO[p.no]||{}).status; return ST_PLOT[s]?s:"available";};
 const pLabel=p=>(PLOT_INFO[p.no]||{}).label||"";
@@ -1245,7 +1286,7 @@ function masterCard(title,sub,mode){ mode=mode||"sales";
     <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
     <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="Ankura Homes site layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG(null,mode)}</div></div>
 
-    ${mode==="exec"?execLegendHTML():`<div class="legend">${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${k==="custom"?villaCount(PLOTS.filter(p=>vtKey(p)===k))+" villas":PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}<span><i class="sw tag-sold"></i>SOLD · registered · ${PLOTS.filter(p=>pStatus(p)==="registered").length} plots</span><span><i class="sw tag-book"></i>BOOKED · default villa · ${PLOTS.filter(p=>pStatus(p)==="booked").length} plots</span><span><i class="sw st-available"></i>No tag · available for sale · ${PLOTS.filter(p=>pStatus(p)==="available").length}</span><span><i class="sw m"></i>Plot ${MODEL} · model villa</span>${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one combined villa</span>`:""}</div>`}
+    ${mode==="exec"?execLegendHTML():`<div class="legend lg2"><span class="lg-h">Villa type</span>${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${k==="custom"?villaCount(PLOTS.filter(p=>vtKey(p)===k))+" villas":PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}</div><div class="legend lg2"><span class="lg-h">Sales</span><span><i class="sw tag-sold"></i>SOLD · ${PLOTS.filter(p=>pStatus(p)==="registered").length}</span><span><i class="sw tag-book"></i>BOOKED · ${PLOTS.filter(p=>pStatus(p)==="booked").length}</span><span><i class="sw st-available"></i>No tag · available · ${PLOTS.filter(p=>pStatus(p)==="available").length}</span><span><i class="sw m"></i>Plot ${MODEL} · model villa</span>${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one villa</span>`:""}</div>`}
     ${mode==="exec"?mapNotesHTML():`<p class="map-link">Villa types and sales status only. Construction work on site, drawings on hold and contractors are on the <a href="#overview">Site execution master layout →</a></p>`}</div>`;
 }
 function bindMapZoom(){
@@ -1263,7 +1304,7 @@ function centerMap(){
   requestAnimationFrame(()=>{ box.scrollLeft=(980/MAP_W)*mz.clientWidth-box.clientWidth/2; box.scrollTop=(1100/MAP_H)*mz.clientHeight-box.clientHeight/2; });
 }
 /* status band between the hero and the master layout (like the UTF portal) */
-const BAND=[["available","Available","Open for sale","#9fb2c9"],["booked","Booked","Default villa","#2fa4e7"],["registered","Sold out","Registered","#3d4fc9"],["blocked","Blocked","Not for sale","#5f6f86"]];
+const BAND=[["available","Available","Open for sale","#9fb2c9"],["booked","Booked","Default villa","#2fa4e7"],["registered","Sold","Registered","#3d4fc9"],["blocked","Blocked","Not for sale","#5f6f86"]];
 let bandSel="";
 /* ---------- site execution (data/execution.json; edited on the website with the editing PIN) ---------- */
 const EXEC_FILE="data/execution.json";
@@ -1286,6 +1327,7 @@ function bandHTML(){
   const home=route!=="overview", scope=execScope(), nV=villaCount(scope);
   const cnt=k=>villaCount(scope.filter(p=>execOf(p)===k));
   const started=cnt("wip")+cnt("stop")+cnt("done");
+  if(home) return `<section class="band band-link band-strip" role="link" tabindex="0" data-ov="1" aria-label="Site execution: ${started} of ${nV} villas started. Open site execution"><div class="bs-l"><span class="band-k">SITE EXECUTION · LIVE</span><b>${started}<small>/${nV}</small> villas started</b></div><ul class="bs-c">${EXS.filter(([k])=>cnt(k)).map(([k,l,,col])=>`<li><i style="background:${col}"></i>${l}<b>${cnt(k)}</b></li>`).join("")}</ul><span class="band-go">Open site execution →</span></section>`;
   const R=70, C=2*Math.PI*R; let off=0;
   const arcs=EXS.map(([k,,,col])=>{ const v=cnt(k); if(!v||!nV) return ""; const len=v/nV*C; const a=`<circle class="arc" data-band="ex:${k}" r="${R}" cx="90" cy="90" fill="none" stroke="${col}" stroke-width="22" stroke-dasharray="${Math.max(0,len-2)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 90 90)"></circle>`; off+=len; return a; }).join("");
   const nTeam=teamList().length, nAsg=PLOTS.filter(p=>(exRec(p.no).team||[]).length).length;
@@ -1329,13 +1371,13 @@ function renderHome(){
   const tyOf=p=>(PLOT_INFO[p.no]||{}).type, nCnt=st=>PLOTS.filter(p=>pStatus(p)===st).length;
   const nType=PLOTS.filter(p=>{const t=tyOf(p); return TYPES.includes(t)||t==="2175";}).length, nCus=villaCount(PLOTS.filter(p=>tyOf(p)==="custom"));
   $("main").innerHTML=`
-  <section class="hero" aria-labelledby="heroH">
+  <section class="hero hero-slim" aria-labelledby="heroH">
     <img class="hero-bg" src="${FILE_ROOT}img/hero-render.jpg" alt="Aerial render of The Woods villas and landscape">
     <div class="hero-card">
       <span class="chip">${PLOTS.length} villa plots · Ankura Homes · Keesaragutta</span>
       <h2 id="heroH">Every drawing for <em>The Woods</em>, ready on site.</h2>
-      <p class="hero-lead">Open any plot for its current architectural, structural, MEP and landscape sheets, its site progress and its RFIs. Old revisions stay in the archive, out of the way.</p>
-      <div class="hero-cta"><a class="btn btn-primary" href="#plot-${MODEL}">Open Plot ${MODEL}, the model villa</a><a class="btn btn-glass" href="#find">Find a plot</a><a class="btn btn-glass" href="${SITE_LINK}">Site portal</a></div>
+      <p class="hero-lead">Tap a plot on the master layout for its current drawings, site status and RFIs.</p>
+      <div class="hero-cta"><a class="btn btn-primary" href="#plot-${MODEL}">Open Plot ${MODEL}, the model villa</a><a class="btn btn-glass" href="#find">Find a plot</a></div>
     </div>
   </section>
   ${bandHTML()}
@@ -1344,9 +1386,9 @@ function renderHome(){
     <div class="side">
       <a class="feature card" href="#plot-${MODEL}"><span class="n">30</span><span><b>Plot 30 · model villa</b><span>East facing · full 1625 GFC, structural and landscape set</span></span></a>
       <div class="card" id="find"><div class="card-h"><div><h2>Find a plot</h2><p>Same as tapping the layout.</p></div></div>
-        <div class="plotgrid">${order.map(p=>`<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}" href="#plot-${p.no}" title="${esc(statusTxt(p))}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>
-      <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">${nType}/${PLOTS.length}</span><span><b>Villa types</b><span>${nType} plots with a confirmed size (1625 / 1215 / 2175 3BHK)${nCus?`, ${nCus} client custom`:""}. Tap to confirm or change.</span></span></a>
-      <a class="feature card" href="#progress" style="background:var(--glass)"><span class="n" style="font-size:22px;color:var(--c-site)">${(dbOn||GHPROG)?PLOTS.filter(p=>progPct(p.no)>0).length:"·"}</span><span><b>Site progress &amp; RFIs</b><span>${(dbOn||GHPROG)?RFIS.filter(r=>r.status==="open").length+" open RFIs. ":""}Each villa's Site tab: stages, dates, photos and RFIs.</span></span></a>
+        <div class="plotgrid">${order.map(p=>{ const st=pStatus(p), hold=holdPlots().includes(p); return `<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}${hold?" hold":""}" href="#plot-${p.no}" title="${esc(statusTxt(p))}${hold?" · drawings on hold":""}">${st==="booked"||st==="registered"?`<i class="sd sd-${st}" aria-hidden="true"></i>`:""}<b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`; }).join("")}</div>
+        <div class="legend pg-leg"><span><i class="sd sd-registered"></i>Sold</span><span><i class="sd sd-booked"></i>Booked</span><span><i class="sw hold-sw"></i>Drawings on hold</span></div></div>
+      <a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:30px">${nType+nCus}</span><span><b>Villa types confirmed</b><span>${nType} standard (1625 / 1215 / 2175 3BHK)${nCus?` and ${nCus} client custom`:""}; ${PLOTS.filter(p=>!VTYPES.includes(tyOf(p))&&!isOffPlot(p)).length} plots still open. Tap to confirm or change.</span></span></a>
       ${alertsHTML(VILLA_ALERTS,"Check before you build",false)}
       <a class="feature card" href="${SITE_LINK}" style="background:var(--glass)"><span class="n" style="color:var(--c-mep);font-size:22px">SITE</span><span><b>Site portal</b><span>Site plans, levels, survey, external electrical and water supply</span></span></a>
       <a class="feature card" href="#PM-04" style="background:var(--glass)"><span class="n" style="color:var(--c-pm);font-size:22px">SPEC</span><span><b>Villa specifications</b><span>Common for the complete project: structure, roof, walls, finishes, doors, windows, plumbing, electrical and external development</span></span></a>
@@ -1356,7 +1398,7 @@ function renderHome(){
   bindMapZoom(); centerMap(); bindBand(); currentList=[];
 }
 function footerHTML(){
-  return `<footer>Architect: also.design · Structural &amp; MEP: Jashritha Associates · Landscape: LumiScapes Landscape Architects · Updated ${UPDATED}.
+  return `<footer>Architect: also.design · Structural &amp; MEP: Jashritha Associates · Landscape: LumiScapes Landscape Architects · Updated ${S.map(x=>x.date).filter(Boolean).sort((a,b)=>dKey(b)-dKey(a))[0]||UPDATED}.
   Layout image: Ankura Homes site layout. Plot facing is from the architect's key plan, with North-facing plots from Ankura's sales layout. Plots without a confirmed type show both the 1625 and 1215 villa sets. Always check you are on the latest revision with the site engineer.</footer>`;
 }
 
@@ -1370,27 +1412,28 @@ function renderPlot(no){
   const keys=["arch","str","mep","land","pm"];
   if(!keys.includes(ptab)) ptab="arch";
   const [x0,y0,x1,y1]=p.box, cxp=((x0+x1)/2)/MAP_W, cyp=((y0+y1)/2)/MAP_H;
+  const vtCard=`<div class="card vtype"><span class="lbl">Villa type</span>${isOffPlot(p)?`<b style="font-size:17px">${esc(statusTxt(p))}</b><span class="conf">Not a villa plot yet</span>`:confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":vtLabel(info.type,p)+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}</div>`;
   $("main").innerHTML=`
   <div class="crumbs"><a href="#home">← Master layout</a><span>/</span><span>Plot ${p.no}</span></div>
   <div class="pgrid"><div class="pmain">
   <div class="card plothead">
     <div>
-      <div class="ph-title"><h2>Plot ${p.no}</h2><span class="badge ${plotCls(p)}">${p.no===MODEL?"Model villa · GFC":faceTxt(p)}</span><span class="badge st st-${pStatus(p)}">${esc(statusTxt(p))}</span></div>
+      <div class="ph-title"><h2>Plot ${p.no}</h2><span class="badge ${plotCls(p)}">${p.no===MODEL?"Model villa · GFC":faceTxt(p)}</span></div>
       <div class="facts">
-        <div><span>Status</span><b>${esc(statusTxt(p))}</b></div>
-        <div><span>Villa type</span><b>${isOffPlot(p)?"Not a villa plot yet":confirmed?vtLabel(info.type,p):"1625 or 1215 · not confirmed"}</b></div>
+        <div><span>Sales status</span><b>${esc(({available:"Available for sale",booked:"Booked",registered:"Sold · registered",blocked:"Blocked"})[pStatus(p)]+(pLabel(p)?" · "+pLabel(p):""))}</b></div>
+        <div><span>Villa type</span><b>${isOffPlot(p)?"Not a villa plot yet":confirmed?(info.type==="custom"?"Client custom floor plan":vtLabel(info.type,p)):"1625 or 1215 · not confirmed"}</b>${!isOffPlot(p)?`<a class="vlink-s" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} type</a>`:""}</div>
         ${comboOf(p.no)?`<div><span>Combined villa</span><b>Plots ${comboOf(p.no).map(n=>n===p.no?n:`<a href="#plot-${n}">${n}</a>`).join(" & ")} · one villa</b></div>`:""}
         <div><span>Facing</span><b>${faceTxt(p)}</b></div>
         ${inScope(p)?`<div><span>Site execution</span><b>${EXL[execOf(p)][1]}${exRec(p.no).stage?" · "+esc((STAGES.find(s=>s[0]===exRec(p.no).stage)||[,""])[1]):""}</b></div><div><span>Contractors &amp; vendors</span><b>${teamOf(p.no).length?teamOf(p.no).map(t=>esc(t.name)+(t.trade?` <small>(${esc(t.trade)})</small>`:"")).join(", "):`<a href="#overview">Not assigned</a>`}</b></div>`:""}
-        <div><span>Plot area</span><b>${p.sqyd} sq.yd</b></div>
-        <div><span>Plot area</span><b>${p.sqm} sq.m</b></div>
+        <div><span>Plot area</span><b>${p.sqyd} sq.yd <small class="muted">· ${p.sqm} sq.m</small></b></div>
       </div>
       ${info.note?`<div class="note" style="margin-top:10px">${esc(info.note)}</div>`:""}
       <div class="pnav">${prev?`<a href="#plot-${prev.no}">‹ Plot ${prev.no}</a>`:""}${next?`<a href="#plot-${next.no}">Plot ${next.no} ›</a>`:""}</div>
     </div>
     <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:190%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
   </div>
-  <div class="card vtype"><span class="lbl">Villa type</span>${isOffPlot(p)?`<b style="font-size:17px">${esc(statusTxt(p))}</b><span class="conf">Not a villa plot yet</span>`:confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":vtLabel(info.type,p)+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}<a class="vlink" href="#types" data-focus="${p.no}">${confirmed?"Change":"Confirm"} villa type</a></div>
+  ${!confirmed&&!isOffPlot(p)?vtCard:""}
+  ${execSumHTML(p,true)}
   <div class="dtabs" role="tablist" aria-label="Drawings by discipline">${keys.map(k=>`<button type="button" class="dtab" role="tab" data-k="${k}" aria-selected="${k===ptab}" style="--dc:var(${DISC[k].c})">${DISC[k].name}<span class="n"></span></button>`).join("")}</div>
   <div id="ptab"></div>
   </div><aside class="saside" id="siteAside" aria-label="Site updates and RFIs for Plot ${p.no}"></aside></div>
@@ -1404,12 +1447,15 @@ function renderPlot(no){
     document.querySelectorAll(".dtab").forEach(b=>b.querySelector(".n").textContent=b.dataset.k==="prog"?((dbOn||GHPROG)?progPct(p.no)+"%":"+"):set[b.dataset.k].items.length);
     document.querySelectorAll(".dtab").forEach(b=>b.setAttribute("aria-selected",b.dataset.k===ptab));
     const d=set[ptab]; const [k,t]=d.note;
-    $("ptab").innerHTML=`<div style="display:grid;gap:10px">${t?`<div class="note ${k}">${t}</div>`:""}${ptab==="pm"&&p.no===MODEL?milestoneHTML():""}${d.items.length?itemsHTML(d.items):""}</div>`;
+    const tt=String(t||""); let cut=-1; if(tt.length>200){ const re=/[a-z0-9)″]{3}\. (?=[A-Z0-9])/g; let m; while((m=re.exec(tt))){ if(m.index>60){ cut=m.index+3; break; } } }
+    $("ptab").innerHTML=`<div style="display:grid;gap:10px">${tt?(cut>0&&cut<320?`<details class="note ${k} nmore"><summary>${tt.slice(0,cut+1)} <span class="nm">More</span></summary>${tt.slice(cut+2)}</details>`:`<div class="note ${k}">${tt}</div>`):""}${ptab==="pm"&&p.no===MODEL?milestoneHTML():""}${d.items.length?itemsHTML(d.items):""}</div>`;
     currentList=d.items.filter(x=>!x.cad);
     document.querySelectorAll(".dtab").forEach(b=>b.setAttribute("aria-selected",b.dataset.k===ptab));
   };
   document.querySelectorAll("[data-ty]").forEach(b=>b.onclick=()=>{vtype=b.dataset.ty; pickType[p.no]=vtype; lastType=vtype; try{localStorage.setItem("woods.vtype",vtype)}catch(e){} document.querySelectorAll("[data-ty]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ty===vtype)); showTab();});
   document.querySelectorAll(".dtab").forEach(b=>b.onclick=()=>{ptab=b.dataset.k; try{localStorage.setItem("woods.ptab",ptab)}catch(e){} showTab();});
+  document.querySelectorAll(".psite-mini [data-warfi]").forEach(b=>b.onclick=()=>{ const keep=canSite; canSite=false; openRfiDlg(p.no,null); canSite=keep; });
+  document.querySelectorAll('.xsum-more[href="#siteAside"]').forEach(a=>a.onclick=e=>{ e.preventDefault(); const x=$("siteAside"); if(x) x.scrollIntoView({behavior:"smooth",block:"start"}); });
   redrawTab=(force)=>{ if(!route.startsWith("plot-")||route.slice(5)!==p.no) return; renderAside(p); };
   renderAside(p);
   if(focusSite){ focusSite=false; requestAnimationFrame(()=>{ const a=$("siteAside"); if(a) a.scrollIntoView({block:"start"}); }); }
@@ -1502,7 +1548,9 @@ function renderSite(){
 }
 
 /* ---------- overview: everything about The Woods on one page ---------- */
-function exStageCell(p){ const r=exRec(p.no), st=STAGES.find(s=>s[0]===r.stage), pct=exPct(p); return `<span class="xst">${st?esc(st[1]):execOf(p)==="done"?"Completed":"–"}</span><span class="xbar" aria-label="${pct}% complete"><i style="width:${pct}%"></i></span><small>${pct}%</small>`; }
+function planNow(no){ if(no!==MODEL) return null; const now=new Date(); now.setHours(0,0,0,0); const c=ACTS.filter(a=>pD(a[1])<=now&&now<=pD(a[2])); if(c.length) return c.map(a=>a[0]).join(", "); const n=ACTS.find(a=>pD(a[1])>now); return n?"Next: "+n[0]+" from "+n[1]:null; }
+function stageTxt(p){ const cb=comboOf(p.no), r=exRec(cb?cb[0]:p.no), st=STAGES.find(s=>s[0]===r.stage); if(st) return {t:st[1],plan:false}; const pl=planNow(p.no); return pl?{t:pl,plan:true}:null; }
+function exStageCell(p){ const sg=stageTxt(p), pct=exPct(p); return `<span class="xst${sg&&sg.plan?" plan":""}">${sg?(sg.plan?"Planned: ":"")+esc(sg.t):execOf(p)==="done"?"Completed":"–"}</span>${pct?`<span class="xbar" aria-label="${pct}% complete"><i style="width:${pct}%"></i></span><small>${pct}%</small>`:""}`; }
 function exTeamChips(list){ return list.length?list.map(t=>`<span class="xchip ${t.kind==="vendor"?"v":""}" title="${esc(t.trade||"")}">${esc(t.name)}<small>${esc(t.trade||"")}</small></span>`).join(""):`<span class="muted">Not assigned</span>`; }
 function renderOverview(){
   const sortNo=a=>a.slice().sort((x,y)=>(parseFloat(x.no)+(x.no==="12A"?.5:0))-(parseFloat(y.no)+(y.no==="12A"?.5:0)));
@@ -1511,12 +1559,13 @@ function renderOverview(){
   const D=exData(), ed=exEdit;
   const ORD={wip:0,stop:1,ns:2,await:3,hold:4,done:5};
   const scope=sortNo(execScope()).filter(p=>{ const c=comboOf(p.no); return !c||c[0]===p.no; }).sort((a,b)=>ORD[execOf(a)]-ORD[execOf(b)]);
-  const saleTxt=p=>({booked:"Booked",registered:"Sold out · registered"})[pStatus(p)]||"";
+  const saleTxt=p=>({booked:"Booked",registered:"Sold · registered"})[pStatus(p)]||"";
   const villaTxt2=p=>{ const t=tyOf(p); return t?(t==="custom"?"Client custom":vtLabel(t,p)):"Type not confirmed"; };
   const exOpt=(no,cur)=>`<select data-x="exec" data-no="${no}" aria-label="Execution status of plot ${no}"><option value="">Auto (${esc(EXL[execOfAuto(no)][1])})</option>${EXS.map(([k,l])=>`<option value="${k}"${cur===k?" selected":""}>${l}</option>`).join("")}</select>`;
+  const anyTeam=ed||scope.some(p=>(exRec(p.no).team||[]).length), anyDate=ed||scope.some(p=>exRec(p.no).start||exRec(p.no).target), anyLab=ed||scope.some(p=>exRec(p.no).labour);
   const rows=scope.map(p=>{ const r=exRec(p.no), ex=execOf(p), [,l,,col]=EXL[ex], cb=comboOf(p.no);
     const plotC=`<a href="#plot-${p.no}" class="xpl"><b>${cb?cb.join(" & "):p.no}</b></a>${cb?`<small>one combined villa</small>`:""}${p.no===MODEL?`<small>Model villa</small>`:""}`;
-    if(!ed) return `<tr data-ex="${ex}"><td>${plotC}</td><td>${esc(villaTxt2(p))}<small>${esc(saleTxt(p))}</small></td><td><span class="xpill" style="--xc:${col}">${l}</span></td><td class="xstage">${exStageCell(p)}</td><td class="xteam">${exTeamChips(teamOf(p.no))}</td><td class="xd">${r.start||r.target?`${r.start?fmtYMD(r.start):"–"} → ${r.target?fmtYMD(r.target):"–"}`:"–"}</td><td class="num">${r.labour?esc(r.labour):"–"}</td><td class="xnote">${r.note?esc(r.note):""}</td></tr>`;
+    if(!ed) return `<tr data-ex="${ex}"><td>${plotC}</td><td>${esc(villaTxt2(p))}<small>${esc(saleTxt(p))}</small></td><td><span class="xpill" style="--xc:${col}">${l}</span></td><td class="xstage">${exStageCell(p)}</td>${anyTeam?`<td class="xteam">${exTeamChips(teamOf(p.no))}</td>`:""}${anyDate?`<td class="xd">${r.start||r.target?`${r.start?fmtYMD(r.start):"–"} → ${r.target?fmtYMD(r.target):"–"}`:"–"}</td>`:""}${anyLab?`<td class="num">${r.labour?esc(r.labour):"–"}</td>`:""}<td class="xnote">${r.note?esc(r.note):""}</td></tr>`;
     return `<tr><td>${plotC}</td><td>${esc(villaTxt2(p))}<small>${esc(saleTxt(p))}</small></td><td>${exOpt(p.no,r.exec||"")}</td>
       <td><select data-x="stage" data-no="${p.no}" aria-label="Current stage of plot ${p.no}"><option value="">–</option>${STAGES.map(([k,n])=>`<option value="${k}"${r.stage===k?" selected":""}>${n}</option>`).join("")}</select></td>
       <td><div class="xchk" role="group" aria-label="Contractors and vendors on plot ${p.no}">${teamList().map(t=>`<label><input type="checkbox" data-xt="${p.no}" value="${t.id}"${(r.team||[]).includes(t.id)?" checked":""}>${esc(t.name||"(no name)")}</label>`).join("")}</div>${teamList().length?"":`<small>Add contractors &amp; vendors below first</small>`}</td>
@@ -1532,6 +1581,8 @@ function renderOverview(){
   const teamEdit=`<div class="xte">${team.map((t,i)=>`<div class="xte-r"><input type="text" data-t="name" data-i="${i}" value="${esc(t.name||"")}" placeholder="Name of firm / person" aria-label="Name"><select data-t="kind" data-i="${i}" aria-label="Contractor or vendor"><option value="contractor"${t.kind!=="vendor"?" selected":""}>Contractor</option><option value="vendor"${t.kind==="vendor"?" selected":""}>Vendor</option></select><select data-t="trade" data-i="${i}" aria-label="Trade"><option value="">Trade…</option>${TRADES.map(x=>`<option${t.trade===x?" selected":""}>${x}</option>`).join("")}</select><input type="text" data-t="contact" data-i="${i}" value="${esc(t.contact||"")}" placeholder="Contact person" aria-label="Contact person"><input type="tel" data-t="phone" data-i="${i}" value="${esc(t.phone||"")}" placeholder="Phone" aria-label="Phone"><input type="text" data-t="scope" data-i="${i}" value="${esc(t.scope||"")}" placeholder="Scope of work" aria-label="Scope of work"><button type="button" class="zbtn" data-tdel="${i}" aria-label="Remove ${esc(t.name||"row")}">Remove</button></div>`).join("")}<button type="button" class="btn" id="xAdd">+ Add contractor or vendor</button></div>`;
   const siteSt=progStages("SITE"), siteTeam=((D.site||{}).team||[]).map(teamBy).filter(Boolean);
   const siteRows=SITE_STAGES.map(([k,n])=>{ const s=(siteSt[k]||{}).st||""; return `<li class="xs-${s||"ns"}"><span>${n}</span><b>${SSTAT[s]}</b></li>`; }).join("");
+  const siteAny=SITE_STAGES.some(([k])=>(siteSt[k]||{}).st);
+  const openR=RFIS.filter(r=>r.status==="open").sort((a,b)=>String(b.at).localeCompare(String(a.at)));
   const log=(EXEC.log||[]).slice(-12).reverse();
   const unconf=PLOTS.filter(p=>!VTYPES.includes(tyOf(p))&&!isOffPlot(p));
   const stRows=BAND.map(([k,l,sub,col])=>`<tr><td><i class="dot" style="background:${col}"></i>${l} <span class="muted">· ${sub}</span></td><td class="num">${byS(k).length}</td><td class="pl">${links(byS(k))}</td></tr>`).join("");
@@ -1549,14 +1600,15 @@ function renderOverview(){
   $("main").innerHTML=`${bandHTML()}
   <div id="xmap">${masterCard("Construction master layout","Construction status of every villa: work started, ready to start, drawings on hold or awaiting the client plan. Tap a number above, or a contractor below, to highlight plots here.","exec")}</div>
   <div class="ov-grid">
-    <div class="card ov wide" id="xvillas"><h2>Villa-by-villa execution</h2><p class="sub">Every sold or booked plot: execution status, current work stage, who is working on it, dates and labour on site.${ed?" Leave status on Auto to follow drawings and villa type.":""}</p>
+    <div class="card ov wide" id="xvillas"><h2>Villa-by-villa execution</h2><p class="sub">Every sold or booked villa: construction status, current work stage and who is working on it.${anyTeam&&anyDate?"":" Contractor, date and labour columns appear once they are filled in."}${ed?" Leave status on Auto to follow drawings and villa type.":""}</p>
       ${tools}
-      <div class="ovscroll"><table class="ovt xt${ed?" xed":""}"><thead><tr><th>Plot</th><th>Villa</th><th>Execution</th><th>Stage &amp; progress</th><th>Contractors &amp; vendors</th><th>Start → target</th><th class="num">Labour</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+      <div class="ovscroll"><table class="ovt xt${ed?" xed":""}"><thead><tr><th>Plot</th><th>Villa</th><th>Execution</th><th>Stage &amp; progress</th>${anyTeam?"<th>Contractors &amp; vendors</th>":""}${anyDate?"<th>Start → target</th>":""}${anyLab?'<th class="num">Labour</th>':""}<th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
     <div class="card ov wide" id="xteam"><h2>Contractors &amp; vendors on site</h2><p class="sub">Who is working on site, their trade, contact and the plots they are working on.</p>${ed?teamEdit:teamView}</div>
-    <div class="card ov"><h2>Site-wide works</h2><p class="sub">Roads, drains, services and common works across the layout.</p><ul class="xsite">${siteRows}</ul>
+    <div class="card ov"><h2>Site-wide works</h2><p class="sub">Roads, drains, services and common works across the layout.</p>${siteAny?`<ul class="xsite">${siteRows}</ul>`:`<details class="xsd"><summary>All ${SITE_STAGES.length} site-wide works not started yet · show list</summary><ul class="xsite">${siteRows}</ul></details>`}
       <div class="xtm-p" style="margin-top:10px"><span>Working on site works</span>${ed?`<div class="xchk" role="group" aria-label="Contractors on site works">${team.map(t=>`<label><input type="checkbox" data-xs="1" value="${t.id}"${((D.site||{}).team||[]).includes(t.id)?" checked":""}>${esc(t.name||"(no name)")}</label>`).join("")}</div>`:siteTeam.length?siteTeam.map(t=>`<em class="xchip">${esc(t.name)}</em>`).join(""):`<em>Not assigned</em>`}</div>
-      <p class="ov-more"><a href="#progress">Progress &amp; RFIs →</a> · <a href="${SITE_LINK}">Site drawings →</a></p></div>
-    <div class="card ov"><h2>Recent site activity</h2>${log.length?`<ul class="ovl">${log.map(e=>`<li><span><b>${e.plot&&e.plot!=="SITE"&&e.plot!=="TEAM"?`<a href="#plot-${esc(e.plot)}">Plot ${esc(e.plot)}</a>`:esc(e.plot==="TEAM"?"Team":e.plot==="SITE"?"Site works":"")}</b> ${esc(e.what)}</span><span>${esc(fmtD(e.at))}${e.by?" · "+esc(e.by):""}</span></li>`).join("")}</ul>`:`<p class="sub">Changes saved to the execution record appear here with the date and who made them.</p>`}</div>
+      <p class="ov-more"><a href="#site">Site works updates &amp; RFIs →</a> · <a href="${SITE_LINK}">Site drawings →</a></p></div>
+    <div class="card ov"><h2>RFIs · ${openR.length} open</h2><p class="sub">Questions from site on any drawing. Raise one from a plot page (Site box) or on WhatsApp.</p>${openR.length?`<ul class="ovl xlog">${openR.slice(0,10).map(r=>`<li><span><a href="${r.plot==="SITE"?"#site":"#plot-"+esc(r.plot)}"><b>${esc(pName(r.plot))}</b></a> ${esc(r.sheet||"General")} · ${esc((r.q||"").slice(0,120))}</span><span>${esc(fmtD(r.at))}</span></li>`).join("")}</ul>`:`<p class="muted">No open RFIs.</p>`}</div>
+    <div class="card ov wide"><h2>Recent site activity</h2>${log.length?`<ul class="ovl xlog">${log.map(e=>`<li><span><b>${e.plot&&e.plot!=="SITE"&&e.plot!=="TEAM"?`<a href="#plot-${esc(e.plot)}">Plot ${esc(e.plot)}</a>`:esc(e.plot==="TEAM"?"Team":e.plot==="SITE"?"Site works":"")}</b> ${esc(e.what)}</span><span>${esc(fmtD(e.at))}${e.by?" · "+esc(e.by):""}</span></li>`).join("")}</ul>`:`<p class="sub">Changes saved to the execution record appear here with the date and who made them.</p>`}</div>
     <div class="wide">${milestoneHTML()}</div>
   </div>
   <h2 class="ov-sec">Project status</h2>
@@ -1608,7 +1660,7 @@ async function exSave(){
 /* ---------- routing ---------- */
 function navHTML(){
   if(PORTAL==="site"||route==="site") return `<button type="button" data-go="site" aria-pressed="true">Site drawings</button><a href="${VILLA_LINK}">Villa portal</a>`;
-  return `<button type="button" data-go="home" aria-pressed="${route==="home"||route.startsWith("plot-")}">Master layout</button><button type="button" data-go="register" aria-pressed="${route==="register"}">Drawing register</button><button type="button" data-go="types" aria-pressed="${route==="types"}">Villa types</button><button type="button" data-go="progress" aria-pressed="${route==="progress"}">Progress</button>`;
+  return `<button type="button" data-go="home" aria-pressed="${route==="home"||route.startsWith("plot-")}"><span class="lf">Master layout</span><span class="ls">Layout</span></button><button type="button" data-go="register" aria-pressed="${route==="register"}"><span class="lf">Drawing register</span><span class="ls">Drawings</span></button><button type="button" data-go="types" aria-pressed="${route==="types"}"><span class="lf">Villa types</span><span class="ls">Types</span></button><button type="button" data-go="overview" aria-pressed="${route==="overview"||route==="progress"}"><span class="lf">Site execution</span><span class="ls">Site</span></button>`;
 }
 function go(r){ try{ history.pushState(null,"","#"+r);}catch(e){} handleRoute(); }
 function handleRoute(){
@@ -1616,6 +1668,7 @@ function handleRoute(){
   if(byCode[h]){ if(!route) {route=PORTAL==="site"?"site":"home"; render();} openSheet(h,false); return; }
   if(!$("viewer").hidden) closeViewer(true);
   if(!h) h=PORTAL==="site"?"site":"home";
+  if(h==="progress"){ h="overview"; try{ history.replaceState(null,"","#overview"); }catch(e){} }
   if(h!=="site"&&h!=="home"&&h!=="overview"&&h!=="register"&&h!=="types"&&h!=="progress"&&!h.startsWith("plot-")) h=PORTAL==="site"?"site":"home";
   const changed=h!==route; route=h; render(); if(changed&&!h.startsWith("plot-")) window.scrollTo(0,0);
 }
@@ -1944,7 +1997,16 @@ function watchUpdates(no){
   updSub=DB.collection("updates").where("plot","==",no).onSnapshot(qs=>{ UPD[no]=qs.docs.map(d=>Object.assign({id:d.id},d.data())); const ids=UPD[no].map(u=>u.by); resolveNames(ids); refreshSiteViews(); },()=>{});
 }
 let focusSite=false;
-function renderAside(p){ const a=$("siteAside"); if(!a) return; a.innerHTML=`<div class="saside-h"><h2>${p.no==="SITE"?"Site works progress":"Site updates · Plot "+p.no}</h2><p>${p.no==="SITE"?"Roads, services, compound wall, streetscape and amenities: progress, photos and RFIs.":"Progress, photos and RFIs from site."}</p></div>`+progTabHTML(p); bindProgTab(p); }
+function execSumHTML(p,mini){
+  if(p.no==="SITE") return "";
+  const wa=mini?`<div class="tbar"><a class="portal-link" href="${waProg(p)}" target="_blank" rel="noopener">Send progress on WhatsApp</a><button type="button" class="portal-link" data-warfi="${p.no}">Raise RFI on WhatsApp</button></div>`:"";
+  if(!inScope(p)) return `<div class="card xsum${mini?" psite-mini":""}"><div class="xsum-h"><span class="xpill" style="--xc:#9fb2c9">Not in construction</span></div><p class="muted">${esc(statusTxt(p))}. Construction starts once the plot is sold or booked and its villa drawings are issued.</p>${mini?`<a class="xsum-more" href="#siteAside">Site updates &amp; RFIs ↓</a>`:""}</div>`;
+  const cb=comboOf(p.no), r=exRec(cb?cb[0]:p.no), ex=execOf(p), [,l,,col]=EXL[ex], sg=stageTxt(p), tm=teamOf(cb?cb[0]:p.no);
+  return `<div class="card xsum${mini?" psite-mini":""}"><div class="xsum-h"><span class="xpill" style="--xc:${col}">${l}</span>${exPct(p)?`<b>${exPct(p)}%</b>`:""}</div>${exPct(p)?`<span class="xbar"><i style="width:${exPct(p)}%"></i></span>`:""}
+    <dl><div><dt>Stage</dt><dd>${sg?(sg.plan?`<span class="muted">Planned:</span> `:"")+esc(sg.t):"Not recorded yet"}</dd></div><div><dt>Working on it</dt><dd>${tm.length?tm.map(t=>esc(t.name)+(t.trade?` <small>(${esc(t.trade)})</small>`:"")).join(", "):"Not assigned"}</dd></div>${r.start||r.target?`<div><dt>Dates</dt><dd>${r.start?fmtYMD(r.start):"–"} → ${r.target?fmtYMD(r.target):"–"}</dd></div>`:""}${r.note?`<div><dt>Note</dt><dd>${esc(r.note)}</dd></div>`:""}</dl>
+    ${wa}<div class="xsum-links">${mini?`<a class="xsum-more" href="#siteAside">Site updates, photos &amp; RFIs ↓</a>`:""}<a class="xsum-more" href="#overview">Site execution page →</a></div></div>`;
+}
+function renderAside(p){ const a=$("siteAside"); if(!a) return; a.innerHTML=`<div class="saside-h"><h2>${p.no==="SITE"?"Site works progress":"Site · Plot "+p.no}</h2><p>${p.no==="SITE"?"Roads, services, compound wall, streetscape and amenities: progress, photos and RFIs.":"Construction status, site updates, photos and RFIs."}</p></div>`+execSumHTML(p)+progTabHTML(p); bindProgTab(p); }
 function progTabHTML(p){
   const wa=`<div class="tbar"><a class="portal-link" href="${waProg(p)}" target="_blank" rel="noopener">Send progress on WhatsApp</a><button type="button" class="portal-link" data-warfi="${p.no}">Raise RFI on WhatsApp</button></div>`;
   if(IS_ART&&!dbOn) return `<div class="note">Progress and RFIs are not available on this view. Use WhatsApp, or ask Vamsi to invite you as an Editor.</div>${wa}`;
@@ -1974,9 +2036,10 @@ function progTabHTML(p){
       ${can?`<div class="rfi-a"><textarea rows="2" data-rtx="${esc(r.id)}" placeholder="Reply or clarification"></textarea><div class="tbar"><button type="button" class="zbtn" data-rsend="${esc(r.id)}">Send reply</button>${r.status!=="answered"?`<button type="button" class="zbtn" data-rset="answered" data-rid="${esc(r.id)}">Mark answered</button>`:""}${r.status!=="closed"?`<button type="button" class="zbtn" data-rset="closed" data-rid="${esc(r.id)}">Close</button>`:`<button type="button" class="zbtn" data-rset="open" data-rid="${esc(r.id)}">Reopen</button>`}</div></div>`:""}
     </div>`).join("");
   const syncNote=!IS_ART?`<p class="hint">${GHPROG&&GHPROG.syncedAt?`Updates as of ${fmtD(GHPROG.syncedAt)}. `:""}Site engineers record updates in the <a href="${ART_LINK}" target="_blank" rel="noopener">Claude version</a>; they appear here when synced. No login? Use WhatsApp below.</p>`:(can?"":`<p class="hint">View only. Ask Vamsi to invite you as an Editor to add updates, or send them on WhatsApp.</p>`);
-  return `<div class="card prog" id="pSum"><div class="card-h"><div><h2>Site progress · ${progPct(p.no)}%</h2><p>${esc(progNow(p.no))}${ups.length?` · ${ups.length} update${ups.length>1?"s":""}, latest ${fmtD(ups.map(u=>u.date).sort().pop())}`:""}</p></div></div>
+  const hasProg=ups.length||Object.keys(progStages(p.no)).length;
+  return `<div class="card prog" id="pSum">${hasProg||p.no==="SITE"?`<div class="card-h"><div><h2>${p.no==="SITE"?"Site progress · "+progPct(p.no)+"%":"Stage checklist"}</h2><p>${esc(progNow(p.no))}${ups.length?` · ${ups.length} update${ups.length>1?"s":""}, latest ${fmtD(ups.map(u=>u.date).sort().pop())}`:""}</p></div></div>
       <div class="pbar"><i style="width:${progPct(p.no)}%"></i></div>${syncNote}
-      <div class="stl">${rows}</div></div>
+      <div class="stl">${rows}</div>`:`<details class="xsd"><summary>Stage checklist · no site updates recorded yet</summary>${syncNote}<div class="stl">${rows}</div></details>`}</div>
     ${form}
     <div class="card" id="pTl"><div class="card-h"><div><h2>Updates by date</h2><p>Every site visit is kept: newest first, with its photos.</p></div></div>${tl||`<p class="muted">No updates for ${pName(p.no)} yet.</p>`}</div>
     <div class="card" id="pRfi"><div class="card-h"><div><h2>RFIs &amp; clarifications · ${rl.filter(r=>r.status==="open").length} open</h2><p>${p.no==="SITE"?"Ask about roads, levels, services or any site drawing.":"Ask about any drawing for this plot."} The architect's team answers here.</p></div>${can?`<button type="button" class="portal-link" data-newrfi="${p.no}">Raise RFI</button>`:""}</div>
