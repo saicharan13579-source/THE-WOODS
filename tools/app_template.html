@@ -100,6 +100,8 @@ footer{padding:14px 16px;color:var(--muted);font-size:13px}
 /* master plan */
 .sidx{padding:16px 18px}.sidx h2{margin:0 0 8px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.sidx ol{list-style:none;margin:0;padding:0}.sidx li a{display:flex;justify-content:space-between;gap:10px;padding:10px 2px;border-top:1px solid var(--line,rgba(15,30,46,.08));color:var(--ink);text-decoration:none;font-weight:500}.sidx li:first-child a{border-top:0}.sidx li a b{font-variant-numeric:tabular-nums;color:var(--acc,#2459C8);font-weight:600}.sidx li a:hover span{color:var(--acc,#2459C8)}
 .combo{pointer-events:none}.combo .c1{fill:none;stroke:#fff;stroke-width:10}.combo .c2{fill:none;stroke:#7a5ce0;stroke-width:6}.combo .t2{font-size:22px!important}.combo text{font:700 30px Inter,system-ui,sans-serif;fill:#fff;paint-order:stroke;stroke:#1d2b3e;stroke-width:6px}
+.hold{pointer-events:none}.hold .h1{fill:none;stroke:#d92d3a;stroke-width:7;stroke-dasharray:18 10}.hold .h2{fill:#d92d3a}.hold text{font:800 17px Inter,system-ui,sans-serif;fill:#fff;letter-spacing:.04em}
+.sw.hold-sw{background:transparent;border:2px dashed #d92d3a}
 .sw.combo-sw{background:transparent;border:2px solid #7a5ce0;box-shadow:0 0 0 2px #fff inset}
 .mp{display:grid;gap:14px;grid-template-columns:1fr}
 @media (min-width:980px){.mp{grid-template-columns:minmax(0,1.75fr) minmax(320px,1fr);align-items:start}.mp .mapbox{max-height:none}}
@@ -1149,16 +1151,19 @@ const villaCount=list=>{ const nos=list.map(p=>p.no); return nos.length-COMBINED
 function comboSVG(){ return COMBINED.map(c=>{ const bs=c.map(n=>plotBy[n]&&plotBy[n].box).filter(Boolean); if(bs.length<2) return "";
   const x0=Math.min(...bs.map(b=>b[0])), y0=Math.min(...bs.map(b=>b[1])), x1=Math.max(...bs.map(b=>b[2])), y1=Math.max(...bs.map(b=>b[3]));
   return `<g class="combo" aria-hidden="true"><rect x="${x0-4}" y="${y0-4}" width="${x1-x0+8}" height="${y1-y0+8}" rx="10" class="c1"></rect><rect x="${x0+3}" y="${y0+3}" width="${x1-x0-6}" height="${y1-y0-6}" rx="8" class="c2"></rect><text x="${(x0+x1)/2}" y="${(y0+y1)/2-16}" text-anchor="middle" dominant-baseline="middle">${c.join(" & ")}</text><text class="t2" x="${(x0+x1)/2}" y="${(y0+y1)/2+18}" text-anchor="middle" dominant-baseline="middle">one villa</text></g>`; }).join(""); }
+const holdPlots=()=>PLOTS.filter(p=>(PLOT_INFO[p.no]||{}).type==="1625"&&p.no!==MODEL);
+function holdSVG(){ return holdPlots().map(p=>{ const [x0,y0,x1,y1]=p.box, cx=(x0+x1)/2, w=Math.min(x1-x0-10,118);
+  return `<g class="hold" aria-hidden="true"><rect x="${x0+5}" y="${y0+5}" width="${x1-x0-10}" height="${y1-y0-10}" rx="6" class="h1"></rect><rect x="${cx-w/2}" y="${y1-38}" width="${w}" height="28" rx="6" class="h2"></rect><text x="${cx}" y="${y1-23}" text-anchor="middle" dominant-baseline="middle">ON HOLD</text></g>`; }).join(""); }
 function mapSVG(sel){
   return `<svg viewBox="0 0 ${MAP_W} ${MAP_H}" preserveAspectRatio="none" aria-label="Master layout with ${PLOTS.length} plots">${
-    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" data-st="${pStatus(p)}" data-vt="${vtKey(p)}" data-ty="${(PLOT_INFO[p.no]||{}).type||""}" class="plot ${colCls(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}${comboSVG()}</svg>`;
+    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" data-st="${pStatus(p)}" data-vt="${vtKey(p)}" data-ty="${(PLOT_INFO[p.no]||{}).type||""}" class="plot ${colCls(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}${comboSVG()}${holdSVG()}</svg>`;
 }
 function masterCard(title,sub){
   return `<div class="card"><div class="card-h"><div><h2>${title}</h2><p>${sub}</p></div>
     <div class="zoomctl"><button class="zbtn" type="button" data-z="-1" aria-label="Zoom out of layout">−</button><button class="zbtn" type="button" data-z="0">Fit</button><button class="zbtn" type="button" data-z="1" aria-label="Zoom into layout">+</button></div></div>
     <div class="mapbox" id="mapbox"><div class="mapzoom" id="mapzoom" style="width:${mapZoom*100}%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="Ankura Homes site layout of The Woods showing plots 01 to 53" width="${MAP_W}" height="${MAP_H}">${mapSVG()}</div></div>
 
-    <div class="legend">${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${k==="custom"?villaCount(PLOTS.filter(p=>vtKey(p)===k))+" villas":PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span>${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one combined villa</span>`:""}</div></div>`;
+    <div class="legend">${Object.keys(VT_KEY).map(k=>`<span><i class="sw vt-${k}"></i>${VT_KEY[k]} · ${k==="custom"?villaCount(PLOTS.filter(p=>vtKey(p)===k))+" villas":PLOTS.filter(p=>vtKey(p)===k).length}</span>`).join("")}<span><i class="sw m"></i>Plot 30 · model villa (GFC)</span>${holdPlots().length?`<span><i class="sw hold-sw"></i>1625 drawings on hold · plots ${holdPlots().map(p=>p.no).join(", ")}</span>`:""}${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one combined villa</span>`:""}</div></div>`;
 }
 function bindMapZoom(){
   document.querySelectorAll("[data-mm]").forEach(b=>b.onclick=()=>{ mapMode=b.dataset.mm; try{localStorage.setItem("woods.mapmode",mapMode)}catch(e){} const box=$("mapbox"), sx=box?box.scrollLeft:0, sy=box?box.scrollTop:0; render(); const nb=$("mapbox"); if(nb){nb.scrollLeft=sx; nb.scrollTop=sy;} });
