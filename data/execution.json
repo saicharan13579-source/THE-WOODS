@@ -1,0 +1,12 @@
+{
+  "_about": "Site execution record for The Woods, edited on the website (Site execution page) with the editing PIN. team = contractors and vendors; plots = per plot execution status, stage, team, dates, labour and note; site = team on site-wide works; log = change history.",
+  "updatedAt": "2026-11-05T09:00:00+05:30",
+  "team": [],
+  "plots": {
+    "30": {"exec": "wip", "note": "Model villa: execution commenced on site. All walls revised to 9 in (block work R1, AE-15)."}
+  },
+  "site": {"team": []},
+  "log": [
+    {"at": "2026-11-05T09:00:00+05:30", "plot": "30", "what": "Status → Under construction (architect's email: execution for model villa Plot 30 has commenced; walls revised to 9 in)", "by": "Ar. Shanmukhi (email)"}
+  ]
+}
