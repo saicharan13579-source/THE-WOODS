@@ -1,12 +1,32 @@
 {
   "_about": "Site execution record for The Woods, edited on the website (Site execution page) with the editing PIN. team = contractors and vendors; plots = per plot execution status, stage, team, dates, labour and note; site = team on site-wide works; log = change history.",
-  "updatedAt": "2026-11-05T09:00:00+05:30",
+  "updatedAt": "2026-11-05T10:15:00+05:30",
   "team": [],
   "plots": {
-    "30": {"exec": "wip", "note": "Model villa: execution commenced on site. All walls revised to 9 in (block work R1, AE-15)."}
+    "30": {
+      "exec": "wip",
+      "note": "Model villa: execution commenced on site. All walls revised to 9 in (block work R1, AE-15)."
+    },
+    "19": {
+      "exec": "ns",
+      "note": "Approved drawings shared with the site execution team on 05-11-2026: work can proceed. Later-stage drawings to follow as per the agreed timelines. No further design changes; client requests via CRM & Sales."
+    }
   },
-  "site": {"team": []},
+  "site": {
+    "team": []
+  },
   "log": [
-    {"at": "2026-11-05T09:00:00+05:30", "plot": "30", "what": "Status → Under construction (architect's email: execution for model villa Plot 30 has commenced; walls revised to 9 in)", "by": "Ar. Shanmukhi (email)"}
+    {
+      "at": "2026-11-05T09:00:00+05:30",
+      "plot": "30",
+      "what": "Status → Under construction (architect's email: execution for model villa Plot 30 has commenced; walls revised to 9 in)",
+      "by": "Ar. Shanmukhi (email)"
+    },
+    {
+      "at": "2026-11-05T10:15:00+05:30",
+      "plot": "19",
+      "what": "Villa 19 & 20: approved drawings shared with the site execution team (centre line layouts, SD-01 marking plan, SD-02 column & footing schedule). Status → Ready to start (Not started); work can proceed.",
+      "by": "Ar. Sai Charan (Design Team email)"
+    }
   ]
 }
