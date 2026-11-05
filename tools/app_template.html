@@ -315,7 +315,8 @@ span.rg-h{cursor:default}.rg-h.on{color:var(--ink);font-weight:600}
 .meta .s{font-size:13px;color:var(--muted);line-height:1.3}
 .pill{display:inline-block;font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap}
 .st-gfc,.st-issued{background:var(--ok-bg);color:var(--ok)} .st-approval,.st-option,.st-typical{background:var(--warn-bg);color:var(--warn)}
-.st-super{background:var(--bad-bg);color:var(--bad)} .st-ref,.st-cad{background:var(--ref-bg);color:var(--ref)}
+.st-super,.st-hold{background:var(--bad-bg);color:var(--bad)} .st-p30{background:var(--warn-bg);color:var(--warn)}
+.hold-note{border:1px solid var(--bad);background:var(--bad-bg);color:var(--ink,inherit);border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:.92rem;line-height:1.45}.hold-note b{color:var(--bad)} .dm td.hold em{display:block;font-style:normal;font-weight:600;font-size:.78rem;color:var(--bad);margin-top:2px} .st-ref,.st-cad{background:var(--ref-bg);color:var(--ref)}
 .cad{display:grid;gap:6px}
 .cadrow{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--glass);border:1px solid var(--glass-edge);border-left:5px solid var(--dc);border-radius:14px;box-shadow:var(--shadow);padding:10px 12px;min-width:0}
 .cadrow .meta{flex:1}
@@ -723,6 +724,7 @@ const F={
   BW2E:["2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Block_Work_Details.pdf",1537],
   BW6E:["2026-10-26_GFC_Ankura-The_Woods-1625E-Block_work_Details.pdf",1464],
   BW6W:["2026-10-26_GFC_Ankura-The_Woods-1625W-Block_work_Details.pdf",1316],
+  BW30:["2026-11-05_GFC_Ankura-The_Woods-1625E-Plot30_Block_Work_Details_R1.pdf",1487],
   FPE3:["2026-10-23_GFC_Ankura-The_Woods-1625_East_Villa_Floor_Plan.pdf",2798]
 };
 const DISC={
@@ -735,7 +737,7 @@ const DISC={
   pm:{name:"Plan & budget",c:"--c-pm"},
   prog:{name:"Site",c:"--c-site"}
 };
-const ST={plan:"Plan",gfc:"GFC",issued:"Issued",approval:"For approval",option:"Option",super:"Superseded",ref:"Reference",cad:"CAD only",typical:"Typical"};
+const ST={hold:"On hold",p30:"Plot 30 only",plan:"Plan",gfc:"GFC",issued:"Issued",approval:"For approval",option:"Option",super:"Superseded",ref:"Reference",cad:"CAD only",typical:"Typical"};
 const ARC="also.design (Architect)", JA="Jashritha Associates (Structural)", LLA="LumiScapes (Landscape)", MEPT="MEP consultant";
 // code, file, page, title, sub, sheetNo, rev, date, by, disc, villa, status, rot, pages
 const S=[
@@ -788,6 +790,7 @@ const S=[
  ["AE-12","SEE",1,"1625 East · building sections A, B, C","Plinth, lawn, road, backyard and roof levels","","—","21-10-2026",ARC,"arch","1625E","gfc"],
  ["AE-13","FPE3",1,"1625 East villa · floor plan","Re-issued 23-10-2026: floor plan and floor plan with roof above, built-up area 1625 sq.ft, verandah 350 sq.ft · title block dated 21-10","","—","23-10-2026",ARC,"arch","1625E","gfc"],
  ["AE-14","BW6E",1,"1625 East · block work details","Block work layout and details","","—","26-10-2026",ARC,"arch","1625E","gfc"],
+ ["AE-15","BW30",1,"Plot 30 · 1625 East block work details R1","All walls revised to 9″ within the existing column layout","","R1","05-11-2026",ARC,"arch","1625E","gfc"],
  ["AW-15","BW6W",1,"1625 West · block work details","Block work layout and details","","—","26-10-2026",ARC,"arch","1625W","gfc"],
  ["AW-01","FPW",1,"1625 West villa · floor plan (old)","Replaced by AW-14 (23-10-2026)","","—","21-10-2026",ARC,"arch","1625W","super"],
  ["AW-02","CLW",1,"1625 West · centre line drawing","Grid lines 1–10 / A–E with centre-to-centre dims","","—","21-10-2026",ARC,"arch","1625W","gfc"],
@@ -879,7 +882,7 @@ const S=[
  ["RD-02","STR",1,"Streetscape renders","Streetscape, junction options 01/02, bird's eye · 6 pages","","—","15-10-2026",LLA,"3d","site","ref",0,6]
 ].map(a=>({code:a[0],f:a[1],page:a[2],title:a[3],sub:a[4],no:a[5],rev:a[6],date:a[7],by:a[8],disc:a[9],villa:a[10],st:a[11],rot:a[12]||0,pages:a[13]||1}));
 const byCode=Object.fromEntries(S.map(s=>[s.code,s]));
-const CADMAP={"AE-14":"CAD-48","AW-15":"CAD-49","BE-01":"CAD-40","BE-02":"CAD-40","BE-03":"CAD-41","BE-04":"CAD-41","BE-05":"CAD-42","BE-06":"CAD-42","BE-07":"CAD-42","BE-08":"CAD-43","BE-09":"CAD-43","BE-10":"CAD-44","BE-11":"CAD-44","BE-12":"CAD-45","BE-13":"CAD-46","BE-14":"CAD-47","S16-01":"CAD-34","S16-03":"CAD-34","S16-05":"CAD-34","S12-01":"CAD-35","S12-03":"CAD-35","S12-05":"CAD-35","S6W-01":"CAD-36","S6W-03":"CAD-36","S6W-05":"CAD-36","S2W-01":"CAD-37","S2W-03":"CAD-37","S2W-05":"CAD-37","LA-24":"CAD-38","LA-26":"CAD-38","LA-25":"CAD-39","LA-27":"CAD-39","TP-05":"CAD-33","TP-06":"CAD-33","AE-01":"CAD-26","AE-02":"CAD-26","AE-03":"CAD-27","AE-04":"CAD-27","AE-05":"CAD-28","AE-06":"CAD-28","AE-07":"CAD-28","AE-08":"CAD-29","AE-09":"CAD-29","AE-10":"CAD-30","AE-11":"CAD-30","AE-12":"CAD-31","AE-13":"CAD-32","AR-01":"CAD-05","AR-02":"CAD-06","AR-03":"CAD-06","AR-04":"CAD-07","AR-05":"CAD-07","AR-06":"CAD-07","AR-07":"CAD-08","AR-08":"CAD-08","AR-09":"CAD-09","AR-10":"CAD-10","AR-11":"CAD-10","AR-12":"CAD-11","AR-13":"CAD-12","AR-14":"CAD-14","AR-15":"CAD-15","AW-01":"CAD-16","AW-02":"CAD-19","AW-03":"CAD-19","AW-04":"CAD-20","AW-05":"CAD-20","AW-06":"CAD-21","AW-07":"CAD-21","AW-08":"CAD-21","AW-09":"CAD-22","AW-10":"CAD-22","AW-11":"CAD-23","AW-12":"CAD-23","AW-13":"CAD-24","AW-14":"CAD-25","ST-01":"CAD-18"};
+const CADMAP={"AE-14":"CAD-48","AE-15":"CAD-50","AW-15":"CAD-49","BE-01":"CAD-40","BE-02":"CAD-40","BE-03":"CAD-41","BE-04":"CAD-41","BE-05":"CAD-42","BE-06":"CAD-42","BE-07":"CAD-42","BE-08":"CAD-43","BE-09":"CAD-43","BE-10":"CAD-44","BE-11":"CAD-44","BE-12":"CAD-45","BE-13":"CAD-46","BE-14":"CAD-47","S16-01":"CAD-34","S16-03":"CAD-34","S16-05":"CAD-34","S12-01":"CAD-35","S12-03":"CAD-35","S12-05":"CAD-35","S6W-01":"CAD-36","S6W-03":"CAD-36","S6W-05":"CAD-36","S2W-01":"CAD-37","S2W-03":"CAD-37","S2W-05":"CAD-37","LA-24":"CAD-38","LA-26":"CAD-38","LA-25":"CAD-39","LA-27":"CAD-39","TP-05":"CAD-33","TP-06":"CAD-33","AE-01":"CAD-26","AE-02":"CAD-26","AE-03":"CAD-27","AE-04":"CAD-27","AE-05":"CAD-28","AE-06":"CAD-28","AE-07":"CAD-28","AE-08":"CAD-29","AE-09":"CAD-29","AE-10":"CAD-30","AE-11":"CAD-30","AE-12":"CAD-31","AE-13":"CAD-32","AR-01":"CAD-05","AR-02":"CAD-06","AR-03":"CAD-06","AR-04":"CAD-07","AR-05":"CAD-07","AR-06":"CAD-07","AR-07":"CAD-08","AR-08":"CAD-08","AR-09":"CAD-09","AR-10":"CAD-10","AR-11":"CAD-10","AR-12":"CAD-11","AR-13":"CAD-12","AR-14":"CAD-14","AR-15":"CAD-15","AW-01":"CAD-16","AW-02":"CAD-19","AW-03":"CAD-19","AW-04":"CAD-20","AW-05":"CAD-20","AW-06":"CAD-21","AW-07":"CAD-21","AW-08":"CAD-21","AW-09":"CAD-22","AW-10":"CAD-22","AW-11":"CAD-23","AW-12":"CAD-23","AW-13":"CAD-24","AW-14":"CAD-25","ST-01":"CAD-18"};
 const CAD=[
  ["CAD-01","2026-09-26_Ankura-The_Woods_Site_Plan_with_Levels.dwg","Site plan with levels","Whole layout · no PDF issued · kept for its spot levels; where it differs from ST-01, follow ST-01","26-09-2026","site",944,"cad",ARC],
  ["CAD-02","2026-09-22_Ankura-The_Woods_Site_Plan_with_existing_trees.dwg","Site plan with existing trees","Tree survey on layout · no PDF issued","22-09-2026","site",544,"cad",ARC],
@@ -928,6 +931,7 @@ const CAD=[
  ["CAD-47","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_Block_Work_Details.dwg","1215 East block work details","CAD of BE-14","28-10-2026","arch",1030,"cad",ARC],
  ["MDL-1215E","2026-10-28_GFC_Ankura-The_Woods-1215_East_Villa_3D.skp","1215 East villa · SketchUp 3D model (GFC)","Issued with the 1215 East GFC set · open on a computer with SketchUp · for visualising, not for measurement","28-10-2026","3d",32394,"model",ARC],
  ["CAD-48","2026-10-26_GFC_Ankura-The_Woods-1625E-Block_work_Details.dwg","1625 East block work details","CAD of AE-14","26-10-2026","arch",1164,"cad",ARC],
+ ["CAD-50","2026-11-05_GFC_Ankura-The_Woods-1625E-Plot30_Block_Work_Details_R1.dwg","Plot 30 block work details R1","CAD of AE-15","05-11-2026","arch",1180,"cad",ARC],
  ["CAD-49","2026-10-26_GFC_Ankura-The_Woods-1625W-Block_work_Details.dwg","1625 West block work details","CAD of AW-15","26-10-2026","arch",1118,"cad",ARC],
  ["CAD-25","2026-10-23_GFC_Ankura-The_Woods-1625_West_Villa_Floor_Plan.dwg","1625 West villa floor plan","CAD of AW-14","23-10-2026","arch",1219,"cad",ARC],
  ["CAD-17","2026-10-21_GFC_Ankura-The_Woods-Opening_Schedule_West_set.dwg","Opening schedule (West set)","CAD of AR-15 as sent in the West set · slightly different file from CAD-15","21-10-2026","arch",558,"cad",ARC],
@@ -945,13 +949,16 @@ const CAD=[
 const cadByCode=Object.fromEntries(CAD.map(c=>[c.code,c]));
 const itemBy=c=>byCode[c]||cadByCode[c];
 /* superseded sheets: old code -> [current code, date replaced]. Old sheets are kept only in the Revision archive. */
-const SUP={"TP-03":["BE-13","28-10-2026"],"AR-09":["AE-13","21-10-2026"],"AR-13":["AR-15","21-10-2026"],"TP-01":["AE-13","08-10-2026"],
+const SUP={"AE-14":["AE-15","05-11-2026"],"CAD-48":["CAD-50","05-11-2026"],"TP-03":["BE-13","28-10-2026"],"AR-09":["AE-13","21-10-2026"],"AR-13":["AR-15","21-10-2026"],"TP-01":["AE-13","08-10-2026"],
  "AR-01":["AE-01","21-10-2026"],"AR-02":["AE-03","21-10-2026"],"AR-03":["AE-04","21-10-2026"],"AR-04":["AE-05","21-10-2026"],"AR-05":["AE-06","21-10-2026"],"AR-06":["AE-07","21-10-2026"],"AR-07":["AE-08","21-10-2026"],"AR-08":["AE-09","21-10-2026"],"AR-10":["AE-10","22-10-2026"],"AR-11":["AE-11","22-10-2026"],"AR-12":["AE-12","21-10-2026"],"AR-14":["AE-13","23-10-2026"],
  "CAD-05":["CAD-26","21-10-2026"],"CAD-06":["CAD-27","21-10-2026"],"CAD-07":["CAD-28","21-10-2026"],"CAD-08":["CAD-29","21-10-2026"],"CAD-10":["CAD-30","22-10-2026"],"CAD-11":["CAD-31","21-10-2026"],"CAD-14":["CAD-32","23-10-2026"],"TP-02":["AW-14","21-10-2026"],"AW-01":["AW-14","23-10-2026"],"CAD-16":["CAD-25","23-10-2026"],
  "LA-01":["LA-09","14-10-2026"],"LA-24":["LA-20","20-09-2026"],"LA-25":["LA-21","20-09-2026"],"LA-26":["LA-22","22-10-2026"],"LA-27":["LA-23","22-10-2026"],"LA-02":["LA-10","13-10-2026"],
  "S16-01-R01":["S16-01","05-10-2026"],"S16-02-R0":["S16-02","05-10-2026"],"S16-03-R01":["S16-03","05-10-2026"],
  "S12-01-R0":["S12-01","07-10-2026"],"S12-02-R0":["S12-02","07-10-2026"],"S12-03-R0":["S12-03","07-10-2026"],"S12-05-R0":["S12-05","07-10-2026"],
  "CAD-09":["CAD-32","21-10-2026"],"CAD-12":["CAD-15","21-10-2026"]};
+/* 05-11-2026 architect's email: 1625 column layout revised; only Plot 30 (model villa) continues on the current set */
+const HOLD_MSG="On hold from 05-11-2026. For plan optimisation the column layout of the 1625 villas has been revised; the architect will release revised GFC drawings after coordination with the SMEP team. Do not start any 1625 villa other than Plot 30 from these drawings until the revised GFC copies are issued.";
+const holdSt=s=>{ if(!s||s.cad||s._here||s.code==="AR-15") return s&&s.st; if((s.villa==="1625E"||s.villa==="1625W")&&(s.disc==="arch"||s.disc==="str")&&["gfc","issued","typical"].includes(s.st)) return s.villa==="1625W"?"hold":"p30"; return s.st; };
 const OLDREV={}; Object.keys(SUP).forEach(o=>{ (OLDREV[SUP[o][0]]=OLDREV[SUP[o][0]]||[]).push(o); });
 const notOld=it=>it&&!SUP[it.code];
 const cadUrl=c=>FILE_ROOT+c.dir+"/"+encodeURIComponent(c.file);
@@ -975,12 +982,12 @@ const SEQ=[
  {h:"Excavation",p:"Pit sizes include a 500 mm working offset from the footing edge.",c:["AE-03","AE-04"]},
  {h:"Footings & columns up to plinth",p:"Check footing sizes and depth on SD-02 against the architect's footing marking before PCC.",c:["AE-05","AE-06","AE-07","S16-02"]},
  {h:"Plinth beams",p:"Plinth framing with beam sizes, sunken areas and wall foundation details.",c:["AE-08","S16-03","S16-04"]},
- {h:"Walls, openings & levels",p:"Masonry, opening sizes and floor-to-roof levels.",c:["AE-13","AE-14","AR-15","AE-12","AE-10","AE-11"]},
+ {h:"Walls, openings & levels",p:"Masonry, opening sizes and floor-to-roof levels.",c:["AE-13","AE-15","AR-15","AE-12","AE-10","AE-11"]},
  {h:"Roof",p:"Roof framing and beam reinforcement.",c:["AE-09","S16-05","S16-06"]},
  {h:"Landscape & external works",p:"For information and approval only. Do not execute until the landscape GFC is issued. Mark out with LA-09, set levels with LA-10, lay irrigation, drains and light cabling before paving.",c:["LA-09","LA-10","LA-19","LA-11","LA-12","LA-14","LA-15","LA-16","LA-17","LA-18","LA-03","LA-04"]}
 ];
 const ALL=[
- {h:"1625 East villa · architectural GFC set",p:"Issued 21-10-2026 by the architect; elevations 22-10-2026 and floor plan re-issued 23-10-2026. Replaces the 08-10-2026 Plot 30 sheets.",c:["AE-01","AE-02","AE-03","AE-04","AE-05","AE-06","AE-07","AE-08","AE-09","AE-13","AE-14","AE-10","AE-11","AE-12","AR-15"]},
+ {h:"1625 East villa · architectural GFC set",p:"Issued 21-10-2026 by the architect; elevations 22-10-2026 and floor plan re-issued 23-10-2026. Replaces the 08-10-2026 Plot 30 sheets.",c:["AE-01","AE-02","AE-03","AE-04","AE-05","AE-06","AE-07","AE-08","AE-09","AE-13","AE-15","AE-10","AE-11","AE-12","AR-15"]},
  {h:"1625 West villa · architectural GFC set",p:"Issued 21-10-2026 by the architect; elevations 22-10-2026 and floor plan re-issued 23-10-2026.",c:["AW-02","AW-03","AW-04","AW-05","AW-06","AW-07","AW-08","AW-09","AW-10","AW-14","AW-15","AW-11","AW-12","AW-13","AR-15","AW-01"]},
  {h:"1215 East villa · architectural GFC set",p:"Issued 28-10-2026 by the architect, with block work details and a SketchUp model.",c:["BE-01","BE-02","BE-03","BE-04","BE-05","BE-06","BE-07","BE-08","BE-09","BE-13","BE-14","BE-10","BE-11","BE-12","AR-15","MDL-1215E"]},
  {h:"Structure · 1625 East villa",p:"Jashritha Associates · SD-01 to SD-06 · SD-01, SD-03 at R02 and SD-02 at R01 (05-10-2026).",c:S.filter(s=>s.f==="S6E").map(s=>s.code)},
@@ -1025,8 +1032,8 @@ function plotSet(p,type){
   }
   if(type==="1625"&&e){
     set={
-      arch:{items:T(["AE-01","AE-02","AE-03","AE-04","AE-05","AE-06","AE-07","AE-08","AE-09","AE-13","AE-14","AE-10","AE-11","AE-12","AR-15","MDL-1625"]),
-        note:["",(m?"Plot 30 model villa · ":"")+"1625 East villa GFC set by the architect (21-10-2026; elevations 22-10, floor plan re-issued 23-10 as AE-13). It replaces the 08-10-2026 Plot 30 sheets (AR-01 to AR-14), which are now in Drawing register → Revision archive. The marking-from-plot-boundary sheets (AE-02, AE-04, AE-07) are drawn on a typical East plot; check offsets against Plot "+p.no+"'s actual boundary before setting out, and confirm footing sizes against structural SD-02 before PCC. Each sheet has a DWG download."]},
+      arch:{items:T(["AE-01","AE-02","AE-03","AE-04","AE-05","AE-06","AE-07","AE-08","AE-09","AE-13","AE-15","AE-10","AE-11","AE-12","AR-15","MDL-1625"]),
+        note:["",(m?"Plot 30 model villa · Block work revised to R1 on 05-11-2026 (AE-15): all walls are now 9″ within the existing column layout; AE-15 replaces AE-14. ":"")+"1625 East villa GFC set by the architect (21-10-2026; elevations 22-10, floor plan re-issued 23-10 as AE-13). It replaces the 08-10-2026 Plot 30 sheets (AR-01 to AR-14), which are now in Drawing register → Revision archive. The marking-from-plot-boundary sheets (AE-02, AE-04, AE-07) are drawn on a typical East plot; check offsets against Plot "+p.no+"'s actual boundary before setting out, and confirm footing sizes against structural SD-02 before PCC. Each sheet has a DWG download."]},
       str:{items:T(["S16-01","S16-02","S16-03","S16-04","S16-05","S16-06"],m?null:"typical").concat(T(["S16-01-R01","S16-02-R0","S16-03-R01"])),note:["","1625 East villa structural set by Jashritha Associates. SD-01 and SD-03 are R02, SD-02 is R01 (05-10-2026); SD-04 to SD-06 unchanged. Older revisions are in Drawing register → Revision archive."]},
       mep:{items:T(["CAD-03"]),note:siteNote},
       land:{items:m?T(["LA-07","LA-08","LA-09","LA-10","LA-11","LA-12","LA-13","LA-14","LA-15","LA-16","LA-17","LA-18","LA-19","LA-03","LA-04","LA-05","RD-E","LA-01","LA-02"]):T(["LA-20"]).concat(T(["LA-03","LA-04","LA-05","RD-E"])),
@@ -1039,7 +1046,11 @@ function plotSet(p,type){
       mep:{items:T(["CAD-04"]),note:siteNote},
       land:{items:T(["LA-21","RD-W"]),note:["","Typical 1625 West landscape conceptual plan (LA-21). No marking, levels or details for west facing plots yet. The west facing model villa renders are for reference."]}
     };
-  } else if(e){
+  }
+  if(type==="1625"&&!m){
+    ["arch","str"].forEach(k=>{ set[k].items=set[k].items.map(it=>it.cad?it:Object.assign({},it,{st:"hold",_typ:true})); set[k].note=["warn",HOLD_MSG+" The sheets below are shown for reference only."]; });
+  } else if(type==="1625"){ ["arch","str"].forEach(k=>{ set[k].items=set[k].items.map(it=>it.cad?it:Object.assign({},it,{_here:true})); }); }
+  else if(e){
     set={
       arch:{items:T(["BE-01","BE-02","BE-03","BE-04","BE-05","BE-06","BE-07","BE-08","BE-09","BE-13","BE-14","BE-10","BE-11","BE-12","AR-15","MDL-1215E"]),note:["","1215 East villa GFC set by the architect (28-10-2026), with block work details and a SketchUp model. The marking-from-plot-boundary sheets (BE-02, BE-04, BE-07) are drawn on a typical East plot; check offsets against Plot "+p.no+"'s actual boundary before setting out, and confirm footing sizes against structural SD-02 before PCC. Each sheet has a DWG download. The old typology plan TP-03 is in Drawing register → Revision archive."]},
       str:{items:T(["S12-01","S12-02","S12-03","S12-04","S12-05","S12-06"],"typical").concat(T(["S12-01-R0","S12-02-R0","S12-03-R0","S12-05-R0"])),note:["","1215 East villa structural set by Jashritha Associates, R01 (07-10-2026); SD-04 and SD-06 unchanged from R0. Older revisions are in Drawing register → Revision archive."]},
@@ -1098,7 +1109,7 @@ function rowHTML(s){
   return `<button type="button" class="row" data-code="${s.code}" style="--dc:${dc}">
     <span class="thumb"><img loading="lazy" src="${thumb(s)}" alt=""></span>
     <span class="meta">
-      <span class="code"><b>${s.code}</b>${no}${rev}<span>${esc(s.date)}</span><span class="pill st-${s.st}">${ST[s.st]}</span>${CADMAP[s.code]?'<span class="pill st-cad">+ DWG</span>':""}</span>
+      <span class="code"><b>${s.code}</b>${no}${rev}<span>${esc(s.date)}</span><span class="pill st-${holdSt(s)}">${ST[holdSt(s)]}</span>${CADMAP[s.code]?'<span class="pill st-cad">+ DWG</span>':""}</span>
       <span class="t">${esc(s.title)}</span>
       <span class="s">${esc(s.sub)}${pg}</span>
       <span class="s">${esc(s.by)}</span>
@@ -1344,13 +1355,14 @@ function renderRegister(){
   let html=`<div class="rg-bar"><div class="chips" id="chips">${chipsDef.map(([k,n,c])=>`<button type="button" class="chip" data-d="${k}" aria-pressed="${disc===k}" style="${c?`--dc:var(${c})`:""}">${c?"<i></i>":""}${esc(n)}</button>`).join("")}</div>
     <div class="rg-tools"><select id="rgVilla" aria-label="Villa type">${REG_V.map(([k,n])=>`<option value="${k}"${regVilla===k?" selected":""}>${n}</option>`).join("")}</select>
     <label class="rg-old"><input type="checkbox" id="rgOld"${regOld?" checked":""}> Old revisions</label><span class="rg-n">${list.length} drawing${list.length===1?"":"s"}</span></div></div>`;
+  if(!regOld&&(regVilla==="all"||String(regVilla).startsWith("1625"))) html+=`<div class="hold-note"><b>1625 villa drawings on hold (05-11-2026).</b> Only Plot 30 continues on the current 1625 East set (block work R1, <a href="#AE-15">AE-15</a>: all walls 9″). Revised GFC copies for the other 1625 villas will be issued after SMEP coordination.</div>`;
   if(regOld) html+=`<p class="lead"><b>Old revisions.</b> Kept for record only. Do not build from these.</p>`;
   if(q){ const hits=PLOTS.filter(p=>("plot "+p.no).includes(q)||p.no===q.replace(/^plot\s*/,"")); if(hits.length) html=`<div class="card"><div class="card-h"><div><h2>Plots</h2></div></div><div class="plotgrid">${hits.map(p=>`<a class="pbtn ${colCls(p)}${p.no===MODEL?" m":""}" href="${plotHref(p.no)}"><b>${p.no}</b><small>${esc(pSmall(p))}</small></a>`).join("")}</div></div>`+html; }
   if(list.length){
     html+=`<div class="rg card"><div class="rg-head">${hd("code","Code")}${hd("title","Drawing")}${hd("villa","Villa")}${hd("date","Date")}<span class="rg-h">Status</span><span class="rg-h">File</span></div>`+list.map(it=>{
       const cc=it.cad?it:(CADMAP[it.code]&&cadByCode[CADMAP[it.code]]);
       const dl=cc?`<a class="rg-dl" href="${cadUrl(cc)}" target="_blank" rel="noopener"${DL}>${cc.ext}</a>`:"";
-      const st=regOld&&SUP[it.code]?`<span class="pill st-super">Replaced ${esc(SUP[it.code][1])} by ${SUP[it.code][0]}</span>`:`<span class="pill st-${it.st}">${it.cad?it.ext:ST[it.st]}</span>`;
+      const st=regOld&&SUP[it.code]?`<span class="pill st-super">Replaced ${esc(SUP[it.code][1])} by ${SUP[it.code][0]}</span>`:`<span class="pill st-${it.cad?it.st:holdSt(it)}">${it.cad?it.ext:ST[holdSt(it)]}</span>`;
       return `<div class="rg-r${it.cad?" rg-cad":""}"${it.cad?"":` data-sheet="${it.code}" tabindex="0" role="button"`} style="--dc:var(${DISC[it.disc].c})"><span class="rg-code">${it.code}</span><span class="rg-t">${esc(it.title)}${it.no?` <small>${esc(it.no)}${it.rev&&it.rev!=="—"?" "+esc(it.rev):""}</small>`:""}</span><span class="rg-v">${villaTxt(villaOf(it))}</span><span class="rg-d">${esc(it.date)}</span><span class="rg-s">${st}</span><span class="rg-f">${dl}</span></div>`;
     }).join("")+`</div>`;
   } else html+=`<div class="empty">No drawings match${q?` “${esc(q)}”`:" these filters"}.<br>Try another team or villa, or a word like plinth or water.</div>`;
@@ -1394,13 +1406,15 @@ function renderOverview(){
   const unconf=PLOTS.filter(p=>!VTYPES.includes(tyOf(p))&&!isOffPlot(p));
   const cur=S.filter(x=>!SUP[x.code]&&x.st!=="super");
   const VR=[["1625E","1625 East"],["1625W","1625 West"],["1215E","1215 East"],["1215W","1215 West"],["2175E","2175 East"],["2175W","2175 West"]];
-  const cell=(v,d)=>{ const L=cur.filter(x=>x.villa===v&&x.disc===d); if(!L.length) return `<td class="miss">Not issued</td>`; const g=L.filter(x=>x.st==="gfc"||x.st==="issued").length; const last=L.map(x=>x.date).sort((a,b)=>dKey(b)-dKey(a))[0]; const kind=g?"":L.some(x=>x.st==="approval"||x.st==="option")?"for approval":"reference"; return `<td><b>${g?g+" GFC":L.length+" sheet"+(L.length>1?"s":"")}</b><span>${g&&g<L.length?`+ ${L.length-g} other · `:kind?kind+" · ":""}${esc(last)}</span></td>`; };
+  const cell=(v,d)=>{ const L=cur.filter(x=>x.villa===v&&x.disc===d); if(!L.length) return `<td class="miss">Not issued</td>`; const g=L.filter(x=>x.st==="gfc"||x.st==="issued").length; const last=L.map(x=>x.date).sort((a,b)=>dKey(b)-dKey(a))[0]; const kind=g?"":L.some(x=>x.st==="approval"||x.st==="option")?"for approval":"reference"; const hv=d!=="land"&&(v==="1625E"||v==="1625W"); return `<td${hv?' class="hold"':""}><b>${g?g+" GFC":L.length+" sheet"+(L.length>1?"s":"")}</b><span>${g&&g<L.length?`+ ${L.length-g} other · `:kind?kind+" · ":""}${esc(last)}</span>${hv?`<em>${v==="1625E"?"Plot 30 only · others on hold":"On hold"}</em>`:""}</td>`; };
   const dRows=VR.map(([v,l])=>{ const used=PLOTS.filter(p=>tyOf(p)===v.slice(0,4)&&(p.face===v[4]||(v[4]==="E"&&p.face==="N"))).length;
     return `<tr><td><b>${l}</b>${used?` <span class="muted">· ${used} plot${used>1?"s":""}</span>`:""}</td>${cell(v,"arch")}${cell(v,"str")}${cell(v,"land")}</tr>`; }).join("");
   const nCad=CAD.length-Object.keys(SUP).filter(c=>cadByCode[c]).length, nOld=Object.keys(SUP).length;
   const latest=cur.slice().sort((a,b)=>dKey(b.date)-dKey(a.date)).slice(0,6);
   const started=PLOTS.filter(p=>progPct(p.no)>0).length, openR=RFIS.filter(r=>(r.status||"open")==="open").length, progOn=dbOn||GHPROG;
+  const hold1625=PLOTS.filter(p=>tyOf(p)==="1625"&&p.no!==MODEL);
   $("main").innerHTML=`${bandHTML()}
+  <div class="hold-note"><b>1625 villa drawings on hold (05-11-2026).</b> Plot 30 model villa continues on the current set, with all walls revised to 9″ (block work R1, <a href="#AE-15">AE-15</a>). The column layout of the other 1625 villas has been revised; revised GFC drawings will be released after SMEP coordination. Plots on hold: ${links(hold1625)}.</div>
   <div class="ov-grid">
     <div class="card ov"><h2>Plot status</h2><p class="sub">Every plot as recorded on the Villa types page. Tap a plot number to open it.</p>
       <table class="ovt"><thead><tr><th>Status</th><th class="num">Plots</th><th>Plot numbers</th></tr></thead><tbody>${stRows}<tr class="tot"><td>Total</td><td class="num">${PLOTS.length}</td><td></td></tr></tbody></table></div>
