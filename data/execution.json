@@ -1,6 +1,6 @@
 {
   "_about": "Site execution record for The Woods, edited on the website (Site execution page) with the editing PIN. team = contractors and vendors; plots = per plot execution status, stage, team, dates, labour and note; site = team on site-wide works; log = change history.",
-  "updatedAt": "2026-11-05T10:15:00+05:30",
+  "updatedAt": "2026-11-18T15:00:00+05:30",
   "team": [],
   "plots": {
     "30": {
@@ -27,6 +27,18 @@
       "plot": "19",
       "what": "Villa 19 & 20: approved drawings shared with the site execution team (centre line layouts, SD-01 marking plan, SD-02 column & footing schedule). Status → Ready to start (Not started); work can proceed.",
       "by": "Ar. Sai Charan (Design Team email)"
+    },
+    {
+      "at": "2026-11-17T18:00:00+05:30",
+      "plot": "30",
+      "what": "Plot 30 R1 GFC set issued (P30-01 to P30-12): walls 230 mm within the existing column layout; replaces the 21-10-2026 sheets and AE-15.",
+      "by": "Architect (also.design)"
+    },
+    {
+      "at": "2026-11-17T18:00:00+05:30",
+      "plot": "",
+      "what": "1625 revised GFC sets R1 issued (East AE-21 to AE-34, West AW-22 to AW-35, opening schedule AR-16). Hold lifted for 1625 plots 16, 24, 34, 42, 50: status → Not started (ready).",
+      "by": "Architect (also.design)"
     }
   ]
 }
