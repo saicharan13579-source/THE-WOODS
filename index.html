@@ -584,43 +584,6 @@ img,svg,video,canvas{max-width:100%}
   .band.band-strip{padding:16px}
   .lg-h{width:100%}
 }
-
-/* ===== three portals ===== */
-.tb-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.psw{display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--paper);border:1px solid var(--glass-line)}
-.psw button{border:0;background:transparent;font:inherit;font-weight:600;font-size:14px;padding:8px 14px;border-radius:10px;cursor:pointer;color:var(--ink)}
-.psw button[aria-pressed=true]{background:var(--forest);color:#fff}
-.psw .ls{display:none}
-.lockbtn{font:inherit;font-weight:600;font-size:14px;padding:8px 12px;border-radius:12px;border:1.5px solid var(--glass-line);background:var(--paper);cursor:pointer}
-.lockbtn.on{border-color:#13a36f;color:#0f7a54}
-.pgrid.one{grid-template-columns:minmax(0,1fr)!important}.pgrid.one .pmain{max-width:1100px}
-.pchip{margin-left:auto;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.phead{margin:6px 4px 14px}.phead h2{font-family:var(--serif);font-weight:400;font-size:34px;margin:4px 0}.phead p{margin:0;color:var(--muted)}
-.phead .band-k,.pcard .band-k{color:var(--muted)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:0 0 16px}
-.kpi{display:grid;gap:2px;padding:14px 16px;border-radius:18px;background:var(--glass);border:1px solid var(--glass-line)}.kpi b{font-size:26px;font-weight:700}.kpi span{font-weight:600;font-size:14px}.kpi small{color:var(--muted);font-size:12.5px}
-.kpi.k-sold b{color:#3342b5}.kpi.k-book b{color:#1d86c4}.kpi.k-cus b{color:#7a5ce0}.kpi.k-warn b{color:#c46c12}
-.locknote{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:14px;background:var(--paper);border:1px dashed var(--glass-line);margin:0 0 14px;font-size:14px}
-.lk{opacity:.7}
-.segf{display:flex;flex-wrap:wrap;gap:6px}.segf button{font:inherit;font-size:13.5px;padding:7px 11px;border-radius:999px;border:1px solid var(--glass-line);background:var(--paper);cursor:pointer}.segf button[aria-pressed=true]{background:var(--forest);color:#fff;border-color:var(--forest)}
-.pcards,.allsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:0 0 16px}
-.pcard{display:grid;gap:4px;padding:16px 18px;border-radius:22px;text-decoration:none;color:var(--ink);background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);border-top:5px solid var(--pc)}
-.pcard b{font-size:20px}.pcard span{font-size:14px;color:var(--muted)}.pcard em{font-style:normal;font-weight:700;color:var(--pc);margin-top:4px}
-.pc-sales{--pc:#3342b5}.pc-crm{--pc:#7a5ce0}.pc-site{--pc:#13a36f}
-.allsum .pcard{padding:12px 14px;border-radius:16px}.allsum .pcard b{font-size:16px}
-.ppanel{display:grid;gap:12px}.ppanel h4{margin:6px 0 0;font-size:15px}
-.pform{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.pform label{display:grid;gap:4px;font-size:13px;color:var(--muted)}.pform label.full{grid-column:1/-1}
-.pform input,.pform select,.pform textarea,.prow input,.prow select,.pbar-ed input{font:inherit;font-size:14px;color:var(--ink);padding:8px 10px;border-radius:10px;border:1px solid var(--glass-line);background:var(--paper);min-width:0}
-.pform :disabled,.prow :disabled{opacity:.85;background:transparent}
-.ptable{display:grid;gap:8px}.prow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;align-items:center}
-.pbar-ed{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.pdl{margin:0;display:grid;gap:6px}.pdl div{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:14px}.pdl dt{color:var(--muted)}.pdl dd{margin:0}
-.brief{display:grid;gap:10px}.brief h3{margin:0;font-size:16px}.brief dl{margin:0;display:grid;gap:6px}.brief dl div{display:grid;grid-template-columns:150px 1fr;gap:10px;font-size:14px}.brief dt{color:var(--muted)}.brief dd{margin:0}
-.linkbtn{border:0;background:none;color:var(--acc);font:inherit;font-weight:600;cursor:pointer;padding:0;text-decoration:underline}
-.mtag.t-cus rect{fill:#7a5ce0}
-@media (max-width:900px){.tb-top{flex-wrap:wrap}.tb-r{width:100%;justify-content:space-between}}
-@media (max-width:700px){.psw{flex:1}.psw button{flex:1;padding:8px 6px}.psw .lf{display:none}.psw .ls{display:inline}.brief dl div,.pdl div{grid-template-columns:1fr}}
 /* ===== site execution ===== */
 .ov-grid>*,.card.ov>*{min-width:0}.ovl li>span:first-child{white-space:normal;min-width:0}.ovscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 @media (max-width:700px){.xt{min-width:860px}}
@@ -680,9 +643,9 @@ img,svg,video,canvas{max-width:100%}
   <div class="wrap tb-shell">
     <div class="tb-top">
       <div class="proj">
-        <h1><a id="homelink" href="#home">The Woods</a> <small class="brand-sub">Ankura Homes · project portal</small> <span class="portal-tag" id="ptag">Villa portal</span></h1>
+        <h1><a id="homelink" href="#home">The Woods</a> <small class="brand-sub">Ankura Homes · drawing portal</small> <span class="portal-tag" id="ptag">Villa portal</span></h1>
       </div>
-      <div class="tb-r"><div id="pswbox"></div><span id="lockbox"></span><a class="portal-link" id="otherportal" href="#site">Site portal →</a></div>
+      <a class="portal-link" id="otherportal" href="#site">Site portal →</a>
     </div>
     <div class="searchrow">
       <label class="search" for="q">
@@ -1423,10 +1386,9 @@ function updSVG(){
   COMBINED.forEach(c=>{ const I=PLOT_INFO[c[0]]||{}; if(!Object.values(I.extra||{}).some(a=>a&&a.length)) return; const bs=c.map(n=>plotBy[n]&&plotBy[n].box).filter(Boolean); if(bs.length<2) return; o+=tagSVG([Math.min(...bs.map(b=>b[0])),Math.min(...bs.map(b=>b[1])),Math.max(...bs.map(b=>b[2])),Math.max(...bs.map(b=>b[3]))],"DRAWINGS ISSUED","t-ok"); });
   return o; }
 function saleSVG(){ const done=new Set(); let o=""; PLOTS.forEach(p=>{ const st=pStatus(p); if(st!=="booked"&&st!=="registered"||done.has(p.no)||!p.box) return; const cb=comboOf(p.no); let box=p.box; if(cb){ cb.forEach(n=>done.add(n)); const bs=cb.map(n=>plotBy[n]&&plotBy[n].box).filter(Boolean); box=[Math.min(...bs.map(b=>b[0])),Math.min(...bs.map(b=>b[1])),Math.max(...bs.map(b=>b[2])),Math.max(...bs.map(b=>b[3]))]; } o+=tagSVG(box,st==="registered"?"SOLD":"BOOKED",st==="registered"?"t-sold":"t-book"); }); return o; }
-function crmSVG(){ let o=""; villaRows(PLOTS.filter(inScope)).forEach(p=>{ const cb=comboOf(p.no); let box=p.box; if(cb){ const bs=cb.map(n=>plotBy[n]&&plotBy[n].box).filter(Boolean); box=[Math.min(...bs.map(b=>b[0])),Math.min(...bs.map(b=>b[1])),Math.max(...bs.map(b=>b[2])),Math.max(...bs.map(b=>b[3]))]; } if(!box) return; const t=(PLOT_INFO[p.no]||{}).type, c=cRec(p.no); const txt=unlocked()&&c.approvalDate?"PLAN APPROVED":t==="custom"?"CUSTOM PLAN":VTYPES.includes(t)?("STANDARD "+t):"NOT CONFIRMED"; o+=tagSVG(box,txt,unlocked()&&c.approvalDate?"t-ok":t==="custom"?"t-cus":"t-book"); }); return o; }
 function mapSVG(sel,mode){
   return `<svg viewBox="0 0 ${MAP_W} ${MAP_H}" preserveAspectRatio="none" aria-label="Master layout with ${PLOTS.length} plots">${
-    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" data-st="${pStatus(p)}" data-vt="${vtKey(p)}" data-ty="${(PLOT_INFO[p.no]||{}).type||""}" data-ex="${execOf(p)}" data-tm=" ${(exRec(p.no).team||[]).join(" ")} " class="plot ${mode==="exec"?"ex-"+execOf(p):colCls(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}${comboSVG()}${mode==="exec"?holdSVG()+updSVG():mode==="sales"?saleSVG():mode==="crm"?crmSVG():""}</svg>`;
+    PLOTS.map(p=>{const [x0,y0,x1,y1]=p.box; return `<a href="${plotHref(p.no)}" data-st="${pStatus(p)}" data-vt="${vtKey(p)}" data-ty="${(PLOT_INFO[p.no]||{}).type||""}" data-ex="${execOf(p)}" data-tm=" ${(exRec(p.no).team||[]).join(" ")} " class="plot ${mode==="exec"?"ex-"+execOf(p):colCls(p)}${p.no===MODEL?" m":""}${sel===p.no?" sel":""}" aria-label="Plot ${p.no}, ${statusTxt(p)}, ${faceTxt(p)}, ${p.sqyd} sq.yd"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="8"></rect></a>`;}).join("")}${comboSVG()}${mode==="exec"?holdSVG()+updSVG():mode==="sales"?saleSVG():""}</svg>`;
 }
 function execLegendHTML(){ const sc=execScope(); return `<div class="legend">${EXS.filter(([k])=>sc.some(p=>execOf(p)===k)||!["stop","done","hold"].includes(k)).map(([k,l,,col])=>`<span><i class="sw" style="color:${col};background:${col}"></i>${l} · ${villaCount(sc.filter(p=>execOf(p)===k))}</span>`).join("")}<span><i class="sw ex-na-sw"></i>Not in construction (unsold or blocked)</span><span><i class="sw tag-wip"></i>WORK STARTED · Plot ${MODEL}</span><span><i class="sw tag-ok"></i>DRAWINGS ISSUED · work can proceed</span>${holdPlots().length?`<span><i class="sw hold-sw"></i>ON HOLD · 1625 revised GFC awaited</span>`:""}${COMBINED.length?`<span><i class="sw combo-sw"></i>Plots ${COMBINED.map(c=>c.join(" & ")).join(", ")} · one combined villa</span>`:""}</div>`; }
 function mapNotesHTML(){
@@ -1533,12 +1495,12 @@ function renderHome(){
     <img class="hero-bg" src="${FILE_ROOT}img/hero-render.jpg" alt="Aerial render of The Woods villas and landscape">
     <div class="hero-card">
       <span class="chip">${PLOTS.length} villa plots · Ankura Homes · Keesaragutta</span>
-      <h2 id="heroH"><em>The Woods</em>: sales, CRM and site in one place.</h2>
-      <p class="hero-lead">Pick a portal above, or tap a plot on the master layout for everything about that villa.</p>
+      <h2 id="heroH">Every drawing for <em>The Woods</em>, ready on site.</h2>
+      <p class="hero-lead">Tap a plot on the master layout for its current drawings, site status and RFIs.</p>
       <div class="hero-cta"><a class="btn btn-primary" href="#plot-${MODEL}">Open Plot ${MODEL}, the model villa</a><a class="btn btn-glass" href="#find">Find a plot</a></div>
     </div>
   </section>
-  ${portalCardsHTML()}
+  ${bandHTML()}
   <div class="mp">
     ${masterCard("Master layout · villa types &amp; sales","Which plots have a confirmed villa type, which are sold or booked and which are still available. Tap any plot to open its drawings.","sales")}
     <div class="side">
@@ -1572,8 +1534,8 @@ function renderPlot(no){
   const [x0,y0,x1,y1]=p.box, cxp=((x0+x1)/2)/MAP_W, cyp=((y0+y1)/2)/MAP_H;
   const vtCard=`<div class="card vtype"><span class="lbl">Villa type</span>${isOffPlot(p)?`<b style="font-size:17px">${esc(statusTxt(p))}</b><span class="conf">Not a villa plot yet</span>`:confirmed?`<b style="font-size:17px">${info.type==="custom"?"Client custom floor plan":vtLabel(info.type,p)+" villa"}</b><span class="conf ${info.type==="custom"?"":"ok"}">${info.type==="custom"?"Custom · confirmed":"Confirmed"}</span>`:`<div class="seg" role="group" aria-label="Villa type">${TYPES.map(ty=>`<button type="button" data-ty="${ty}" aria-pressed="${ty===vtype}">${ty} sq.ft</button>`).join("")}</div><span class="conf">Type not confirmed</span><span style="font-size:13px;color:var(--muted)">Both sets shown until the type for this plot is confirmed.</span>`}</div>`;
   $("main").innerHTML=`
-  <div class="crumbs"><a href="#${PHOME[PSEL]}">← ${({all:"Master layout",sales:"Sales",crm:"CRM",site:"Site execution"})[PSEL]}</a><span>/</span><span>Plot ${p.no}</span><span class="pchip">${({all:"Whole site",sales:"Sales portal",crm:"CRM portal",site:"Site portal"})[PSEL]}</span></div>
-  <div class="pgrid${PSEL==="sales"||PSEL==="crm"?" one":""}"><div class="pmain">
+  <div class="crumbs"><a href="#home">← Master layout</a><span>/</span><span>Plot ${p.no}</span></div>
+  <div class="pgrid"><div class="pmain">
   <div class="card plothead">
     <div>
       <div class="ph-title"><h2>Plot ${p.no}</h2><span class="badge ${plotCls(p)}">${p.no===MODEL?"Model villa · GFC":faceTxt(p)}</span></div>
@@ -1590,20 +1552,14 @@ function renderPlot(no){
     </div>
     <div class="locmap" id="locmap" aria-label="Location of plot ${p.no} on the layout"><div class="mapzoom" style="width:190%"><img src="${FILE_ROOT}img/site-layout.jpg" alt="" width="${MAP_W}" height="${MAP_H}">${mapSVG(p.no)}</div></div>
   </div>
-  ${PSEL==="sales"?salesPanelHTML(p):PSEL==="crm"?crmPanelHTML(p)+(!confirmed&&!isOffPlot(p)?vtCard:""):`
   ${!confirmed&&!isOffPlot(p)?vtCard:""}
-  ${PSEL==="all"?allSumHTML(p):""}
-  ${buildBriefHTML(p)}
   ${execSumHTML(p,true)}
   <div class="dtabs" role="tablist" aria-label="Drawings by discipline">${keys.map(k=>`<button type="button" class="dtab" role="tab" data-k="${k}" aria-selected="${k===ptab}" style="--dc:var(${DISC[k].c})">${DISC[k].name}<span class="n"></span></button>`).join("")}</div>
-  <div id="ptab"></div>`}
-  </div>${PSEL==="sales"||PSEL==="crm"?"":`<aside class="saside" id="siteAside" aria-label="Site updates and RFIs for Plot ${p.no}"></aside>`}</div>
+  <div id="ptab"></div>
+  </div><aside class="saside" id="siteAside" aria-label="Site updates and RFIs for Plot ${p.no}"></aside></div>
   ${footerHTML()}`;
   const lm=$("locmap");
   requestAnimationFrame(()=>{ const mz=lm.firstElementChild; lm.scrollLeft=0; mz.style.left=(-(cxp*mz.clientWidth-lm.clientWidth/2))+"px"; mz.style.top=(-(cyp*mz.clientHeight-lm.clientHeight/2))+"px"; });
-  document.querySelectorAll("[data-portal-go]").forEach(a=>a.onclick=e=>{ e.preventDefault(); setPortal(a.dataset.portalGo); render(); });
-  if(PSEL==="sales"||PSEL==="crm"){ bindPanels(p); document.querySelectorAll("[data-ty]").forEach(b=>b.onclick=()=>{vtype=b.dataset.ty;}); window.scrollTo(0,0); return; }
-  document.querySelectorAll("#main [data-unlock]").forEach(b=>b.onclick=()=>privDialog());
   const withPm=st=>{ st.pm=p.no===MODEL?{items:T2(["PM-02","PM-01","PM-03","PM-04"]),note:["","Plot 30 model villa programme and budget from Ankura Homes (24-10-2026). The villa specifications (PM-04) are common for the complete project."]}:{items:T2(["PM-04"]),note:["","Villa specifications (PM-04) are common for the complete project and apply to Plot "+p.no+". Schedules and budgets have been issued for the Plot 30 model villa only."]}; return st; };
   let set=withPm(plotSet(p,vtype));
   const showTab=()=>{
@@ -1729,7 +1685,7 @@ function renderOverview(){
   const anyTeam=ed||scope.some(p=>(exRec(p.no).team||[]).length), anyDate=ed||scope.some(p=>exRec(p.no).start||exRec(p.no).target), anyLab=ed||scope.some(p=>exRec(p.no).labour);
   const rows=scope.map(p=>{ const r=exRec(p.no), ex=execOf(p), [,l,,col]=EXL[ex], cb=comboOf(p.no);
     const plotC=`<a href="#plot-${p.no}" class="xpl"><b>${cb?cb.join(" & "):p.no}</b></a>${cb?`<small>one combined villa</small>`:""}${p.no===MODEL?`<small>Model villa</small>`:""}`;
-    if(!ed) return `<tr data-ex="${ex}"><td>${plotC}</td><td>${esc(villaTxt2(p))}<small>${esc(saleTxt(p))}</small></td><td><span class="xpill" style="--xc:${col}">${l}</span></td><td class="xnote">${unlocked()?esc([cRec(p.no).custom,(cRec(p.no).extras||[]).map(x=>x.item).join(", ")].filter(Boolean).join(" · Extras: ")||"–"):lockedCell}</td><td class="xstage">${exStageCell(p)}</td>${anyTeam?`<td class="xteam">${exTeamChips(teamOf(p.no))}</td>`:""}${anyDate?`<td class="xd">${r.start||r.target?`${r.start?fmtYMD(r.start):"–"} → ${r.target?fmtYMD(r.target):"–"}`:"–"}</td>`:""}${anyLab?`<td class="num">${r.labour?esc(r.labour):"–"}</td>`:""}<td class="xnote">${r.note?esc(r.note):""}</td></tr>`;
+    if(!ed) return `<tr data-ex="${ex}"><td>${plotC}</td><td>${esc(villaTxt2(p))}<small>${esc(saleTxt(p))}</small></td><td><span class="xpill" style="--xc:${col}">${l}</span></td><td class="xstage">${exStageCell(p)}</td>${anyTeam?`<td class="xteam">${exTeamChips(teamOf(p.no))}</td>`:""}${anyDate?`<td class="xd">${r.start||r.target?`${r.start?fmtYMD(r.start):"–"} → ${r.target?fmtYMD(r.target):"–"}`:"–"}</td>`:""}${anyLab?`<td class="num">${r.labour?esc(r.labour):"–"}</td>`:""}<td class="xnote">${r.note?esc(r.note):""}</td></tr>`;
     return `<tr><td>${plotC}</td><td>${esc(villaTxt2(p))}<small>${esc(saleTxt(p))}</small></td><td>${exOpt(p.no,r.exec||"")}</td>
       <td><select data-x="stage" data-no="${p.no}" aria-label="Current stage of plot ${p.no}"><option value="">–</option>${STAGES.map(([k,n])=>`<option value="${k}"${r.stage===k?" selected":""}>${n}</option>`).join("")}</select></td>
       <td><div class="xchk" role="group" aria-label="Contractors and vendors on plot ${p.no}">${teamList().map(t=>`<label><input type="checkbox" data-xt="${p.no}" value="${t.id}"${(r.team||[]).includes(t.id)?" checked":""}>${esc(t.name||"(no name)")}</label>`).join("")}</div>${teamList().length?"":`<small>Add contractors &amp; vendors below first</small>`}</td>
@@ -1766,7 +1722,7 @@ function renderOverview(){
   <div class="ov-grid">
     <div class="card ov wide" id="xvillas"><h2>Villa-by-villa execution</h2><p class="sub">Every sold or booked villa: construction status, current work stage and who is working on it.${anyTeam&&anyDate?"":" Contractor, date and labour columns appear once they are filled in."}${ed?" Leave status on Auto to follow drawings and villa type.":""}</p>
       ${tools}
-      <div class="ovscroll"><table class="ovt xt${ed?" xed":""}"><thead><tr><th>Plot</th><th>Villa</th><th>Execution</th>${ed?"":"<th>Customisation &amp; extras (CRM)</th>"}<th>Stage &amp; progress</th>${anyTeam?"<th>Contractors &amp; vendors</th>":""}${anyDate?"<th>Start → target</th>":""}${anyLab?'<th class="num">Labour</th>':""}<th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+      <div class="ovscroll"><table class="ovt xt${ed?" xed":""}"><thead><tr><th>Plot</th><th>Villa</th><th>Execution</th><th>Stage &amp; progress</th>${anyTeam?"<th>Contractors &amp; vendors</th>":""}${anyDate?"<th>Start → target</th>":""}${anyLab?'<th class="num">Labour</th>':""}<th>Note</th></tr></thead><tbody>${rows}</tbody></table></div></div>
     <div class="card ov wide" id="xteam"><h2>Contractors &amp; vendors on site</h2><p class="sub">Who is working on site, their trade, contact and the plots they are working on.</p>${ed?teamEdit:teamView}</div>
     <div class="card ov"><h2>Site-wide works</h2><p class="sub">Roads, drains, services and common works across the layout.</p>${siteAny?`<ul class="xsite">${siteRows}</ul>`:`<details class="xsd"><summary>All ${SITE_STAGES.length} site-wide works not started yet · show list</summary><ul class="xsite">${siteRows}</ul></details>`}
       <div class="xtm-p" style="margin-top:10px"><span>Working on site works</span>${ed?`<div class="xchk" role="group" aria-label="Contractors on site works">${team.map(t=>`<label><input type="checkbox" data-xs="1" value="${t.id}"${((D.site||{}).team||[]).includes(t.id)?" checked":""}>${esc(t.name||"(no name)")}</label>`).join("")}</div>`:siteTeam.length?siteTeam.map(t=>`<em class="xchip">${esc(t.name)}</em>`).join(""):`<em>Not assigned</em>`}</div>
@@ -1822,210 +1778,9 @@ async function exSave(){
 }
 
 /* ---------- routing ---------- */
-/* ===================== three portals: Sales · CRM · Site (18-11-2026) =====================
-   Public data: plot status and villa type (data/villa-types.json), construction record (data/execution.json).
-   Private data (client, money, customisation): data/private.enc.json, AES-GCM encrypted in the browser
-   with a key derived from the PIN. Nothing private is ever stored in plain text in the repository. */
-const PRIV_FILE="data/private.enc.json";
-let PSEL="all"; try{ const v=localStorage.getItem("woods.portal"); if(["all","sales","crm","site"].includes(v)) PSEL=v; }catch(e){}
-const PORTALS=[["all","Whole site","All"],["sales","Sales","Sales"],["crm","CRM","CRM"],["site","Site","Site"]];
-const PHOME={all:"home",sales:"sales",crm:"crm",site:"overview"};
-const routePortal=r=>r==="home"?"all":r==="sales"?"sales":(r==="crm"||r==="types")?"crm":(r==="overview"||r==="register"||r==="progress")?"site":null;
-function setPortal(p){ PSEL=p; try{ localStorage.setItem("woods.portal",p); }catch(e){} }
-let PRIV=null, privPin=null, privMsg="", privState="";
-const pkey=no=>{ const c=comboOf(no); return c?c[0]:no; };
-const sRec=no=>(((PRIV||{}).sales||{})[pkey(no)])||{};
-const cRec=no=>(((PRIV||{}).crm||{})[pkey(no)])||{};
-const unlocked=()=>!!PRIV;
-const money=n=>{ n=Number(n)||0; if(!n) return "–"; if(n>=1e7) return "₹"+(n/1e7).toFixed(2).replace(/\.?0+$/,"")+" Cr"; if(n>=1e5) return "₹"+(n/1e5).toFixed(2).replace(/\.?0+$/,"")+" L"; return "₹"+n.toLocaleString("en-IN"); };
-const paid=r=>(r.payments||[]).reduce((a,x)=>a+(Number(x.amount)||0),0);
-const due=r=>Math.max(0,(Number(r.price)||0)-paid(r));
-const SALE_ST=[["available","Available","#9fb2c9"],["booked","Booked","#1d86c4"],["registered","Sold · registered","#3342b5"],["blocked","Blocked","#5f6f86"]];
-const CHANNELS=["Direct / walk-in","Broker / channel partner","Referral","Online / digital","Ankura employee","Other"];
-async function privOpen(pin){
-  const k=await loadEditKey(); if(!k) throw new Error("Website editing is not set up yet.");
-  let tok; try{ tok=await openToken(k,pin); }catch(x){ throw new Error("Wrong PIN."); }
-  ghToken=tok; if(!IS_ART) canSave=true;
-  let enc=null; try{ const r=await fetch((DL_ROOT||FILE_ROOT)+PRIV_FILE+"?t="+Date.now(),{cache:"no-store"}); enc=r.ok?await r.json():null; }catch(e){}
-  let data={sales:{},crm:{},log:[]};
-  if(enc&&enc.ct){ try{ data=JSON.parse(await openToken(enc,pin)); }catch(x){ throw new Error("The PIN opened the editing key but not the private data file. Ask the owner."); } }
-  PRIV=Object.assign({sales:{},crm:{},log:[]},data); privPin=pin;
-}
-function privDialog(after){
-  const d=document.createElement("div"); d.className="pindlg"; d.setAttribute("role","dialog"); d.setAttribute("aria-modal","true");
-  d.innerHTML=`<form class="pin-in card"><h3>Unlock Sales &amp; CRM details</h3><p>Client names, prices, payments and customisation details are encrypted. Enter the PIN to see${IS_ART?"":" and edit"} them on this device. They lock again when the page is closed.</p><input type="password" id="pvA" autocomplete="current-password" placeholder="PIN" required><p class="pin-err" id="pvE" role="alert"></p><div class="pin-b"><button type="button" class="zbtn" id="pvX">Cancel</button><button type="submit" class="btn btn-primary" id="pvGo">Unlock</button></div></form>`;
-  document.body.appendChild(d); setTimeout(()=>d.querySelector("input").focus(),30);
-  const close=()=>d.remove(); d.querySelector("#pvX").onclick=close; d.onkeydown=e=>{ if(e.key==="Escape") close(); };
-  d.querySelector("form").onsubmit=async e=>{ e.preventDefault(); const err=d.querySelector("#pvE"), go=d.querySelector("#pvGo"); err.textContent=""; go.disabled=true; go.textContent="Checking…";
-    try{ await privOpen(d.querySelector("#pvA").value); close(); render(); if(typeof after==="function") after(); }
-    catch(x){ err.textContent=x.message||"Could not unlock."; go.disabled=false; go.textContent="Unlock"; } };
-}
-function privLock(){ PRIV=null; privPin=null; render(); }
-async function privSave(section,no,rec,what){
-  if(IS_ART||!privPin||!ghToken) throw new Error("Saving works on the website after unlocking.");
-  let latest={sales:{},crm:{},log:[]};
-  const cur=await ghGet(PRIV_FILE);
-  if(cur&&cur.content){ const enc=JSON.parse(new TextDecoder().decode(b64d(cur.content.replace(/\n/g,"")))); latest=Object.assign(latest,JSON.parse(await openToken(enc,privPin))); }
-  const k=pkey(no); latest[section]=latest[section]||{};
-  const clean=JSON.parse(JSON.stringify(rec)); Object.keys(clean).forEach(x=>{ if(clean[x]===""||clean[x]==null||(Array.isArray(clean[x])&&!clean[x].length)) delete clean[x]; });
-  if(Object.keys(clean).length) latest[section][k]=clean; else delete latest[section][k];
-  let by=""; try{ by=localStorage.getItem("woods.editor")||""; }catch(e){}
-  latest.log=(latest.log||[]).concat([{at:new Date().toISOString(),section,plot:k,what,by}]).slice(-500);
-  latest.updatedAt=new Date().toISOString();
-  const sealed=await sealToken(JSON.stringify(latest),privPin);
-  await ghPut(PRIV_FILE,JSON.stringify(sealed)+"\n",(section==="sales"?"Sales":"CRM")+" details updated on the website (encrypted)");
-  PRIV=latest;
-}
-function lockBtnHTML(){ return unlocked()?`<button type="button" class="lockbtn on" id="lockbtn" title="Lock Sales &amp; CRM details">🔓 Unlocked</button>`:`<button type="button" class="lockbtn" id="lockbtn" title="Unlock Sales &amp; CRM details with the PIN">🔒 Unlock</button>`; }
-const lockedCell=`<span class="lk" title="Unlock with the PIN to see">🔒</span>`;
-function lockNote(what){ return unlocked()?"":`<div class="locknote"><span>🔒 ${what} are encrypted. Unlock with the PIN to see them${IS_ART?"":" and edit them"}.</span><button type="button" class="btn btn-primary" data-unlock>Unlock</button></div>`; }
-function kpi(n,l,sub,cls){ return `<div class="kpi ${cls||""}"><b>${n}</b><span>${l}</span>${sub?`<small>${sub}</small>`:""}</div>`; }
-const sortNos=a=>a.slice().sort((x,y)=>(parseFloat(x.no)+(x.no==="12A"?.5:0))-(parseFloat(y.no)+(y.no==="12A"?.5:0)));
-const villaRows=list=>sortNos(list).filter(p=>{ const c=comboOf(p.no); return !c||c[0]===p.no; });
-const plotLbl=p=>{ const c=comboOf(p.no); return c?c.join(" & "):p.no; };
-const typeTxt=p=>{ if(isOffPlot(p)) return pLabel(p)||"Blocked"; const t=(PLOT_INFO[p.no]||{}).type; return t==="custom"?"Client custom":t?vtLabel(t,p):"Not confirmed"; };
-const saleLbl=p=>(SALE_ST.find(s=>s[0]===pStatus(p))||[,"–"])[1];
-const salePill=p=>{ const s=SALE_ST.find(x=>x[0]===pStatus(p))||SALE_ST[0]; return `<span class="xpill" style="--xc:${s[2]}">${s[1]}</span>`; };
-let salesFilter="all";
-function renderSales(){
-  const n=k=>PLOTS.filter(p=>pStatus(p)===k).length, sold=PLOTS.filter(inScope);
-  const rows=villaRows(PLOTS.filter(p=>salesFilter==="all"||pStatus(p)===salesFilter));
-  const U=unlocked(), tot=k=>villaRows(sold).reduce((a,p)=>a+k(sRec(p.no)),0);
-  const val=tot(r=>Number(r.price)||0), rec=tot(paid), dueAll=tot(due);
-  $("main").innerHTML=`<div class="phead"><span class="band-k">SALES PORTAL</span><h2>Sales · villa by villa</h2><p>Every plot of the project: sold, booked, available or blocked, with client, price and payment details for each sold villa.</p></div>
-  ${lockNote("Client names, contacts, prices and payments")}
-  <div class="kpis">${kpi(PLOTS.length,"Total plots")}${kpi(n("registered"),"Sold · registered","","k-sold")}${kpi(n("booked"),"Booked","","k-book")}${kpi(n("available"),"Available","open for sale")}${kpi(n("blocked"),"Blocked","not for sale")}
-    ${U?kpi(money(val),"Sale value","sold &amp; booked")+kpi(money(rec),"Received",val?Math.round(rec*100/val)+"% collected":"")+kpi(money(dueAll),"Balance due",""):""}</div>
-  <div class="mp">${masterCard("Sales master layout","Sold, booked, available and blocked plots. Tap a plot for its sales details.","sales")}
-    <div class="side"><div class="card"><h2>Status</h2><div class="segf">${[["all","All"]].concat(SALE_ST.map(s=>[s[0],s[1]])).map(([k,l])=>`<button type="button" data-sf="${k}" aria-pressed="${salesFilter===k}">${l} · ${k==="all"?PLOTS.length:n(k)}</button>`).join("")}</div>
-      <p class="sub" style="margin-top:10px">Change a plot's sales status from its page (Sales portal) after unlocking.</p></div></div></div>
-  <div class="card ov wide"><h2>Villa-by-villa sales</h2><div class="ovscroll"><table class="ovt xt"><thead><tr><th>Plot</th><th>Status</th><th>Villa</th><th>Client</th><th>Contact</th><th class="num">Price</th><th class="num">Received</th><th class="num">Due</th><th>Booked</th><th>Registered</th><th>Sold by</th></tr></thead><tbody>
-  ${rows.map(p=>{ const r=sRec(p.no); return `<tr><td><a class="xpl" href="#plot-${p.no}"><b>${plotLbl(p)}</b></a></td><td>${salePill(p)}</td><td>${esc(typeTxt(p))}</td>
-    <td>${U?esc(r.client||"–"):inScope(p)?lockedCell:"–"}</td><td>${U?esc(r.phone||"–"):inScope(p)?lockedCell:"–"}</td>
-    <td class="num">${U?money(r.price):inScope(p)?lockedCell:"–"}</td><td class="num">${U?money(paid(r)):inScope(p)?lockedCell:"–"}</td><td class="num">${U?money(due(r)):inScope(p)?lockedCell:"–"}</td>
-    <td>${U?esc(fmtYMD(r.bookingDate)||"–"):inScope(p)?lockedCell:"–"}</td><td>${U?esc(fmtYMD(r.regDate)||"–")+(r.regDoc?`<small>Doc ${esc(r.regDoc)}</small>`:""):inScope(p)?lockedCell:"–"}</td>
-    <td>${U?esc(r.salesPerson||"–")+(r.channel?`<small>${esc(r.channel)}${r.broker?" · "+esc(r.broker):""}</small>`:""):inScope(p)?lockedCell:"–"}</td></tr>`; }).join("")}
-  </tbody></table></div></div>${footerHTML()}`;
-  bindMapZoom(); centerMap(); bindPortal();
-  document.querySelectorAll("[data-sf]").forEach(b=>b.onclick=()=>{ salesFilter=b.dataset.sf; renderSales(); });
-}
-function renderCrm(){
-  const scope=villaRows(PLOTS.filter(inScope)), U=unlocked(), ty=p=>(PLOT_INFO[p.no]||{}).type;
-  const std=scope.filter(p=>VTYPES.includes(ty(p))&&ty(p)!=="custom"), cus=scope.filter(p=>ty(p)==="custom");
-  const appr=scope.filter(p=>cRec(p.no).approvalDate), ex=scope.reduce((a,p)=>a+(cRec(p.no).extras||[]).length,0);
-  const open=scope.filter(p=>cRec(p.no).requests&&!cRec(p.no).requestsClosed);
-  $("main").innerHTML=`<div class="phead"><span class="band-k">CRM PORTAL</span><h2>CRM · after the sale</h2><p>For every sold or booked villa: the confirmed villa size and floor plan, customisation agreed with the client, extras given, approvals and open client requests.</p></div>
-  ${lockNote("Client names, customisation details and extras")}
-  <div class="kpis">${kpi(scope.length,"Villas after sale","sold &amp; booked")}${kpi(std.length,"Standard plan","1625 / 1215 / 2175")}${kpi(cus.length,"Client custom plan","","k-cus")}
-   ${U?kpi(appr.length,"Floor plan approved","by client")+kpi(ex,"Extras agreed","across villas")+kpi(open.length,"Open client requests","","k-warn"):""}</div>
-  <div class="mp">${masterCard("CRM master layout","Confirmed villa size and plan for every sold or booked villa. Tap a plot for its CRM details.","crm")}
-    <div class="side"><a class="feature card" href="#types" style="background:var(--glass)"><span class="n" style="font-size:22px">TYPE</span><span><b>Villa types</b><span>Confirm or change the villa size and plan of any plot (PIN).</span></span></a></div></div>
-  <div class="card ov wide"><h2>Villa-by-villa CRM</h2><div class="ovscroll"><table class="ovt xt"><thead><tr><th>Plot</th><th>Client</th><th>Villa size &amp; plan</th><th>Customisation</th><th>Extras</th><th>Plan approved</th><th>Client requests</th><th>CRM</th></tr></thead><tbody>
-  ${scope.map(p=>{ const r=cRec(p.no), s=sRec(p.no); return `<tr><td><a class="xpl" href="#plot-${p.no}"><b>${plotLbl(p)}</b></a><small>${esc(saleLbl(p))}</small></td><td>${U?esc(s.client||"–"):lockedCell}</td>
-    <td>${esc(typeTxt(p))}<small>${ty(p)==="custom"?"Custom floor plan":VTYPES.includes(ty(p))?"Standard floor plan":"Not confirmed"}</small></td>
-    <td class="xnote">${U?esc(r.custom||"–"):lockedCell}</td><td class="xnote">${U?((r.extras||[]).length?(r.extras||[]).map(x=>`${esc(x.item)}${x.charge==="chargeable"?` <small>(${x.amount?money(x.amount):"chargeable"})</small>`:x.charge==="free"?" <small>(free)</small>":""}`).join("<br>"):"–"):lockedCell}</td>
-    <td>${U?esc(fmtYMD(r.approvalDate)||"–"):lockedCell}</td><td class="xnote">${U?esc(r.requests||"–")+(r.requests?`<small>${r.requestsClosed?"closed":"open"}</small>`:""):lockedCell}</td><td>${U?esc(r.crmExec||"–"):lockedCell}</td></tr>`; }).join("")}
-  </tbody></table></div><p class="sub">Villa types and the public plot notes come from Villa types. Everything else is from the encrypted CRM record of each villa.</p></div>${footerHTML()}`;
-  bindMapZoom(); centerMap(); bindPortal();
-}
-/* site build brief (what to build, from Sales + CRM) */
-function allSumHTML(p){
-  if(isOffPlot(p)) return "";
-  const r=sRec(p.no), c=cRec(p.no), U=unlocked();
-  return `<div class="allsum"><a class="pcard pc-sales" href="#plot-${p.no}" data-portal-go="sales"><span class="band-k">SALES</span><b>${esc(saleLbl(p))}</b><span>${U?(r.client?esc(r.client)+" · ":"")+(r.price?"due "+money(due(r)):"no price recorded"):inScope(p)?"🔒 client & payments":"open for sale"}</span></a>
-   <a class="pcard pc-crm" href="#plot-${p.no}" data-portal-go="crm"><span class="band-k">CRM</span><b>${esc(typeTxt(p))}</b><span>${inScope(p)?(U?((c.extras||[]).length+" extras"+(c.approvalDate?" · plan approved "+fmtYMD(c.approvalDate):"")):"🔒 customisation & extras"):"after sale"}</span></a>
-   <a class="pcard pc-site" href="#plot-${p.no}" data-portal-go="site"><span class="band-k">SITE</span><b>${inScope(p)?EXL[execOf(p)][1]:"Not in construction"}</b><span>${inScope(p)?(stageTxt(p)?(stageTxt(p).plan?"Planned: ":"")+esc(stageTxt(p).t):"stage not recorded"):"–"}</span></a></div>`;
-}
-function buildBriefHTML(p){
-  if(!inScope(p)) return "";
-  const t=(PLOT_INFO[p.no]||{}).type, r=cRec(p.no);
-  const ex=(r.extras||[]);
-  return `<div class="card brief"><div class="xsum-h"><h3>Build brief · ${plotLbl(p).includes("&")?"Villa "+plotLbl(p):"Plot "+p.no}</h3>${salePill(p)}</div>
-   <dl><div><dt>Villa</dt><dd>${esc(typeTxt(p))} · ${t==="custom"?"client custom floor plan":VTYPES.includes(t)?"standard floor plan":"type not confirmed"}</dd></div>
-   ${unlocked()?`<div><dt>Customisation</dt><dd>${esc(r.custom||"None recorded")}</dd></div><div><dt>Extras</dt><dd>${ex.length?ex.map(x=>esc(x.item)+(x.detail?` <small>· ${esc(x.detail)}</small>`:"")).join("<br>"):"None recorded"}</dd></div><div><dt>Plan approved</dt><dd>${esc(fmtYMD(r.approvalDate)||"Not recorded")}</dd></div>`:`<div><dt>Customisation &amp; extras</dt><dd>${lockedCell} <button type="button" class="linkbtn" data-unlock>Unlock to see</button></dd></div>`}</dl></div>`;
-}
-/* plot page panels for the Sales and CRM portals */
-function salesPanelHTML(p,ov){
-  if(isOffPlot(p)) return `<div class="card"><h3>Sales</h3><p>Plot ${p.no} is blocked (${esc(pLabel(p)||"not for sale")}).</p></div>`;
-  const r=ov||sRec(p.no), U=unlocked(), ed=U&&!IS_ART&&canSave;
-  const f=(k,l,type,ph)=>`<label><span>${l}</span><input type="${type||"text"}" data-sf="${k}" value="${esc(r[k]||"")}"${ph?` placeholder="${ph}"`:""}${ed?"":" disabled"}></label>`;
-  const pays=(r.payments||[]);
-  return `<div class="card ppanel" id="salesPanel"><div class="xsum-h"><h3>Sales · ${plotLbl(p).includes("&")?"Villa "+plotLbl(p):"Plot "+p.no}</h3>${salePill(p)}</div>
-   ${!U?lockNote("Client, price and payment details"):""}
-   <div class="pform">
-    <label><span>Sales status</span><select data-st ${canSave&&!IS_ART?"":"disabled"}>${SALE_ST.map(([k,l])=>`<option value="${k}"${pStatus(p)===k?" selected":""}>${l}</option>`).join("")}</select></label>
-    ${U?f("client","Client name")+f("phone","Phone","tel")+f("email","Email","email")+f("price","Sale price (₹)","number")+f("bookingDate","Booking date","date")+f("agreementDate","Agreement date","date")+f("regDate","Registration date","date")+f("regDoc","Registration document no.")+f("salesPerson","Sales person")
-      +`<label><span>Channel</span><select data-sf="channel" ${ed?"":"disabled"}><option value="">–</option>${CHANNELS.map(c=>`<option${r.channel===c?" selected":""}>${c}</option>`).join("")}</select></label>`+f("broker","Broker / partner")
-      +`<label class="full"><span>Notes</span><textarea data-sf="notes" rows="2" ${ed?"":"disabled"}>${esc(r.notes||"")}</textarea></label>`:""}
-   </div>
-   ${U?`<h4>Payments · received ${money(paid(r))} · due ${money(due(r))}</h4><div class="ptable">${pays.map((x,i)=>`<div class="prow"><input type="date" data-pay="${i}" data-pk="date" value="${esc(x.date||"")}" ${ed?"":"disabled"} aria-label="Payment date"><input type="number" data-pay="${i}" data-pk="amount" value="${esc(x.amount||"")}" placeholder="Amount ₹" ${ed?"":"disabled"} aria-label="Amount"><input type="text" data-pay="${i}" data-pk="mode" value="${esc(x.mode||"")}" placeholder="Mode / reference" ${ed?"":"disabled"} aria-label="Mode or reference">${ed?`<button type="button" class="zbtn" data-paydel="${i}">Remove</button>`:""}</div>`).join("")||`<p class="muted">No payments recorded.</p>`}${ed?`<button type="button" class="zbtn" id="payAdd">+ Add payment</button>`:""}</div>`:""}
-   ${ed?`<div class="pbar-ed"><input type="text" id="pBy" placeholder="Your name" value="${esc((()=>{try{return localStorage.getItem("woods.editor")||""}catch(e){return ""}})())}" aria-label="Your name"><button type="button" class="btn btn-primary" id="pSave">Save sales details</button><span class="tsave ${privState}" role="status">${esc(privMsg)}</span></div>`:U&&IS_ART?`<p class="hint">Edit on the website.</p>`:""}
-  </div>`;
-}
-function crmPanelHTML(p,ov){
-  if(!inScope(p)) return `<div class="card"><h3>CRM</h3><p>CRM details start once Plot ${p.no} is sold or booked. Now: ${esc(saleLbl(p))}.</p></div>`;
-  const r=ov||cRec(p.no), U=unlocked(), ed=U&&!IS_ART&&canSave, t=(PLOT_INFO[p.no]||{}).type;
-  const f=(k,l,type)=>`<label><span>${l}</span><input type="${type||"text"}" data-cf="${k}" value="${esc(r[k]||"")}" ${ed?"":"disabled"}></label>`;
-  const ex=r.extras||[];
-  return `<div class="card ppanel" id="crmPanel"><div class="xsum-h"><h3>CRM · ${plotLbl(p).includes("&")?"Villa "+plotLbl(p):"Plot "+p.no}</h3>${salePill(p)}</div>
-   <dl class="pdl"><div><dt>Villa size</dt><dd>${esc(typeTxt(p))} <a class="vlink-s" href="#types" data-focus="${p.no}">change</a></dd></div><div><dt>Floor plan</dt><dd>${t==="custom"?"Client custom floor plan":VTYPES.includes(t)?"Standard floor plan":"Not confirmed yet"}</dd></div>${U?`<div><dt>Client</dt><dd>${esc(sRec(p.no).client||"–")}</dd></div>`:""}</dl>
-   ${!U?lockNote("Customisation, extras and client requests"):`<div class="pform">
-    ${f("approvalDate","Floor plan approved by client on","date")+f("crmExec","CRM executive")}
-    <label class="full"><span>Customisation of the floor plan</span><textarea data-cf="custom" rows="3" placeholder="What changes from the standard plan, as agreed with the client" ${ed?"":"disabled"}>${esc(r.custom||"")}</textarea></label>
-    <label class="full"><span>Client requests / changes</span><textarea data-cf="requests" rows="2" ${ed?"":"disabled"}>${esc(r.requests||"")}</textarea></label>
-    <label><span>Requests status</span><select data-cf="requestsClosed" ${ed?"":"disabled"}><option value="">Open</option><option value="1"${r.requestsClosed?" selected":""}>Closed</option></select></label>
-    <label class="full"><span>Notes</span><textarea data-cf="notes" rows="2" ${ed?"":"disabled"}>${esc(r.notes||"")}</textarea></label></div>
-   <h4>Extras given to the client · ${ex.length}</h4><div class="ptable">${ex.map((x,i)=>`<div class="prow"><input type="text" data-ex="${i}" data-xk="item" value="${esc(x.item||"")}" placeholder="Item (e.g. extra wardrobe, solar heater)" ${ed?"":"disabled"} aria-label="Extra item"><input type="text" data-ex="${i}" data-xk="detail" value="${esc(x.detail||"")}" placeholder="Details / location" ${ed?"":"disabled"} aria-label="Details"><select data-ex="${i}" data-xk="charge" ${ed?"":"disabled"} aria-label="Free or chargeable"><option value="">–</option><option value="free"${x.charge==="free"?" selected":""}>Free</option><option value="chargeable"${x.charge==="chargeable"?" selected":""}>Chargeable</option></select><input type="number" data-ex="${i}" data-xk="amount" value="${esc(x.amount||"")}" placeholder="₹" ${ed?"":"disabled"} aria-label="Amount">${ed?`<button type="button" class="zbtn" data-exdel="${i}">Remove</button>`:""}</div>`).join("")||`<p class="muted">No extras recorded.</p>`}${ed?`<button type="button" class="zbtn" id="exAdd">+ Add extra</button>`:""}</div>
-   ${ed?`<div class="pbar-ed"><input type="text" id="pBy" placeholder="Your name" value="${esc((()=>{try{return localStorage.getItem("woods.editor")||""}catch(e){return ""}})())}" aria-label="Your name"><button type="button" class="btn btn-primary" id="pSave">Save CRM details</button><span class="tsave ${privState}" role="status">${esc(privMsg)}</span></div>`:IS_ART?`<p class="hint">Edit on the website.</p>`:""}`}
-  </div>`;
-}
-let pDraft=null;
-function bindPanels(p){
-  const sec=PSEL==="sales"?"sales":PSEL==="crm"?"crm":null; if(!sec) return;
-  pDraft=unlocked()?JSON.parse(JSON.stringify(sec==="sales"?sRec(p.no):cRec(p.no))):null;
-  const rer=()=>{ const el=$(sec==="sales"?"salesPanel":"crmPanel"); if(!el) return; const tmp=document.createElement("div"); tmp.innerHTML=sec==="sales"?salesPanelHTML(p,pDraft):crmPanelHTML(p,pDraft); el.replaceWith(tmp.firstElementChild); bindPanelsInner(p,sec,rer); };
-  bindPanelsInner(p,sec,rer);
-}
-function bindPanelsInner(p,sec,rer){
-  const m=$("main");
-  m.querySelectorAll("[data-unlock]").forEach(b=>b.onclick=()=>privDialog());
-  const st=m.querySelector("[data-st]"); if(st) st.onchange=()=>{ const go2=()=>{ setPlot(p.no,{status:st.value}); (comboOf(p.no)||[]).forEach(n=>{ if(n!==p.no) setPlot(n,{status:st.value}); }); queueSave(); }; if(canSave) go2(); else pinDialog(()=>{ go2(); render(); }); };
-  if(!pDraft) return;
-  m.querySelectorAll("[data-sf],[data-cf]").forEach(el=>{ const k=el.dataset.sf||el.dataset.cf; const f=()=>{ pDraft[k]=el.value.trim(); }; el.oninput=f; el.onchange=f; });
-  m.querySelectorAll("[data-pay]").forEach(el=>{ const f=()=>{ pDraft.payments[+el.dataset.pay][el.dataset.pk]=el.value.trim(); }; el.oninput=f; el.onchange=f; });
-  m.querySelectorAll("[data-paydel]").forEach(b=>b.onclick=()=>{ pDraft.payments.splice(+b.dataset.paydel,1); rer(); });
-  if($("payAdd")) $("payAdd").onclick=()=>{ pDraft.payments=pDraft.payments||[]; pDraft.payments.push({date:"",amount:"",mode:""}); rer(); };
-  m.querySelectorAll("[data-ex]").forEach(el=>{ const f=()=>{ pDraft.extras[+el.dataset.ex][el.dataset.xk]=el.value.trim(); }; el.oninput=f; el.onchange=f; });
-  m.querySelectorAll("[data-exdel]").forEach(b=>b.onclick=()=>{ pDraft.extras.splice(+b.dataset.exdel,1); rer(); });
-  if($("exAdd")) $("exAdd").onclick=()=>{ pDraft.extras=pDraft.extras||[]; pDraft.extras.push({item:"",detail:"",charge:"",amount:""}); rer(); };
-  if($("pSave")) $("pSave").onclick=async()=>{ const by=$("pBy").value.trim(); try{ localStorage.setItem("woods.editor",by); }catch(e){}
-    if(pDraft.payments) pDraft.payments=pDraft.payments.filter(x=>x.amount||x.date);
-    if(pDraft.extras) pDraft.extras=pDraft.extras.filter(x=>x.item);
-    privState="saving"; privMsg="Saving…"; const s=m.querySelector(".pbar-ed .tsave"); if(s){ s.textContent="Saving…"; s.className="tsave saving"; } $("pSave").disabled=true;
-    try{ await privSave(sec,p.no,pDraft,(sec==="sales"?"Sales":"CRM")+" details updated"); privState="saved"; privMsg="Saved (encrypted)."; }
-    catch(x){ privState="error"; privMsg=/GitHub 40[134]/.test(x&&x.message)?"Not allowed to save (editing key no longer valid).":"Could not save. Check your connection and try again."; }
-    render(); };
-}
-function portalSwitchHTML(){ return `<div class="psw" role="group" aria-label="Portal">${PORTALS.map(([k,l,sh])=>`<button type="button" data-portal="${k}" aria-pressed="${PSEL===k}"><span class="lf">${l}</span><span class="ls">${sh}</span></button>`).join("")}</div>`; }
-function bindPortal(){ $("main").querySelectorAll("[data-unlock]").forEach(b=>b.onclick=()=>privDialog()); }
-function portalCardsHTML(){
-  const sc=execScope(), nV=villaCount(sc), st=k=>PLOTS.filter(p=>pStatus(p)===k).length;
-  const cnt=k=>villaCount(sc.filter(p=>execOf(p)===k)), ty=p=>(PLOT_INFO[p.no]||{}).type;
-  const cus=villaCount(sc.filter(p=>ty(p)==="custom"));
-  return `<div class="pcards">
-   <a class="pcard pc-sales" href="#sales"><span class="band-k">SALES</span><b>${st("registered")} sold · ${st("booked")} booked</b><span>${st("available")} available · ${st("blocked")} blocked · ${PLOTS.length} plots</span><em>Open Sales portal →</em></a>
-   <a class="pcard pc-crm" href="#crm"><span class="band-k">CRM</span><b>${nV} villas after sale</b><span>${nV-cus} standard plan · ${cus} client custom plan</span><em>Open CRM portal →</em></a>
-   <a class="pcard pc-site" href="#overview"><span class="band-k">SITE</span><b>${cnt("wip")+cnt("stop")+cnt("done")}/${nV} villas started</b><span>${EXS.filter(([k])=>cnt(k)).map(([k,l])=>l+" "+cnt(k)).join(" · ")}</span><em>Open Site portal →</em></a></div>`;
-}
-
 function navHTML(){
   if(PORTAL==="site"||route==="site") return `<button type="button" data-go="site" aria-pressed="true">Site drawings</button><a href="${VILLA_LINK}">Villa portal</a>`;
-  const b=(r,l,sh,on)=>`<button type="button" data-go="${r}" aria-pressed="${on}"><span class="lf">${l}</span><span class="ls">${sh}</span></button>`;
-  const pl=route.startsWith("plot-");
-  if(PSEL==="sales") return b("sales","Sales overview","Sales",route==="sales"||pl);
-  if(PSEL==="crm") return b("crm","CRM overview","CRM",route==="crm"||pl)+b("types","Villa types","Types",route==="types");
-  if(PSEL==="site") return b("overview","Site execution","Site",route==="overview"||route==="progress"||pl)+b("register","Drawing register","Drawings",route==="register")+`<a href="${SITE_LINK}"><span class="lf">Site drawings</span><span class="ls">Site dwgs</span></a>`;
-  return b("home","Master layout","Layout",route==="home"||pl)+b("register","Drawing register","Drawings",route==="register");
+  return `<button type="button" data-go="home" aria-pressed="${route==="home"||route.startsWith("plot-")}"><span class="lf">Master layout</span><span class="ls">Layout</span></button><button type="button" data-go="register" aria-pressed="${route==="register"}"><span class="lf">Drawing register</span><span class="ls">Drawings</span></button><button type="button" data-go="types" aria-pressed="${route==="types"}"><span class="lf">Villa types</span><span class="ls">Types</span></button><button type="button" data-go="overview" aria-pressed="${route==="overview"||route==="progress"}"><span class="lf">Site execution</span><span class="ls">Site</span></button>`;
 }
 function go(r){ try{ history.pushState(null,"","#"+r);}catch(e){} handleRoute(); }
 function handleRoute(){
@@ -2034,8 +1789,7 @@ function handleRoute(){
   if(!$("viewer").hidden) closeViewer(true);
   if(!h) h=PORTAL==="site"?"site":"home";
   if(h==="progress"){ h="overview"; try{ history.replaceState(null,"","#overview"); }catch(e){} }
-  if(h!=="site"&&h!=="home"&&h!=="overview"&&h!=="register"&&h!=="types"&&h!=="progress"&&h!=="sales"&&h!=="crm"&&!h.startsWith("plot-")) h=PORTAL==="site"?"site":"home";
-  const rp=routePortal(h); if(h==="register"){ if(PSEL!=="all") setPortal("site"); } else if(rp) setPortal(rp);
+  if(h!=="site"&&h!=="home"&&h!=="overview"&&h!=="register"&&h!=="types"&&h!=="progress"&&!h.startsWith("plot-")) h=PORTAL==="site"?"site":"home";
   const changed=h!==route; route=h; render(); if(changed&&!h.startsWith("plot-")) window.scrollTo(0,0);
 }
 function render(){
@@ -2048,18 +1802,12 @@ function render(){
   $("homelink").href=site?(PORTAL==="site"?"#site":VILLA_LINK):"#home";
   $("q").placeholder=site?"Search site drawings: water, electrical, levels…":"Search: plot 30, footing, SD-03, plinth…";
   $("nav").innerHTML=navHTML();
-  const villa=PORTAL!=="site"&&!site;
-  $("pswbox").innerHTML=villa?portalSwitchHTML():""; $("lockbox").innerHTML=villa?lockBtnHTML():""; $("otherportal").hidden=villa;
-  $("pswbox").querySelectorAll("[data-portal]").forEach(b=>b.onclick=()=>{ const k=b.dataset.portal; setPortal(k); if(route.startsWith("plot-")) render(); else go(PHOME[k]); });
-  if($("lockbtn")) $("lockbtn").onclick=()=>{ if(unlocked()) privLock(); else privDialog(); };
   $("nav").querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
   if(site) renderSite();
   else if(route==="register"||q) renderRegister();
   else if(route==="types") renderTypes();
   else if(route==="progress") renderProgress();
   else if(route==="overview") renderOverview();
-  else if(route==="sales") renderSales();
-  else if(route==="crm") renderCrm();
   else if(route.startsWith("plot-")) renderPlot(route.slice(5));
   else renderHome();
 }
