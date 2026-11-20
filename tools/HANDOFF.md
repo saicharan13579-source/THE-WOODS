@@ -44,3 +44,8 @@ Do not build or use a DWG converter (Vamsi asked not to). DWG and Excel files st
 - GitHub site reads `data/progress.json` {syncedAt, plots:{no:{stages,updates,rfis}}} with photos as {path:"progress-photos/<asset id>.jpg"}. SYNC = ArtifactData list progress/updates/rfi -> download each photo asset (Artifact read path=<asset id>) into progress-photos/ -> write progress.json (drop `by`/user ids) -> push.
 - Artifact capabilities: db rules [{path:"",read:"view",write:"admin"},{path:"villa",read:"view",write:"owner"}], user {scopes:["profile"]}, assets {}.
 - RFIs carry the drawing: rfi docs store sheet, rev, page and pdf (public URL). Raised from the viewer, a snapshot of the visible part of the sheet (stamped plot/code/rev) is attached as the first photo (snap:true). Without a login the dialog shares to WhatsApp (Web Share with the image where supported, else wa.me text with portal + PDF links).
+
+## 20-11-2026 update
+- 1215 East revised GFC set R1 (19-11-2026, walls 230 mm): BE-21..34, DWG CAD-80..87. Replaces BE-01..14 / CAD-40..47 (archived via SUP). Floor plan BE-33 stamped INFORMATION COPY.
+- First 1215 West GFC set (19-11-2026): BW-01..14, DWG CAD-88..95. Replaces typology TP-04.
+- Opening schedule in both folders is identical to AR-16 (17-11-2026), so it was not added again.
